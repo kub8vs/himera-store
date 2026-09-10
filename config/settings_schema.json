@@ -1,0 +1,86 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Himera",
+    "theme_version": "1.0.0",
+    "theme_author": "kub.sells",
+    "theme_documentation_url": "https://useme.com",
+    "theme_support_url": "https://useme.com"
+  },
+  {
+    "name": "Kolory",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Paleta (czerń / biel / szarości)"
+      },
+      {
+        "type": "color",
+        "id": "color_ink",
+        "label": "Tło (najciemniejsze)",
+        "default": "#0a0a0b"
+      },
+      {
+        "type": "color",
+        "id": "color_surface",
+        "label": "Powierzchnia kart",
+        "default": "#17171a"
+      },
+      {
+        "type": "color",
+        "id": "color_bone",
+        "label": "Tekst / akcent (jasny)",
+        "default": "#ece9e2"
+      },
+      {
+        "type": "color",
+        "id": "color_dim",
+        "label": "Tekst przygaszony",
+        "default": "#93908a"
+      },
+      {
+        "type": "color",
+        "id": "color_line",
+        "label": "Linie / obramowania",
+        "default": "#2b2b30"
+      }
+    ]
+  },
+  {
+    "name": "Animacje",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_cursor_dot",
+        "label": "Pokaż niestandardowy kursor (desktop)",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_reveal_animations",
+        "label": "Animuj sekcje przy scrollu",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "url",
+        "id": "social_instagram",
+        "label": "Instagram"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok",
+        "label": "TikTok"
+      },
+      {
+        "type": "url",
+        "id": "social_youtube",
+        "label": "YouTube"
+      }
+    ]
+  }
+]

@@ -1,0 +1,50 @@
+<section class="simple-page">
+  <p class="breadcrumb reveal in-view"><a href="{{ routes.root_url }}">STRONA GŁÓWNA</a> / <a href="{{ blog.url }}">{{ blog.title | upcase }}</a> / {{ article.title | upcase }}</p>
+  {%- if article.image -%}
+  <div class="article-hero">
+    <img src="{{ article.image | image_url: width: 1400 }}" alt="{{ article.image.alt | default: article.title }}">
+  </div>
+  {%- endif -%}
+  <h1>{{ article.title }}</h1>
+  <span class="article-meta">{{ article.published_at | date: '%d.%m.%Y' }}{% if article.author != blank %} · {{ article.author }}{% endif %}</span>
+  <div class="article-body" style="margin-top:1.6rem;">{{ article.content }}</div>
+
+  {%- if blog.comments_enabled? -%}
+    <div style="margin-top:3rem;">
+      {%- if article.comments_count > 0 -%}
+        <h3 style="font-family:var(--font-display);text-transform:uppercase;">KOMENTARZE ({{ article.comments_count }})</h3>
+        {%- for comment in article.comments -%}
+          <div style="border-top:1px solid var(--line);padding:1.2rem 0;">
+            <strong>{{ comment.author }}</strong>
+            <div class="rich-text">{{ comment.content }}</div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+      {% form 'new_comment', article %}
+        {%- if form.posted_successfully? -%}
+          <p class="field-note ok">Dzięki — komentarz czeka na moderację.</p>
+        {%- endif -%}
+        <div class="variant-block">
+          <label class="variant-label" for="CommentAuthor">Imię</label>
+          <input class="variant-select" type="text" id="CommentAuthor" name="comment[author]" required>
+        </div>
+        <div class="variant-block">
+          <label class="variant-label" for="CommentEmail">E-mail</label>
+          <input class="variant-select" type="email" id="CommentEmail" name="comment[email]" required>
+        </div>
+        <div class="variant-block">
+          <label class="variant-label" for="CommentBody">Komentarz</label>
+          <textarea class="variant-select" id="CommentBody" name="comment[body]" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn-primary">WYŚLIJ</button>
+      {% endform %}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Strona artykułu",
+  "settings": []
+}
+{% endschema %}

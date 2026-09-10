@@ -1,0 +1,33 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {}
+    },
+    "manifest": {
+      "type": "manifest",
+      "settings": {}
+    },
+    "gallery": {
+      "type": "gallery",
+      "blocks": {
+        "photo-1": { "type": "photo", "settings": { "caption": "01 — MASZYNA" } },
+        "photo-2": { "type": "photo", "settings": { "caption": "02 — WARSZTAT" } },
+        "photo-3": { "type": "photo", "settings": { "caption": "03 — NOC" } }
+      },
+      "block_order": ["photo-1", "photo-2", "photo-3"],
+      "settings": {}
+    },
+    "drop": {
+      "type": "featured-collection",
+      "settings": {
+        "product_limit": 5
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {}
+    }
+  },
+  "order": ["hero", "manifest", "gallery", "drop", "newsletter"]
+}

@@ -1,0 +1,90 @@
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <img src="{{ 'himera-logo.png' | asset_url }}" alt="">
+      <div>
+        <span class="brand-word" style="font-size:1.4rem;">{{ shop.name | default: 'HIMERA' }}</span>
+        <p>{{ section.settings.tagline | default: 'Ruch, nie marka. Ograniczone dropy dla tych, którzy wiedzą, gdzie jeździć po zmroku.' }}</p>
+      </div>
+    </div>
+    <div class="footer-nav">
+      <div class="footer-col">
+        <h4>Sklep</h4>
+        {%- for link in section.settings.shop_menu.links -%}
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        {%- endfor -%}
+      </div>
+      <div class="footer-col">
+        <h4>Social</h4>
+        {%- if section.settings.instagram_url != blank -%}
+          <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener">Instagram</a>
+        {%- endif -%}
+        {%- if section.settings.tiktok_url != blank -%}
+          <a href="{{ section.settings.tiktok_url }}" target="_blank" rel="noopener">TikTok</a>
+        {%- endif -%}
+        {%- if section.settings.youtube_url != blank -%}
+          <a href="{{ section.settings.youtube_url }}" target="_blank" rel="noopener">YouTube</a>
+        {%- endif -%}
+      </div>
+      <div class="footer-col">
+        <h4>Info</h4>
+        {%- for link in section.settings.info_menu.links -%}
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© {{ 'now' | date: '%Y' }} {{ shop.name | upcase }}. WSZYSTKIE PRAWA ZASTRZEŻONE.</span>
+    {%- if section.settings.stamp_text != blank -%}
+      <span class="stamp">{{ section.settings.stamp_text }}</span>
+    {%- endif -%}
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Stopka",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "tagline",
+      "label": "Opis marki",
+      "default": "Ruch, nie marka. Ograniczone dropy dla tych, którzy wiedzą, gdzie jeździć po zmroku."
+    },
+    {
+      "type": "link_list",
+      "id": "shop_menu",
+      "label": "Menu — Sklep",
+      "default": "footer"
+    },
+    {
+      "type": "link_list",
+      "id": "info_menu",
+      "label": "Menu — Info",
+      "default": "footer"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Link do Instagrama"
+    },
+    {
+      "type": "url",
+      "id": "tiktok_url",
+      "label": "Link do TikToka"
+    },
+    {
+      "type": "url",
+      "id": "youtube_url",
+      "label": "Link do YouTube"
+    },
+    {
+      "type": "text",
+      "id": "stamp_text",
+      "label": "Pieczątka w stopce",
+      "default": "POUFNE"
+    }
+  ]
+}
+{% endschema %}

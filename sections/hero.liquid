@@ -1,0 +1,53 @@
+<section class="hero-photo" id="top">
+  <div class="hero-media">
+    {%- if section.settings.image -%}
+      <img src="{{ section.settings.image | image_url: width: 2048 }}"
+           srcset="{{ section.settings.image | image_url: width: 800 }} 800w, {{ section.settings.image | image_url: width: 1400 }} 1400w, {{ section.settings.image | image_url: width: 2048 }} 2048w"
+           sizes="100vw"
+           alt="{{ section.settings.image.alt | default: section.settings.headline | strip_html }}"
+           width="{{ section.settings.image.width }}" height="{{ section.settings.image.height }}">
+    {%- else -%}
+      <img src="{{ 'himera-hero.jpg' | asset_url }}" alt="Członek ruchu HIMERA w kominiarce nocą, w tle czarne BMW i logotyp HIMERA" width="2044" height="1136">
+    {%- endif -%}
+  </div>
+  <div class="hero-caption">
+    <p class="eyebrow reveal in-view">{{ section.settings.eyebrow | default: '§00 — AKTA RUCHU' }}</p>
+    <div class="hero-value reveal in-view">{{ section.settings.headline }}</div>
+    <div class="hero-actions reveal in-view">
+      <a class="btn-primary" href="{{ section.settings.button_link | default: '#drop' }}">{{ section.settings.button_label | default: 'ZOBACZ DROP' }}</a>
+      {%- if section.settings.status_text != blank -%}
+        <span class="status-pill"><i class="dot"></i> {{ section.settings.status_text }}</span>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{%- if section.settings.show_ticker -%}
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker">
+    {%- assign ticker_items = section.settings.ticker_text | split: '|' -%}
+    {%- for i in (1..2) -%}
+      {%- for item in ticker_items -%}<span>{{ item | strip }}</span>{%- endfor -%}
+    {%- endfor -%}
+  </div>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Zdjęcie hero (pełna szerokość)" },
+    { "type": "text", "id": "eyebrow", "label": "Nadtytuł", "default": "§00 — AKTA RUCHU" },
+    { "type": "richtext", "id": "headline", "label": "Nagłówek", "default": "<p>Większość kupuje ubrania.<br><b>Ty kupujesz dowód, że byłeś tam, gdzie inni boją się pojechać.</b></p>" },
+    { "type": "text", "id": "button_label", "label": "Tekst przycisku", "default": "ZOBACZ DROP" },
+    { "type": "url", "id": "button_link", "label": "Link przycisku" },
+    { "type": "text", "id": "status_text", "label": "Tekst statusu", "default": "RUCH AKTYWNY · DROP 004 W TOKU" },
+    { "type": "checkbox", "id": "show_ticker", "label": "Pokaż pasek z tekstem", "default": true },
+    { "type": "text", "id": "ticker_text", "label": "Tekst paska (oddziel znakiem |)", "default": "STREFA HIMERY|WSTĘP TYLKO DLA CZŁONKÓW RUCHU|NIE PYTAJ, DOŁĄCZ" }
+  ],
+  "presets": [
+    { "name": "Hero" }
+  ]
+}
+{% endschema %}

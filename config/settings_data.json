@@ -1,0 +1,14 @@
+{
+  "current": "Default",
+  "presets": {
+    "Default": {
+      "color_ink": "#0a0a0b",
+      "color_surface": "#17171a",
+      "color_bone": "#ece9e2",
+      "color_dim": "#93908a",
+      "color_line": "#2b2b30",
+      "enable_cursor_dot": true,
+      "enable_reveal_animations": true
+    }
+  }
+}

@@ -1,0 +1,72 @@
+<section class="drop" id="drop">
+  <p class="eyebrow reveal">{{ section.settings.eyebrow | default: '§03 — AKTUALNY DROP' }}</p>
+  <div class="drop-head reveal">
+    <h2>{{ section.settings.title | default: 'KOLEKCJA 004' }}</h2>
+    <span class="drop-meta">
+      {%- if section.settings.collection -%}
+        {{ section.settings.collection.products_count }} POZYCJI · {{ section.settings.meta_label | default: 'EDYCJA LIMITOWANA' }}
+      {%- else -%}
+        {{ section.settings.meta_label | default: 'EDYCJA LIMITOWANA' }}
+      {%- endif -%}
+    </span>
+  </div>
+
+  {%- if section.settings.collection and section.settings.collection.products.size > 0 -%}
+  <div class="product-grid">
+    {%- for product in section.settings.collection.products limit: section.settings.product_limit -%}
+      {%- assign idx = forloop.index0 -%}
+      {%- assign card_class = '' -%}
+      {%- if idx == 0 -%}{%- assign card_class = 'feat' -%}
+      {%- elsif idx == 1 -%}{%- assign card_class = 'narrow' -%}
+      {%- endif -%}
+      {%- assign variant = product.selected_or_first_available_variant -%}
+      {%- assign idx_padded = forloop.index -%}
+      {%- if forloop.index < 10 -%}{%- assign idx_padded = '0' | append: forloop.index -%}{%- endif -%}
+      <article class="product-card {{ card_class }} reveal">
+        <div class="tag-notch">
+          <span>HM-{{ idx_padded }}</span>
+          <span class="status-badge{% unless product.available %} sold{% endunless %}">{% if product.available %}DOSTĘPNY{% else %}WYPRZEDANY{% endif %}</span>
+        </div>
+        <a href="{{ product.url }}" class="product-visual" data-index="{{ idx_padded }}" style="text-decoration:none;">
+          {%- if product.featured_image -%}
+            <img src="{{ product.featured_image | image_url: width: 700 }}" alt="{{ product.featured_image.alt | default: product.title }}" loading="lazy">
+          {%- else -%}
+            <span class="product-index">{{ product.title | upcase }}</span>
+          {%- endif -%}
+        </a>
+        <a href="{{ product.url }}" style="text-decoration:none;color:inherit;">
+          <h3 class="product-name">{{ product.title }}</h3>
+        </a>
+        <div class="product-row">
+          <span class="price">{{ variant.price | money_without_trailing_zeros }} ZŁ</span>
+          {%- if product.available -%}
+            <button class="btn-add" type="button" data-quick-add data-variant-id="{{ variant.id }}" aria-label="Dodaj {{ product.title }} do koszyka">+</button>
+          {%- else -%}
+            <button class="btn-add" type="button" disabled aria-label="{{ product.title }} niedostępny" style="opacity:.35;cursor:not-allowed;">+</button>
+          {%- endif -%}
+        </div>
+      </article>
+    {%- endfor -%}
+  </div>
+  {%- else -%}
+    <div class="collection-empty">
+      Wybierz kolekcję w ustawieniach tej sekcji (Personalizuj → {{ section.settings.title | default: 'Kolekcja 004' }}), żeby pokazać tu produkty ze sklepu.
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Siatka produktów",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Nadtytuł", "default": "§03 — AKTUALNY DROP" },
+    { "type": "text", "id": "title", "label": "Tytuł", "default": "KOLEKCJA 004" },
+    { "type": "text", "id": "meta_label", "label": "Etykieta obok liczby produktów", "default": "EDYCJA LIMITOWANA" },
+    { "type": "collection", "id": "collection", "label": "Kolekcja produktów" },
+    { "type": "range", "id": "product_limit", "min": 3, "max": 12, "step": 1, "label": "Maks. liczba produktów", "default": 5 }
+  ],
+  "presets": [
+    { "name": "Siatka produktów" }
+  ]
+}
+{% endschema %}

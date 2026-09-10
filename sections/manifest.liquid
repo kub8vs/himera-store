@@ -1,0 +1,43 @@
+<section class="manifest" id="manifest">
+  <p class="eyebrow reveal">{{ section.settings.eyebrow | default: '§01 — CZYM JEST HIMERA' }}</p>
+  <div class="manifest-grid">
+    <div>
+      <blockquote class="manifest-quote reveal">{{ section.settings.quote | default: 'HIMERA TO RODZINA DLA TYCH, KTÓRZY WIEDZĄ, GDZIE JEŹDZIĆ PO ZMROKU.' }}</blockquote>
+      <div class="manifest-body reveal">{{ section.settings.body }}</div>
+      {%- if section.settings.instagram_url != blank -%}
+      <div class="manifest-links reveal">
+        <a class="arrow-link" href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener">{{ section.settings.instagram_label | default: '@x.himera NA INSTAGRAMIE →' }}</a>
+      </div>
+      {%- endif -%}
+    </div>
+    <figure class="manifest-portrait reveal">
+      {%- if section.settings.image -%}
+        <img src="{{ section.settings.image | image_url: width: 900 }}" alt="{{ section.settings.image.alt | default: 'HIMERA' }}" loading="lazy" width="{{ section.settings.image.width }}" height="{{ section.settings.image.height }}">
+      {%- else -%}
+        <img src="{{ 'himera-portrait.jpg' | asset_url }}" alt="Sylwetka z flagą HIMERY wychyloną przez okno auta" loading="lazy">
+      {%- endif -%}
+    </figure>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Czym jest Himera",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Nadtytuł", "default": "§01 — CZYM JEST HIMERA" },
+    { "type": "text", "id": "quote", "label": "Cytat", "default": "HIMERA TO RODZINA DLA TYCH, KTÓRZY WIEDZĄ, GDZIE JEŹDZIĆ PO ZMROKU." },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Treść",
+      "default": "<p>Zaczęło się od jednego auta i jednej flagi na zjeździe. Dziś HIMERA to sieć kierowców, mechaników i tych, którzy wolą kominiarkę od zdjęcia profilowego. Nie reklamujemy się w telewizji. Rozpoznajemy się po naklejce na szybie i po tym, kto zostaje na parkingu do świtu.</p>"
+    },
+    { "type": "image_picker", "id": "image", "label": "Zdjęcie" },
+    { "type": "url", "id": "instagram_url", "label": "Link do Instagrama", "default": "https://instagram.com/x.himera" },
+    { "type": "text", "id": "instagram_label", "label": "Tekst linku", "default": "@x.himera NA INSTAGRAMIE →" }
+  ],
+  "presets": [
+    { "name": "Czym jest Himera" }
+  ]
+}
+{% endschema %}

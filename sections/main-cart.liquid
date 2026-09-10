@@ -1,0 +1,60 @@
+<section>
+  <p class="breadcrumb reveal in-view"><a href="{{ routes.root_url }}">STRONA GŁÓWNA</a> / KOSZYK</p>
+  <h1 class="page-head-title" style="font-family:var(--font-display);text-transform:uppercase;font-size:clamp(1.8rem,5vw,3rem);margin:.8rem 0 2rem;">KOSZYK</h1>
+
+  {%- if cart.item_count == 0 -%}
+    <div class="cart-empty">
+      <p>Koszyk jest pusty.</p>
+      <a class="btn-primary" href="{{ routes.all_products_collection_url }}">WRÓĆ DO KATALOGU</a>
+    </div>
+  {%- else -%}
+    {% form 'cart', cart %}
+    <table class="cart-table">
+      <thead>
+        <tr>
+          <th>Produkt</th>
+          <th>Cena</th>
+          <th>Ilość</th>
+          <th>Razem</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for item in cart.items -%}
+        <tr>
+          <td>
+            <div class="cart-line">
+              {%- if item.image -%}<img src="{{ item.image | image_url: width: 160 }}" alt="{{ item.image.alt | default: item.title }}">{%- endif -%}
+              <div>
+                <div class="cart-line-title">{{ item.product.title }}</div>
+                {%- unless item.variant.title == 'Default Title' -%}
+                  <div class="cart-line-variant">{{ item.variant.title }}</div>
+                {%- endunless -%}
+                <button type="button" class="cart-remove" onclick="document.getElementById('qty-{{ forloop.index0 }}').value=0;this.closest('form').submit();">USUŃ</button>
+              </div>
+            </div>
+          </td>
+          <td class="price">{{ item.original_price | money_without_trailing_zeros }} ZŁ</td>
+          <td>
+            <input class="qty-input" id="qty-{{ forloop.index0 }}" type="number" name="updates[{{ forloop.index0 }}]" value="{{ item.quantity }}" min="0">
+          </td>
+          <td class="price">{{ item.final_line_price | money_without_trailing_zeros }} ZŁ</td>
+        </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+
+    <div class="cart-summary">
+      <div class="cart-subtotal"><span>RAZEM</span><span>{{ cart.total_price | money_without_trailing_zeros }} ZŁ</span></div>
+      <button type="submit" name="update" class="arrow-link" style="background:none;border:1px solid var(--line);color:var(--bone);padding:.7em 1.2em;cursor:pointer;">AKTUALIZUJ KOSZYK</button>
+      <button type="submit" name="checkout" class="btn-primary" style="width:100%;text-align:center;">PRZEJDŹ DO PŁATNOŚCI</button>
+    </div>
+    {% endform %}
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Strona koszyka",
+  "settings": []
+}
+{% endschema %}

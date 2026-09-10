@@ -1,0 +1,38 @@
+<section>
+  <p class="breadcrumb reveal in-view"><a href="{{ routes.root_url }}">STRONA GŁÓWNA</a> / {{ blog.title | upcase }}</p>
+  <h1 style="font-family:var(--font-display);text-transform:uppercase;font-size:clamp(1.8rem,5vw,3rem);margin:.6rem 0 2rem;">{{ blog.title }}</h1>
+
+  {%- paginate blog.articles by 10 -%}
+    {%- if blog.articles.size > 0 -%}
+      {%- for article in blog.articles -%}
+        <article class="article-card">
+          <span class="article-meta">{{ article.published_at | date: '%d.%m.%Y' }}{% if article.author != blank %} · {{ article.author }}{% endif %}</span>
+          <h3><a href="{{ article.url }}">{{ article.title }}</a></h3>
+          {%- if article.excerpt != blank -%}
+            <div class="rich-text">{{ article.excerpt }}</div>
+          {%- endif -%}
+          <a class="arrow-link" href="{{ article.url }}">CZYTAJ →</a>
+        </article>
+      {%- endfor -%}
+    {%- else -%}
+      <p class="collection-empty">Brak wpisów.</p>
+    {%- endif -%}
+
+    {%- if paginate.pages > 1 -%}
+    <div class="pagination">
+      {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">‹</a>{%- endif -%}
+      {%- for part in paginate.parts -%}
+        {%- if part.is_link -%}<a href="{{ part.url }}">{{ part.title }}</a>{%- else -%}<span class="current">{{ part.title }}</span>{%- endif -%}
+      {%- endfor -%}
+      {%- if paginate.next -%}<a href="{{ paginate.next.url }}">›</a>{%- endif -%}
+    </div>
+    {%- endif -%}
+  {%- endpaginate -%}
+</section>
+
+{% schema %}
+{
+  "name": "Strona bloga",
+  "settings": []
+}
+{% endschema %}

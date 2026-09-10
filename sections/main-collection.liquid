@@ -1,0 +1,63 @@
+<section class="collection-head">
+  <p class="breadcrumb reveal in-view"><a href="{{ routes.root_url }}">STRONA GŁÓWNA</a> / KATALOG</p>
+  <h1 class="w-bold" style="font-family:var(--font-display);text-transform:uppercase;font-size:clamp(1.8rem,5vw,3rem);margin:.6rem 0 .5rem;">{{ collection.title }}</h1>
+  <span class="collection-count">{{ collection.products_count }} POZYCJI</span>
+  {%- if collection.description != blank -%}
+    <div class="rich-text" style="margin-top:1rem;max-width:60ch;">{{ collection.description }}</div>
+  {%- endif -%}
+</section>
+
+<section>
+  {%- paginate collection.products by 24 -%}
+    {%- if collection.products.size > 0 -%}
+    <div class="collection-grid">
+      {%- for product in collection.products -%}
+        {%- assign variant = product.selected_or_first_available_variant -%}
+        <article class="product-card reveal in-view">
+          <div class="tag-notch">
+            <span>HM</span>
+            <span class="status-badge{% unless product.available %} sold{% endunless %}">{% if product.available %}DOSTĘPNY{% else %}WYPRZEDANY{% endif %}</span>
+          </div>
+          <a href="{{ product.url }}" class="product-visual" style="text-decoration:none;">
+            {%- if product.featured_image -%}
+              <img src="{{ product.featured_image | image_url: width: 700 }}" alt="{{ product.featured_image.alt | default: product.title }}" loading="lazy">
+            {%- else -%}
+              <span class="product-index">{{ product.title | upcase }}</span>
+            {%- endif -%}
+          </a>
+          <a href="{{ product.url }}" style="text-decoration:none;color:inherit;">
+            <h3 class="product-name">{{ product.title }}</h3>
+          </a>
+          <div class="product-row">
+            <span class="price">{{ variant.price | money_without_trailing_zeros }} ZŁ</span>
+            {%- if product.available -%}
+              <button class="btn-add" type="button" data-quick-add data-variant-id="{{ variant.id }}" aria-label="Dodaj {{ product.title }} do koszyka">+</button>
+            {%- else -%}
+              <button class="btn-add" type="button" disabled aria-label="{{ product.title }} niedostępny" style="opacity:.35;cursor:not-allowed;">+</button>
+            {%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+    {%- else -%}
+      <p class="collection-empty">Brak produktów w tej kolekcji.</p>
+    {%- endif -%}
+
+    {%- if paginate.pages > 1 -%}
+    <div class="pagination">
+      {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">‹</a>{%- endif -%}
+      {%- for part in paginate.parts -%}
+        {%- if part.is_link -%}<a href="{{ part.url }}">{{ part.title }}</a>{%- else -%}<span class="current">{{ part.title }}</span>{%- endif -%}
+      {%- endfor -%}
+      {%- if paginate.next -%}<a href="{{ paginate.next.url }}">›</a>{%- endif -%}
+    </div>
+    {%- endif -%}
+  {%- endpaginate -%}
+</section>
+
+{% schema %}
+{
+  "name": "Strona kolekcji",
+  "settings": []
+}
+{% endschema %}

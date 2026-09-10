@@ -1,0 +1,31 @@
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="{{ routes.root_url }}">
+      <img src="{{ 'himera-logo.png' | asset_url }}" alt="Logo {{ shop.name }}" width="38" height="38">
+      <span class="brand-word">{{ shop.name | default: 'HIMERA' }}</span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title | upcase }}</a>
+      {%- endfor -%}
+    </nav>
+    <button class="cart-btn" type="button" data-cart-link>KOSZYK · <span class="cart-count">{{ cart.item_count }}</span></button>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Otwórz menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Nagłówek",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu nawigacyjne",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

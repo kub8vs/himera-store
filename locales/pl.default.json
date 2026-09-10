@@ -1,0 +1,72 @@
+{
+  "general": {
+    "search": {
+      "placeholder": "Czego szukasz?",
+      "no_results_html": "Brak wyników dla „{{ terms }}”.",
+      "results_with_count": {
+        "one": "{{ count }} wynik",
+        "few": "{{ count }} wyniki",
+        "many": "{{ count }} wyników",
+        "other": "{{ count }} wyników"
+      }
+    },
+    "404": {
+      "title": "Strona nie znaleziona",
+      "subtext": "Ta strona nie istnieje."
+    },
+    "meta": {
+      "tags": "Tagi: {{ tags }}",
+      "page": "Strona {{ page }}"
+    },
+    "pagination": {
+      "previous": "Poprzednia",
+      "next": "Następna"
+    }
+  },
+  "products": {
+    "product": {
+      "sold_out": "Wyprzedane",
+      "add_to_cart": "Dodaj do koszyka",
+      "on_sale": "Promocja",
+      "quantity": {
+        "label": "Ilość"
+      }
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Koszyk",
+      "remove": "Usuń",
+      "subtotal": "Razem",
+      "checkout": "Przejdź do płatności",
+      "empty": "Twój koszyk jest pusty"
+    }
+  },
+  "customer": {
+    "account": {
+      "title": "Moje konto"
+    },
+    "login_page": {
+      "title": "Logowanie",
+      "email": "E-mail",
+      "password": "Hasło",
+      "sign_in": "Zaloguj się"
+    }
+  },
+  "blogs": {
+    "article": {
+      "comments": {
+        "title": "Komentarze",
+        "name": "Imię",
+        "email": "E-mail",
+        "message": "Komentarz",
+        "post": "Wyślij"
+      }
+    }
+  },
+  "newsletter": {
+    "label": "E-mail",
+    "success": "Dziękujemy za zapis!",
+    "button_label": "Zapisz się"
+  }
+}

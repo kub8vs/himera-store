@@ -1,0 +1,32 @@
+<section class="newsletter" id="kontakt">
+  <p class="eyebrow reveal">{{ section.settings.eyebrow | default: '§04 — DOŁĄCZ DO KARTOTEKI' }}</p>
+  <h2 class="reveal">{{ section.settings.title | default: 'BĄDŹ PIERWSZY PRZY DROPIE.' }}</h2>
+
+  {% form 'customer', class: 'newsletter-form reveal' %}
+    <input type="hidden" name="contact[tags]" value="newsletter">
+    <label for="newsletterEmail" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">Adres e-mail</label>
+    <input type="email" id="newsletterEmail" name="contact[email]" placeholder="TWÓJ E-MAIL" required value="{% if customer %}{{ customer.email }}{% endif %}">
+    <button type="submit" class="btn-primary">ZAPISZ SIĘ</button>
+    {%- if form.posted_successfully? -%}
+      <p class="field-note ok" style="width:100%;">Zapisano — do zobaczenia przy dropie.</p>
+    {%- elsif form.errors -%}
+      <p class="field-note error" style="width:100%;">{{ form.errors.messages['contact[email]'] | default: 'Coś poszło nie tak — spróbuj ponownie.' }}</p>
+    {%- endif -%}
+  {% endform %}
+
+  <p class="newsletter-note reveal">{{ section.settings.note | default: 'Zapisz się, odbierz −10% na pierwsze zamówienie i dowiedz się o dropie, zanim zniknie.' }}</p>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Nadtytuł", "default": "§04 — DOŁĄCZ DO KARTOTEKI" },
+    { "type": "text", "id": "title", "label": "Tytuł", "default": "BĄDŹ PIERWSZY PRZY DROPIE." },
+    { "type": "text", "id": "note", "label": "Notka pod formularzem", "default": "Zapisz się, odbierz −10% na pierwsze zamówienie i dowiedz się o dropie, zanim zniknie." }
+  ],
+  "presets": [
+    { "name": "Newsletter" }
+  ]
+}
+{% endschema %}

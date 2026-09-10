@@ -1,0 +1,44 @@
+<section class="simple-page" style="max-width:100%;">
+  <p class="eyebrow reveal in-view">SZUKAJ</p>
+  <h1>WYNIKI WYSZUKIWANIA</h1>
+
+  <form action="{{ routes.search_url }}" method="get" role="search" class="search-form">
+    <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="CZEGO SZUKASZ?" aria-label="Szukaj">
+    <input type="hidden" name="type" value="product">
+    <button type="submit">SZUKAJ</button>
+  </form>
+
+  {%- if search.performed -%}
+    <p class="collection-count" style="display:block;margin-bottom:1.4rem;">{{ search.results_count }} WYNIKÓW DLA „{{ search.terms }}”</p>
+    {%- if search.results.size > 0 -%}
+      <div class="collection-grid">
+        {%- for item in search.results -%}
+          <article class="product-card reveal in-view">
+            <a href="{{ item.url }}" class="product-visual" style="text-decoration:none;">
+              {%- if item.featured_image -%}
+                <img src="{{ item.featured_image | image_url: width: 700 }}" alt="{{ item.featured_image.alt | default: item.title }}" loading="lazy">
+              {%- else -%}
+                <span class="product-index">{{ item.title | upcase }}</span>
+              {%- endif -%}
+            </a>
+            <a href="{{ item.url }}" style="text-decoration:none;color:inherit;">
+              <h3 class="product-name">{{ item.title }}</h3>
+            </a>
+            {%- if item.object_type == 'product' -%}
+              <div class="product-row"><span class="price">{{ item.price | money_without_trailing_zeros }} ZŁ</span></div>
+            {%- endif -%}
+          </article>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <p class="collection-empty">Brak wyników. Spróbuj innej frazy.</p>
+    {%- endif -%}
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Strona wyszukiwania",
+  "settings": []
+}
+{% endschema %}

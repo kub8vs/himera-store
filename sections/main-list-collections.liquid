@@ -1,0 +1,26 @@
+<section>
+  <p class="eyebrow reveal in-view">KATALOG KOLEKCJI</p>
+  <h1 style="font-family:var(--font-display);text-transform:uppercase;font-size:clamp(1.8rem,5vw,3rem);margin:.6rem 0 2rem;">WSZYSTKIE KOLEKCJE</h1>
+  <div class="collection-grid">
+    {%- for collection in collections -%}
+      <a href="{{ collection.url }}" class="product-card reveal in-view" style="text-decoration:none;color:inherit;padding:1rem;">
+        <div class="product-visual">
+          {%- if collection.featured_image -%}
+            <img src="{{ collection.featured_image | image_url: width: 700 }}" alt="{{ collection.featured_image.alt | default: collection.title }}" loading="lazy">
+          {%- else -%}
+            <span class="product-index">{{ collection.title | upcase }}</span>
+          {%- endif -%}
+        </div>
+        <h3 class="product-name">{{ collection.title }}</h3>
+        <p class="collection-count" style="padding:0 .9rem .9rem;">{{ collection.products_count }} POZYCJI</p>
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Lista kolekcji",
+  "settings": []
+}
+{% endschema %}

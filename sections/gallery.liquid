@@ -1,0 +1,64 @@
+<section class="gallery" id="galeria">
+  <p class="eyebrow reveal">{{ section.settings.eyebrow | default: '§02 — GALERIA' }}</p>
+  <h2 class="reveal">{{ section.settings.title | default: 'Z TERENU.' }}</h2>
+  <div class="gallery-grid reveal">
+    {%- for block in section.blocks -%}
+      {%- assign fallback_file = 'himera-gallery-' | append: forloop.index | append: '.jpg' -%}
+      <figure class="gallery-tile g{{ forloop.index }}" {{ block.shopify_attributes }}>
+        {%- if block.settings.image -%}
+          <img src="{{ block.settings.image | image_url: width: 900 }}" alt="{{ block.settings.image.alt | default: block.settings.caption }}" loading="lazy">
+        {%- else -%}
+          <img src="{{ fallback_file | asset_url }}" alt="{{ block.settings.caption }}" loading="lazy">
+        {%- endif -%}
+        {%- if block.settings.caption != blank -%}
+          <figcaption class="gallery-cap">{{ block.settings.caption }}</figcaption>
+        {%- endif -%}
+      </figure>
+    {%- endfor -%}
+  </div>
+  {%- if section.settings.instagram_url != blank -%}
+  <div class="gallery-foot reveal">
+    <a class="arrow-link" href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener">{{ section.settings.instagram_label | default: 'WIĘCEJ Z KAŻDEGO DROPU → @x.himera' }}</a>
+  </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Galeria",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Nadtytuł", "default": "§02 — GALERIA" },
+    { "type": "text", "id": "title", "label": "Tytuł", "default": "Z TERENU." },
+    { "type": "url", "id": "instagram_url", "label": "Link do Instagrama", "default": "https://instagram.com/x.himera" },
+    { "type": "text", "id": "instagram_label", "label": "Tekst linku", "default": "WIĘCEJ Z KAŻDEGO DROPU → @x.himera" }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Zdjęcie",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Zdjęcie" },
+        { "type": "text", "id": "caption", "label": "Podpis", "default": "01 — MASZYNA" }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "default": {
+    "blocks": [
+      { "type": "photo", "settings": { "caption": "01 — MASZYNA" } },
+      { "type": "photo", "settings": { "caption": "02 — WARSZTAT" } },
+      { "type": "photo", "settings": { "caption": "03 — NOC" } }
+    ]
+  },
+  "presets": [
+    {
+      "name": "Galeria",
+      "blocks": [
+        { "type": "photo", "settings": { "caption": "01 — MASZYNA" } },
+        { "type": "photo", "settings": { "caption": "02 — WARSZTAT" } },
+        { "type": "photo", "settings": { "caption": "03 — NOC" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
