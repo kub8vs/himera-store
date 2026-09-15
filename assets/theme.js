@@ -13,7 +13,7 @@
     }
     var skipBtn = document.getElementById('introSkip');
     if(skipBtn){ skipBtn.addEventListener('click', finishIntro); }
-    setTimeout(finishIntro, reduced ? 250 : 5200);
+    setTimeout(finishIntro, reduced ? 250 : 6900);
   }
 
   var menuToggle = document.getElementById('menuToggle');
