@@ -42,7 +42,7 @@ Motyw najpierw wgrywamy jako nieopublikowany i sprawdzamy w „Podglądzie”. P
 3. **Nawigacja**: menu `main-menu` (Strona główna, Produkty), menu `main-menu-right` (O Himerze, FAQ) i `footer`. Logo w nagłówku jest pośrodku, lewe menu po lewej, prawe po prawej.
 4. **Ustawienia → Konta klientów**: włącz konta, żeby w prawym górnym rogu działało logowanie (ikonka obok koszyka).
 5. **Dostosuj motyw → Ustawienia motywu**: linki Instagram i YouTube, logo (opcjonalnie), kolory.
-6. Strona główna, sekcja „Ostatni odcinek”: wklej link do najnowszego filmu z YouTube (bez linku przycisk prowadzi na kanał). Teksty trzech kart CTA zmienia się w sekcji „Stań się częścią HIMERY”.
+6. Strona główna, sekcja „Ostatni odcinek”: podpięty jest film https://www.youtube.com/watch?v=BZEsjGBhaOE (miniaturka z YouTube ładuje się sama). Przy nowym odcinku wystarczy podmienić link. Teksty trzech kart CTA zmienia się w sekcji „Stań się częścią HIMERY”.
 
 ## Strona główna
 
@@ -52,6 +52,10 @@ Motyw najpierw wgrywamy jako nieopublikowany i sprawdzamy w „Podglądzie”. P
 4. Top drop: trzy produkty unoszą się nad czerwoną poświatą (kolekcja `top-3` albo dowolna).
 5. Ostatni odcinek z YouTube: film ładuje się dopiero po kliknięciu.
 6. Zapis na listę przed dropem, stopka.
+
+## Telefony
+
+Intro zawsze zajmuje dokładnie wysokość i szerokość ekranu: napis HIMERA i zdjęcie układają się pod wysokość telefonu (od iPhone SE po Pro Max), w poziomie układ jak na komputerze. Showroom produktów wypełnia cały ekran. Zdjęcia produktów w kartach są dopasowane w całości, bez przycinania.
 
 ## Smaczki (ukryte detale)
 
