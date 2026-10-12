@@ -42,10 +42,12 @@ Motyw najpierw wgrywamy jako nieopublikowany i sprawdzamy w „Podglądzie”. P
 
 ## Strona główna
 
-1. Intro: wielki napis HIMERA na cały ekran i zdjęcie Himery w kominiarce pojawiają się razem. Cały napis podąża za kursorem (na telefonie za palcem albo powoli dryfuje).
-2. Po zjechaniu w dół wysuwa się menu, a obok napisu „Stań się częścią HIMERY” wjeżdża BMW. Pod spodem trzy karty CTA (czym jest Himera, drop, dołącz).
-3. Ostatni odcinek z YouTube: film ładuje się dopiero po kliknięciu, więc strona nie zwalnia.
-4. Stopka.
+1. Intro: wielki napis HIMERA na cały ekran, zdjęcie Himery w kominiarce, latające produkty (kolekcja do wyboru w sekcji) i delikatny dym unoszący się na całej szerokości. Napis podąża za kursorem, produkty i dym reagują na ruch myszki.
+2. Przewijany napis „Jesteśmy ruchem / A ty jego częścią” (przyspiesza przy scrollu).
+3. Po zjechaniu w dół wysuwa się menu (pływająca zaokrąglona belka), a obok napisu „Stań się częścią HIMERY” wjeżdża BMW. Pod spodem trzy karty CTA.
+4. Top drop: trzy produkty unoszą się nad czerwoną poświatą (kolekcja `top-3` albo dowolna).
+5. Ostatni odcinek z YouTube: film ładuje się dopiero po kliknięciu.
+6. Zapis na listę przed dropem, stopka.
 
 ## Smaczki (ukryte detale)
 

@@ -55,7 +55,80 @@
     const word = $('[data-ph-word]', ph);
     const heroImg = $('[data-ph-hero]', ph);
     const eyes = $$('.ph__eye', ph);
+    const floats = $$('[data-ph-float]', ph).map((el) => ({ el, d: parseFloat(el.dataset.depth) || 0 }));
     requestAnimationFrame(() => requestAnimationFrame(() => ph.classList.add('is-in')));
+
+    // smoke: soft puffs rising over the whole width; the cursor pushes them aside
+    const smokePush = { x: -1, y: -1 };
+    const cv = $('[data-ph-smoke]', ph);
+    if (cv && cv.getContext) {
+      const ctx = cv.getContext('2d');
+      const SCALE = 0.5; // smoke is blurry anyway, half resolution keeps it light
+      const sprite = document.createElement('canvas');
+      sprite.width = sprite.height = 256;
+      const sc = sprite.getContext('2d');
+      let seed = 7;
+      const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+      for (let i = 0; i < 46; i++) {
+        const r = 22 + rnd() * 56, a = rnd() * Math.PI * 2, d = rnd() * 64;
+        const cx = 128 + Math.cos(a) * d, cy = 128 + Math.sin(a) * d * 0.8;
+        const g = sc.createRadialGradient(cx, cy, 0, cx, cy, r);
+        g.addColorStop(0, 'rgba(236, 226, 222, 0.11)');
+        g.addColorStop(1, 'rgba(236, 226, 222, 0)');
+        sc.fillStyle = g;
+        sc.beginPath(); sc.arc(cx, cy, r, 0, Math.PI * 2); sc.fill();
+      }
+      let W = 0, H = 0, puffs = [];
+      const spawn = (p, fresh) => {
+        p.s = (0.45 + Math.random() * 0.9) * Math.max(W, H) * 0.42;
+        p.x = Math.random() * W;
+        p.y = fresh ? Math.random() * H * 1.1 : H + p.s * 0.4;
+        p.vy = -(0.12 + Math.random() * 0.22) * H / 600;
+        p.vx = (Math.random() - 0.5) * 0.12;
+        p.r = Math.random() * Math.PI * 2;
+        p.vr = (Math.random() - 0.5) * 0.0016;
+        p.a = 0.1 + Math.random() * 0.14;
+        p.ph = Math.random() * 6.28;
+        p.ox = 0;
+        return p;
+      };
+      const size = () => {
+        W = Math.round(ph.clientWidth * SCALE); H = Math.round(ph.clientHeight * SCALE);
+        cv.width = W; cv.height = H;
+        const n = W < 300 ? 12 : 22;
+        puffs = Array.from({ length: n }, () => spawn({}, true));
+      };
+      size();
+      window.addEventListener('resize', size);
+      let seen = true, last = performance.now();
+      new IntersectionObserver(([en]) => { seen = en.isIntersecting; }).observe(ph);
+      const draw = (t) => {
+        const dt = Math.min(t - last, 50) / 16.7; last = t;
+        ctx.clearRect(0, 0, W, H);
+        for (const p of puffs) {
+          if (!reduced) {
+            p.y += p.vy * dt; p.x += (p.vx + Math.sin(t / 2600 + p.ph) * 0.08) * dt; p.r += p.vr * dt;
+            if (smokePush.x >= 0) {
+              const dx = p.x - smokePush.x * W, dy = p.y - smokePush.y * H, dd = Math.hypot(dx, dy);
+              const reach = p.s * 0.6;
+              if (dd < reach) p.ox += (dx / (dd || 1)) * (1 - dd / reach) * 0.6 * dt;
+            }
+            p.ox *= 0.985;
+            if (p.y < -p.s * 0.6) spawn(p, false);
+          }
+          // fade in at the bottom, thin out towards the top
+          const life = Math.min(Math.max(p.y / H, 0), 1);
+          ctx.globalAlpha = p.a * Math.min(1, (1 - life) * 4 + 0.15) * (0.25 + life * 0.75);
+          ctx.save();
+          ctx.translate(p.x + p.ox, p.y); ctx.rotate(p.r);
+          ctx.drawImage(sprite, -p.s / 2, -p.s / 2, p.s, p.s);
+          ctx.restore();
+        }
+        if (!reduced) requestAnimationFrame(loopSmoke);
+      };
+      const loopSmoke = (t) => { if (seen && !document.hidden) draw(t); else { last = t; requestAnimationFrame(loopSmoke); } };
+      requestAnimationFrame(reduced ? draw : loopSmoke);
+    }
 
     // clock in the corner; after 22:00 the glow gets stronger
     const clock = $('[data-ph-clock]', ph);
@@ -89,11 +162,13 @@
       const loop = (t) => {
         if (visible) {
           // phones: a slow drift unless the finger is moving
-          if (!fine && t - touched > 2500) { const s = (t - t0) / 1000; tx = 0.5 + Math.sin(s * 0.5) * 0.3; ty = 0.5 + Math.cos(s * 0.37) * 0.22; }
+          if (!fine && t - touched > 2500) { const s = (t - t0) / 1000; tx = 0.5 + Math.sin(s * 0.42) * 0.5; ty = 0.5 + Math.cos(s * 0.33) * 0.25; }
           x += (tx - x) * 0.075; y += (ty - y) * 0.075;
           const dx = x - 0.5, dy = y - 0.5;
           const w = ph.clientWidth, h = ph.clientHeight;
-          word.style.setProperty('--tx', (dx * w * 0.16).toFixed(1) + 'px');
+          // the word is wider than the screen: following the cursor reveals its ends
+          const travel = Math.max(w * 0.16, (word.offsetWidth - w) / 2 + 28);
+          word.style.setProperty('--tx', (dx * 2 * travel).toFixed(1) + 'px');
           word.style.setProperty('--ty', (dy * h * 0.14).toFixed(1) + 'px');
           word.style.setProperty('--ry', (dx * 16).toFixed(2) + 'deg');
           word.style.setProperty('--rx', (-dy * 12).toFixed(2) + 'deg');
@@ -102,6 +177,11 @@
           ph.style.setProperty('--cx', (x * 100).toFixed(1) + '%');
           ph.style.setProperty('--cy', (y * 100).toFixed(1) + '%');
           if (heroImg) heroImg.style.setProperty('--hx', (-dx * w * 0.025).toFixed(1) + 'px');
+          for (const f of floats) {
+            f.el.style.setProperty('--px', (-dx * f.d * 70).toFixed(1) + 'px');
+            f.el.style.setProperty('--py', (-dy * f.d * 50).toFixed(1) + 'px');
+          }
+          smokePush.x = x; smokePush.y = y;
           // the eyes glint when you come close to them
           if (fine && moved && eyes.length) {
             const r = ph.getBoundingClientRect();
@@ -205,6 +285,31 @@
       setInterval(blink, 25000);
     }
   }
+
+  /* ---------- statement ticker: drifts on its own, scrolling pushes it faster ---------- */
+  $$('[data-tick]').forEach((tk) => {
+    const rows = $$('[data-tick-row]', tk).map((row) => ({ track: row.firstElementChild, dir: Number(row.dataset.dir) || -1, x: 0 }));
+    if (reduced || !rows.length) return;
+    let seen = false, boost = 0, lastY = window.scrollY, last = performance.now();
+    new IntersectionObserver(([en]) => { seen = en.isIntersecting; }).observe(tk);
+    window.addEventListener('scroll', () => { boost += Math.abs(window.scrollY - lastY) * 0.35; lastY = window.scrollY; }, { passive: true });
+    const step = (t) => {
+      const dt = Math.min(t - last, 50) / 16.7; last = t;
+      if (seen) {
+        boost *= 0.92;
+        for (const r of rows) {
+          const half = r.track.scrollWidth / 2;
+          r.x += r.dir * (0.6 + Math.min(boost, 40)) * dt;
+          if (r.x <= -half) r.x += half;
+          if (r.x > 0) r.x -= half;
+          r.track.style.setProperty('--tk', r.x.toFixed(1) + 'px');
+        }
+      }
+      requestAnimationFrame(step);
+    };
+    rows.forEach((r) => { if (r.dir > 0) r.x = -r.track.scrollWidth / 4; });
+    requestAnimationFrame(step);
+  });
 
   /* ---------- CTA cards tilt toward the pointer ---------- */
   if (!reduced && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {

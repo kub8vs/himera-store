@@ -2,7 +2,10 @@
   "sections": {
     "intro": {
       "type": "hero-himera",
-      "settings": {}
+      "settings": {
+        "collection": "latajace",
+        "limit": 5
+      }
     },
     "part": {
       "type": "hero-car",
@@ -48,11 +51,33 @@
     "episode": {
       "type": "episode",
       "settings": {}
+    },
+    "ticker": {
+      "type": "ticker",
+      "settings": {}
+    },
+    "drop": {
+      "type": "featured-products",
+      "settings": {
+        "kicker": "NAJCZĘŚCIEJ WYBIERANE",
+        "heading": "Top drop",
+        "collection": "top-3",
+        "limit": 3
+      }
+    },
+    "join": {
+      "type": "join-cta",
+      "settings": {
+        "show_portrait": false
+      }
     }
   },
   "order": [
     "intro",
+    "ticker",
     "part",
-    "episode"
+    "drop",
+    "episode",
+    "join"
   ]
 }

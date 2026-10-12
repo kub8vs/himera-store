@@ -1,0 +1,23 @@
+{%- comment -%} Two big lines of text that slide in opposite directions; scrolling speeds them up. {%- endcomment -%}
+<section class="tick" data-tick aria-label="{{ section.settings.line_1 | escape }}">
+  <div class="tick__row" data-tick-row data-dir="-1">
+    <div class="tick__track">
+      {%- for i in (1..6) -%}<span>{{ section.settings.line_1 }}</span><img src="{{ 'himera-logo.webp' | asset_url }}" alt="" width="1078" height="896" loading="lazy">{%- endfor -%}
+    </div>
+  </div>
+  <div class="tick__row tick__row--ghost" data-tick-row data-dir="1" aria-hidden="true">
+    <div class="tick__track">
+      {%- for i in (1..6) -%}<span>{{ section.settings.line_2 }}</span><i></i>{%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Przewijany napis",
+  "settings": [
+    { "type": "text", "id": "line_1", "label": "Pierwsza linia", "default": "Jesteśmy ruchem" },
+    { "type": "text", "id": "line_2", "label": "Druga linia", "default": "A ty jego częścią" }
+  ],
+  "presets": [{ "name": "Przewijany napis" }]
+}
+{% endschema %}

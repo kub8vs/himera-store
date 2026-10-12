@@ -5,6 +5,10 @@
     assign portrait = 'himera-portret.webp' | asset_url
   endif
   assign word = section.settings.word | default: 'HIMERA' | upcase
+  assign col = section.settings.collection
+  if col == blank
+    assign col = collections.all
+  endif
 -%}
 <section class="ph" data-ph aria-label="{{ shop.name }}">
   <h1 class="visually-hidden">{{ shop.name }}: {{ section.settings.line }}</h1>
@@ -17,11 +21,31 @@
     </div>
   </div>
 
+  {%- comment -%} rising smoke across the whole width, drawn on a canvas {%- endcomment -%}
+  <canvas class="ph__smoke" data-ph-smoke aria-hidden="true"></canvas>
+
   <div class="ph__hero" data-ph-hero>
     <img class="ph__portrait" src="{{ portrait }}" alt="{{ section.settings.alt | escape }}" width="1483" height="1843" fetchpriority="high">
     <i class="ph__eye" style="left: 37.4%; top: 43.2%" aria-hidden="true"></i><i class="ph__eye" style="left: 58.4%; top: 42.6%" aria-hidden="true"></i>
   </div>
 
+  {%- if section.settings.show_products -%}
+    <div class="ph__floats">
+      {%- for product in col.products limit: section.settings.limit -%}
+        {%- assign img = product.metafields.custom.showcase_image.value | default: product.featured_image -%}
+        <a class="ph__float ph__float--{{ forloop.index }}" href="{{ product.url }}" data-ph-float data-depth="{% cycle '1.2', '-0.9', '0.8', '-1.3', '0.6', '-0.6' %}" style="--n: {{ forloop.index0 }}">
+          <span class="ph__in">
+            <span class="ph__bob">
+              {{ img | image_url: width: 600 | image_tag: alt: product.title, width: 600, height: 600, loading: 'eager' }}
+              <span class="ph__tag mono">{{ product.metafields.custom.short_title.value | default: product.title }} · {{ product.price | money_without_trailing_zeros }}</span>
+            </span>
+          </span>
+        </a>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  <div class="ph__fog" aria-hidden="true"></div>
   <a class="ph__cue mono" href="#ruch" aria-label="{{ section.settings.cue }}"><span>{{ section.settings.cue }}</span><i></i></a>
   <span class="ph__clock mono" aria-hidden="true" data-ph-clock></span>
 </section>
@@ -32,6 +56,9 @@
     { "type": "text", "id": "word", "label": "Napis", "default": "HIMERA" },
     { "type": "image_picker", "id": "image", "label": "Zdjęcie na pierwszym planie", "info": "Wycięte, przezroczyste tło. Domyślnie: zdjęcie w kominiarce z motywu." },
     { "type": "text", "id": "alt", "label": "Opis zdjęcia", "default": "Himera w kominiarce z logo" },
+    { "type": "checkbox", "id": "show_products", "label": "Latające produkty", "default": true },
+    { "type": "collection", "id": "collection", "label": "Które produkty latają", "info": "Najlepiej wyglądają zdjęcia z pola custom.showcase_image (przezroczyste tło)." },
+    { "type": "range", "id": "limit", "label": "Ile produktów lata", "min": 2, "max": 6, "step": 1, "default": 5 },
     { "type": "text", "id": "line", "label": "Hasło (dla wyszukiwarek i czytników)", "default": "Jesteśmy ruchem, a ty jego częścią." },
     { "type": "text", "id": "cue", "label": "Podpowiedź przewijania", "default": "Przewiń" }
   ],
