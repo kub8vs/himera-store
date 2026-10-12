@@ -167,7 +167,7 @@
           const dx = x - 0.5, dy = y - 0.5;
           const w = ph.clientWidth, h = ph.clientHeight;
           // the word is wider than the screen: following the cursor reveals its ends
-          const travel = Math.max(w * 0.16, (word.offsetWidth - w) / 2 + 28);
+          const travel = fine ? Math.max(w * 0.16, (word.offsetWidth - w) / 2 + 28) : Math.max(8, (w - word.offsetWidth) / 2 - 4);
           word.style.setProperty('--tx', (dx * 2 * travel).toFixed(1) + 'px');
           word.style.setProperty('--ty', (dy * h * 0.14).toFixed(1) + 'px');
           word.style.setProperty('--ry', (dx * 16).toFixed(2) + 'deg');
@@ -364,6 +364,12 @@
       entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); } });
     }, { rootMargin: '0px 0px -12% 0px' });
     reveals.forEach((el) => io.observe(el));
+    // jumping past an element (anchor link, fast fling) must not leave it invisible
+    let sweepT;
+    window.addEventListener('scroll', () => {
+      clearTimeout(sweepT);
+      sweepT = setTimeout(() => reveals.forEach((el) => { if (!el.classList.contains('is-in') && el.getBoundingClientRect().top < window.innerHeight) { el.classList.add('is-in'); io.unobserve(el); } }), 120);
+    }, { passive: true });
   } else {
     reveals.forEach((el) => el.classList.add('is-in'));
   }
