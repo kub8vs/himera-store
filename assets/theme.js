@@ -189,6 +189,7 @@
         el.style.setProperty('--o', a > 2.4 ? '0' : Math.max(0, 1 - a * 0.42).toFixed(3));
         el.style.setProperty('--b', (Math.min(a, 2) * 2.4).toFixed(2) + 'px');
         el.style.setProperty('--br', (1 - Math.min(a, 1) * 0.55).toFixed(3));
+        el.style.pointerEvents = a > 1.6 ? 'none' : '';
       });
     };
     const set = (i) => {

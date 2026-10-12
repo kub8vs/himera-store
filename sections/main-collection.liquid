@@ -61,7 +61,7 @@
       <button class="show__arrow" type="button" data-show-prev aria-label="Poprzedni">{% render 'icon-arrow', dir: 'left' %}</button>
       <ol class="show__tabs mono" role="tablist">
         {%- for product in items -%}
-          <li><button type="button" role="tab" data-show-tab="{{ forloop.index0 }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">{{ product.metafields.custom.short_title.value | default: product.title | upcase }}</button></li>
+          <li><button type="button" role="tab" aria-label="{{ product.title | escape }}" data-show-tab="{{ forloop.index0 }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">{{ product.metafields.custom.short_title.value | default: product.title | upcase }}</button></li>
         {%- endfor -%}
       </ol>
       <button class="show__arrow" type="button" data-show-next aria-label="Następny">{% render 'icon-arrow' %}</button>
