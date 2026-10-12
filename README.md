@@ -16,7 +16,11 @@ scripts/     budowanie podglądu i paczki ZIP
 
 ## Podgląd na Vercel
 
-Add New → Project → `kub8vs/himera-store` → Deploy. Nic nie trzeba ustawiać: `vercel.json` sam uruchamia `npm run build` i publikuje folder `dist`.
+Jedyny adres podglądu: **https://himera-store.vercel.app**. Projekt Vercel jest połączony z tym repo, gałąź `main`: każdy push na `main` sam się wdraża. Inne projekty Vercel podpięte pod to repo (np. `himera-store-obo8`) należy usunąć.
+
+Ustawień nie trzeba zmieniać: `vercel.json` sam uruchamia `npm run build` i publikuje folder `dist`. Pliki CSS i JS mają w adresie wersję (`?v=…`), więc po każdym wdrożeniu przeglądarka pobiera aktualny wygląd.
+
+Repo ma jedną gałąź: `main`.
 
 Lokalnie: `npm install`, potem `npm run dev` (http://localhost:4321).
 
