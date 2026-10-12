@@ -55,7 +55,8 @@ Motyw najpierw wgrywamy jako nieopublikowany i sprawdzamy w „Podglądzie”. P
 
 ## Smaczki (ukryte detale)
 
-- Gdy kursor zbliży się do oczu Himery w intro, łapią czerwony błysk.
+- Za głową Himery obraca się pierścień HUD z podziałką i krążącym hasłem (tekst do zmiany w sekcji intro); lekko obraca się za kursorem.
+- Co kilka sekund napis HIMERA na ułamek sekundy „glitchuje” na czerwony i biały kanał.
 - Zostaw myszkę w spokoju na 6 s, a neon HIMERA raz zamruga.
 - Zegar w rogu intro; po 22:00 dopisuje „NOC” i czerwona poświata robi się mocniejsza.
 - W odtwarzaczu odcinka biegnie licznik REC jak w kamerze.
