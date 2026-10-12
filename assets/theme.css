@@ -206,26 +206,21 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .ph__float--5 { left: 27%; top: 7%; --r0: 4deg; --r1: -7deg; width: clamp(64px, 7vw, 130px); }
 .ph__float--6 { right: 27%; top: 74%; --r0: -4deg; --r1: 6deg; width: clamp(60px, 6.5vw, 120px); }
 
-/* HUD ring behind the head */
-.ph__ring { position: absolute; left: 50%; top: 31%; width: 84%; aspect-ratio: 1; z-index: -1; transform: translate(-50%, -50%) rotate(var(--rr, 0deg)); pointer-events: none; opacity: 0; }
-.ph.is-in .ph__ring { animation: ringIn 1.6s .5s cubic-bezier(.2, .8, .2, 1) forwards; }
-@keyframes ringIn { from { opacity: 0; scale: .82; filter: blur(6px); } to { opacity: 1; scale: 1; filter: blur(0); } }
-.ph__ring svg { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 0 6px rgba(196, 22, 28, .55)); }
-.ph__r { transform-origin: 200px 200px; transform-box: view-box; }
-.ph__r--outer { animation: spin 90s linear infinite; }
-.ph__r--text { animation: spin 60s linear infinite reverse; }
-.ph__r--arc { animation: spin 22s cubic-bezier(.6, 0, .4, 1) infinite; }
-.ph__r--orbit { animation: spin 9s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.ph__r-line { stroke: rgba(196, 22, 28, .4); stroke-width: .8; }
-.ph__r-ticks { stroke: rgba(236, 230, 224, .28); stroke-width: 5; stroke-dasharray: .7 8.98; }
-.ph__r-major { stroke: #d81b22; stroke-width: 11; stroke-dasharray: 1.6 95.26; }
-.ph__r-text { fill: rgba(236, 230, 224, .62); font: 500 12.5px/1 var(--mono); letter-spacing: .32em; }
-.ph__r-arc { stroke: #e0242b; stroke-width: 1.6; stroke-linecap: round; stroke-dasharray: 150 70 26 60 6 568; stroke-dashoffset: 0; }
-.ph.is-in .ph__r-arc { animation: arcDraw 2.2s .8s cubic-bezier(.2, .8, .2, 1) backwards; }
-@keyframes arcDraw { from { stroke-dasharray: 0 880; } }
-.ph__r-dot { fill: #fff; filter: drop-shadow(0 0 4px #ff3b3b) drop-shadow(0 0 10px #c4161c); }
-.ph__r-cross path { stroke: rgba(236, 230, 224, .4); stroke-width: 1; }
+/* neon ignition: dark tubes first, then H-I-M-E-R-A light up one by one, then the gradient fill takes over */
+.ph__neon { position: absolute; left: 0; top: 0; display: flex; font: 400 1em/.86 var(--display); letter-spacing: -.025em; white-space: nowrap; padding: .06em .02em 0; transform: scaleY(var(--sy, 1.34)); transform-origin: 50% 55%; pointer-events: none; }
+.ph__nl { color: transparent; -webkit-text-stroke: 1px rgba(255, 90, 90, .22); }
+.ph.is-in .ph__nl { animation: neonOn 1.1s steps(1) forwards; animation-delay: calc(.35s + var(--i) * .17s); }
+@keyframes neonOn {
+  0% { color: transparent; text-shadow: none; }
+  8% { color: #c8161d; text-shadow: 0 0 .03em rgba(255, 90, 90, .8); -webkit-text-stroke-color: transparent; }
+  16% { color: transparent; text-shadow: none; -webkit-text-stroke-color: rgba(255, 90, 90, .3); }
+  30% { color: #b5141a; text-shadow: 0 0 .03em rgba(255, 90, 90, .7); -webkit-text-stroke-color: transparent; }
+  38% { color: rgba(160, 18, 24, .4); text-shadow: none; }
+  52%, 100% { color: #a8121a; text-shadow: 0 0 .025em rgba(255, 80, 80, .55); -webkit-text-stroke-color: transparent; }
+}
+.ph__fill { opacity: 0; }
+.ph.is-lit .ph__fill { opacity: 1; transition: opacity .8s ease; }
+.ph.is-lit .ph__neon { opacity: 0; transition: opacity .8s ease; }
 
 /* glitch: the word splits into red and white channels for a split second */
 .ph__gl { position: absolute; left: 0; top: 0; font: 400 1em/.86 var(--display); letter-spacing: -.025em; white-space: nowrap; padding: .06em .02em 0; transform: scaleY(var(--sy, 1.34)); transform-origin: 50% 55%; opacity: 0; pointer-events: none; mix-blend-mode: screen; }
@@ -254,7 +249,7 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 }
 @keyframes glMain { 0% { translate: .012em 0; } 30% { translate: -.018em 0; opacity: .75; } 60% { translate: .008em 0; opacity: 1; } 100% { translate: 0 0; } }
 /* both appear in the same moment */
-.ph.is-in .ph__word { opacity: 1; transition: opacity 1.1s ease; animation: wordIn 1.4s cubic-bezier(.2, .8, .2, 1); }
+.ph.is-in .ph__word { opacity: 1; transition: opacity .5s ease; animation: wordIn 1.8s cubic-bezier(.2, .8, .2, 1); }
 .ph.is-in .ph__hero { opacity: 1; transition: opacity 1.1s ease; animation: heroIn 1.4s cubic-bezier(.2, .8, .2, 1); }
 @keyframes wordIn { from { scale: 1.08; } to { scale: 1; } }
 @keyframes heroIn { from { translate: 0 4%; } to { translate: 0 0; } }
@@ -869,7 +864,8 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
   .grain { animation: none; }
-  .ph__word, .ph__hero, .ph__in, .ph__smoke, .ph__ring, .part__tl, .cta { opacity: 1 !important; filter: none !important; transform: none !important; clip-path: none !important; }
+  .ph__neon { display: none; }
+  .ph__word, .ph__hero, .ph__in, .ph__smoke, .ph__fill, .part__tl, .cta { opacity: 1 !important; filter: none !important; transform: none !important; clip-path: none !important; }
 }
 
 .show__full { color: var(--mute); opacity: 0; transition: opacity .6s .1s; }

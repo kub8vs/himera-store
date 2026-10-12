@@ -18,6 +18,11 @@
   <div class="ph__stage" aria-hidden="true">
     <div class="ph__word" data-ph-word>
       <span class="ph__fill" data-word="{{ word }}">{{ word }}</span>
+      {%- comment -%} neon ignition: every letter lights up in turn, then the gradient fill takes over {%- endcomment -%}
+      <span class="ph__neon">
+        {%- assign letters = word | split: '' -%}
+        {%- for l in letters -%}<span class="ph__nl" style="--i: {{ forloop.index0 }}">{{ l }}</span>{%- endfor -%}
+      </span>
       <span class="ph__gl ph__gl--a">{{ word }}</span><span class="ph__gl ph__gl--b">{{ word }}</span>
     </div>
   </div>
@@ -26,29 +31,6 @@
   <canvas class="ph__smoke" data-ph-smoke aria-hidden="true"></canvas>
 
   <div class="ph__hero" data-ph-hero>
-    {%- comment -%} HUD ring behind the head: ticks, a scanning arc and the motto running around {%- endcomment -%}
-    <div class="ph__ring" data-ph-ring aria-hidden="true">
-      <svg viewBox="0 0 400 400" fill="none">
-        <defs><path id="ph-ring-path" d="M200 200 m-162 0 a162 162 0 1 1 324 0 a162 162 0 1 1 -324 0"/></defs>
-        <g class="ph__r ph__r--outer">
-          <circle cx="200" cy="200" r="192" class="ph__r-line"/>
-          <circle cx="200" cy="200" r="185" class="ph__r-ticks"/>
-          <circle cx="200" cy="200" r="185" class="ph__r-major"/>
-        </g>
-        <g class="ph__r ph__r--text">
-          <text class="ph__r-text"><textPath href="#ph-ring-path" textLength="1015" lengthAdjust="spacing">{{ section.settings.ring_text | default: 'HIMERA • JESTEŚMY RUCHEM • A TY JEGO CZĘŚCIĄ •' | upcase }}</textPath></text>
-        </g>
-        <g class="ph__r ph__r--arc">
-          <circle cx="200" cy="200" r="140" class="ph__r-arc"/>
-        </g>
-        <g class="ph__r ph__r--orbit">
-          <circle cx="200" cy="8" r="3.2" class="ph__r-dot"/>
-        </g>
-        <g class="ph__r-cross">
-          <path d="M200 0v14M200 386v14M0 200h14M386 200h14"/>
-        </g>
-      </svg>
-    </div>
     <img class="ph__portrait" src="{{ portrait }}" alt="{{ section.settings.alt | escape }}" width="1483" height="1843" fetchpriority="high">
   </div>
 
@@ -79,7 +61,6 @@
     { "type": "text", "id": "word", "label": "Napis", "default": "HIMERA" },
     { "type": "image_picker", "id": "image", "label": "Zdjęcie na pierwszym planie", "info": "Wycięte, przezroczyste tło. Domyślnie: zdjęcie w kominiarce z motywu." },
     { "type": "text", "id": "alt", "label": "Opis zdjęcia", "default": "Himera w kominiarce z logo" },
-    { "type": "text", "id": "ring_text", "label": "Napis krążący za głową", "default": "HIMERA • JESTEŚMY RUCHEM • A TY JEGO CZĘŚCIĄ •" },
     { "type": "checkbox", "id": "show_products", "label": "Latające produkty", "default": true },
     { "type": "collection", "id": "collection", "label": "Które produkty latają", "info": "Najlepiej wyglądają zdjęcia z pola custom.showcase_image (przezroczyste tło)." },
     { "type": "range", "id": "limit", "label": "Ile produktów lata", "min": 2, "max": 6, "step": 1, "default": 5 },

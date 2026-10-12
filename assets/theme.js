@@ -54,9 +54,9 @@
   if (ph) {
     const word = $('[data-ph-word]', ph);
     const heroImg = $('[data-ph-hero]', ph);
-    const ring = $('[data-ph-ring]', ph);
     const floats = $$('[data-ph-float]', ph).map((el) => ({ el, d: parseFloat(el.dataset.depth) || 0 }));
     requestAnimationFrame(() => requestAnimationFrame(() => ph.classList.add('is-in')));
+    if (reduced) ph.classList.add('is-lit');
 
     // glitch: the word breaks into red and white for a split second, at random every few seconds
     if (!reduced && word) {
@@ -69,7 +69,9 @@
         }
         setTimeout(glitch, 4200 + Math.random() * 4200);
       };
-      setTimeout(glitch, 1700);
+      // once the last letter is lit, hand over to the gradient fill with one glitch
+      const litAt = 350 + (word.querySelectorAll('.ph__nl').length - 1) * 170 + 650;
+      setTimeout(() => { ph.classList.add('is-lit'); glitch(); }, litAt);
     }
 
     // smoke: soft puffs rising over the whole width; the cursor pushes them aside
@@ -181,7 +183,7 @@
           const dx = x - 0.5, dy = y - 0.5;
           const w = ph.clientWidth, h = ph.clientHeight;
           // the word is wider than the screen: following the cursor reveals its ends
-          const travel = fine ? Math.max(w * 0.16, (word.offsetWidth - w) / 2 + 28) : Math.max(8, (w - word.offsetWidth) / 2 - 4);
+          const travel = fine && w > 700 ? Math.max(w * 0.16, (word.offsetWidth - w) / 2 + 28) : Math.max(8, (w - word.offsetWidth) / 2 - 4);
           word.style.setProperty('--tx', (dx * 2 * travel).toFixed(1) + 'px');
           word.style.setProperty('--ty', (dy * h * 0.14).toFixed(1) + 'px');
           word.style.setProperty('--ry', (dx * (fine ? 16 : 5)).toFixed(2) + 'deg');
@@ -191,7 +193,6 @@
           ph.style.setProperty('--cx', (x * 100).toFixed(1) + '%');
           ph.style.setProperty('--cy', (y * 100).toFixed(1) + '%');
           if (heroImg) heroImg.style.setProperty('--hx', (-dx * w * 0.025).toFixed(1) + 'px');
-          if (ring) ring.style.setProperty('--rr', (dx * 24).toFixed(2) + 'deg');
           for (const f of floats) {
             f.el.style.setProperty('--px', (-dx * f.d * 70).toFixed(1) + 'px');
             f.el.style.setProperty('--py', (-dy * f.d * 50).toFixed(1) + 'px');
