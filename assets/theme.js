@@ -54,7 +54,6 @@
   if (ph) {
     const word = $('[data-ph-word]', ph);
     const heroImg = $('[data-ph-hero]', ph);
-    const eyes = $$('.ph__eye', ph);
     const floats = $$('[data-ph-float]', ph).map((el) => ({ el, d: parseFloat(el.dataset.depth) || 0 }));
     requestAnimationFrame(() => requestAnimationFrame(() => ph.classList.add('is-in')));
 
@@ -182,13 +181,6 @@
             f.el.style.setProperty('--py', (-dy * f.d * 50).toFixed(1) + 'px');
           }
           smokePush.x = x; smokePush.y = y;
-          // the eyes glint when you come close to them
-          if (fine && moved && eyes.length) {
-            const r = ph.getBoundingClientRect();
-            const px = x * r.width + r.left, py = y * r.height + r.top;
-            const near = eyes.some((el) => { const b = el.getBoundingClientRect(); return Math.hypot(b.left + b.width / 2 - px, b.top + b.height / 2 - py) < 90; });
-            ph.classList.toggle('is-stare', near);
-          }
           // leave the mouse still for 6 s and the neon flickers once
           if (fine && !flickered && t - idle > 6000) {
             flickered = true;
