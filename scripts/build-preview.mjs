@@ -5,6 +5,7 @@
 import { Liquid, Tag, Hash } from 'liquidjs';
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const DIST = path.join(ROOT, 'dist');
@@ -168,7 +169,15 @@ engine.registerTag('section', class extends Tag {
 });
 
 // ---------- filters ----------
-engine.registerFilter('asset_url', (n) => `/assets/${n}`);
+// version every asset by its content, so a new deploy never shows a stale cached theme.css / theme.js
+const assetVer = {};
+engine.registerFilter('asset_url', (n) => {
+  if (!(n in assetVer)) {
+    const f = path.join(ROOT, 'assets', n);
+    assetVer[n] = fs.existsSync(f) ? crypto.createHash('sha1').update(fs.readFileSync(f)).digest('hex').slice(0, 10) : '';
+  }
+  return `/assets/${n}${assetVer[n] ? '?v=' + assetVer[n] : ''}`;
+});
 engine.registerFilter('image_url', (img) => (img && typeof img === 'object' ? img.src : img) || '');
 engine.registerFilter('img_url', (img) => (img && typeof img === 'object' ? img.src : img) || '');
 engine.registerFilter('image_tag', (url, ...args) => {
