@@ -4,7 +4,7 @@ To repozytorium to gotowy motyw Shopify (Online Store 2.0). Ten sam kod buduje t
 
 ```
 layout/      theme.liquid, password.liquid
-sections/    intro, auto, „Stań się częścią”, top produkty, o Himerze, showroom kolekcji, produkt, koszyk…
+sections/    wejście (napis HIMERA, Himera, latające produkty), auto, lista, top produkty, o Himerze, showroom kolekcji, produkt, koszyk…
 snippets/    karta produktu, cena, ikona
 templates/   *.json (strona główna, kolekcja, produkt, koszyk, 404, strona, szukaj, blog, hasło)
 assets/      theme.css, theme.js, zdjęcia (auto, koła, portret, logo)
@@ -36,7 +36,7 @@ Motyw najpierw wgrywamy jako nieopublikowany i sprawdzamy w „Podglądzie”. P
    - `custom.short_title` (Tekst jednowierszowy): krótka nazwa do dużego napisu w showroomie, np. `Kominiarka`.
 2. **Nawigacja**: menu `main-menu` (Sklep, O Himerze `/#o-himerze`, Dołącz `/#dolacz`) i `footer`.
 3. **Dostosuj motyw → Ustawienia motywu**: linki Instagram i YouTube, logo (opcjonalnie), kolory.
-4. Strona główna: w sekcji „Top produkty” wybierz kolekcję z trzema bestsellerami.
+4. Strona główna: w sekcji „Wejście HIMERA” wybierz kolekcję produktów, które mają latać wokół zdjęcia (najlepiej 4–5 z przezroczystym tłem), a w „Top produkty” kolekcję z trzema bestsellerami.
 
 ## Smaczki (ukryte detale)
 
@@ -45,7 +45,7 @@ Motyw najpierw wgrywamy jako nieopublikowany i sprawdzamy w „Podglądzie”. P
 - Oczy w logo w nagłówku co ~40 s łapią czerwony błysk; po najechaniu kursorem świecą.
 - Wpisanie na klawiaturze „himera” wywołuje czerwony błysk „RUCH” na cały ekran.
 - Po przełączeniu karty tytuł zmienia się na „Wróć do ruchu.”.
-- Gdy patrzysz na portret w sekcji „Stań się częścią” przez 3 s, logo w rogu budzi się i świeci.
+- Gdy patrzysz na logo w sekcji z zapisem na listę przez 3 s, budzi się i świeci na czerwono.
 - W konsoli przeglądarki: logo HMR i zaproszenie dla ciekawskich.
 - W stopce podpis „.... -- .-.” to „HMR” Morse'em.
 - Kod produktu odbija się w świetle na podłodze showroomu.

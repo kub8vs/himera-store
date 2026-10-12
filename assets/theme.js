@@ -49,97 +49,90 @@
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !drawer.hidden) close(); });
   }
 
-  /* ---------- intro: HIMERA filled with the photo, camera flies through the I ---------- */
-  let introResolve;
-  const introDone = new Promise((r) => { introResolve = r; });
-  const intro = $('[data-intro]');
-  (() => {
-    if (!intro) return introResolve();
-    const every = intro.dataset.everyVisit === 'true';
-    let seen = false;
-    try { seen = sessionStorage.getItem('himera:intro') === '1'; } catch (e) { /* storage off */ }
-    if (reduced || (seen && !every)) { intro.remove(); return introResolve(); }
-    try { sessionStorage.setItem('himera:intro', '1'); } catch (e) { /* storage off */ }
-
-    const word = $('[data-intro-word]', intro);
-    const bar = $('[data-intro-bar]', intro);
-    const count = $('[data-intro-count]', intro);
-    const skipBtn = $('[data-intro-skip]', intro);
-    const timers = [];
-    let finished = false;
-    let raf;
-
-    intro.classList.add('is-on');
-    document.body.classList.add('is-locked');
-
-    const finish = () => {
-      if (finished) return;
-      finished = true;
-      timers.forEach(clearTimeout);
-      cancelAnimationFrame(raf);
-      intro.classList.add('is-out');
-      document.body.classList.remove('is-locked');
-      document.removeEventListener('keydown', onKey);
-      introResolve();
-      setTimeout(() => intro.remove(), 800);
-    };
-    const onKey = (e) => { if (['Escape', 'Enter', ' '].includes(e.key)) finish(); };
-    skipBtn.addEventListener('click', finish);
-    intro.addEventListener('click', finish);
-    document.addEventListener('keydown', onKey);
-
-    // zoom origin: the middle of the second letter (the "I" in HIMERA)
-    const aim = () => {
-      const letters = $$('.intro__l', word);
-      const l = letters[Math.min(1, letters.length - 1)];
-      if (l) word.style.transformOrigin = `${l.offsetLeft + l.offsetWidth / 2}px ${l.offsetTop + l.offsetHeight * 0.52}px`;
-    };
-
-    const TOTAL = 3900;
-    const start = () => {
-      aim();
+  /* ---------- entrance: mouse parallax, slow "breathing" drift on touch screens ---------- */
+  const ph = $('[data-ph]');
+  if (ph) {
+    $$('[data-depth]', ph).forEach((el) => el.style.setProperty('--d', el.dataset.depth));
+    requestAnimationFrame(() => requestAnimationFrame(() => ph.classList.add('is-in')));
+    if (!reduced) {
+      const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      let tx = 0, ty = 0, x = 0, y = 0, visible = true;
+      new IntersectionObserver(([en]) => { visible = en.isIntersecting; }).observe(ph);
+      if (fine) {
+        window.addEventListener('pointermove', (e) => {
+          tx = (e.clientX / window.innerWidth) * 2 - 1;
+          ty = (e.clientY / window.innerHeight) * 2 - 1;
+        }, { passive: true });
+      }
       const t0 = performance.now();
-      const tick = (t) => {
-        const p = Math.min(1, (t - t0) / TOTAL);
-        bar.style.transform = `scaleX(${p})`;
-        count.textContent = String(Math.round(p * 100)).padStart(2, '0');
-        if (p < 1 && !finished) raf = requestAnimationFrame(tick);
+      const loop = (t) => {
+        if (visible) {
+          if (!fine) { const s = (t - t0) / 1000; tx = Math.sin(s * 0.55) * 0.8; ty = Math.cos(s * 0.4) * 0.6; }
+          x += (tx - x) * 0.06; y += (ty - y) * 0.06;
+          ph.style.setProperty('--mx', x.toFixed(4));
+          ph.style.setProperty('--my', y.toFixed(4));
+        }
+        requestAnimationFrame(loop);
       };
-      raf = requestAnimationFrame(tick);
-      intro.classList.add('is-in');
-      timers.push(setTimeout(() => { aim(); intro.classList.add('is-zoom'); }, 2150));
-      timers.push(setTimeout(() => intro.classList.add('is-photo'), 2850));
-      timers.push(setTimeout(finish, TOTAL));
-    };
+      requestAnimationFrame(loop);
+    }
+  }
 
-    // wait for the photo and the display font, but never longer than 1.4 s
-    const img = new Image();
-    const src = (getComputedStyle(intro).getPropertyValue('--photo').match(/url\(['"]?([^'")]+)/) || [])[1];
-    const ready = [new Promise((r) => { img.onload = img.onerror = r; img.src = src || ''; if (!src) r(); })];
-    if (document.fonts && document.fonts.load) ready.push(document.fonts.load('100px Anton').catch(() => {}));
-    Promise.race([Promise.all(ready), wait(1400)]).then(() => requestAnimationFrame(() => requestAnimationFrame(start)));
-  })();
-
-  /* ---------- hero: the car drives in after the intro ---------- */
+  /* ---------- the car rolls in when its section comes into view ---------- */
   const hero = $('[data-hero]');
   if (hero) {
     const tail = $('[data-tail]', hero);
-    if (reduced) {
+    const drive = $('[data-drive]', hero);
+    const body = $('[data-body]', hero);
+    const wheels = $$('[data-wheel]', hero);
+    const blur = $('[data-blur]', hero);
+    if (reduced || !('IntersectionObserver' in window)) {
       hero.classList.add('is-static', 'is-parked');
     } else {
       hero.classList.add('is-waiting');
-      introDone.then(async () => {
-        await wait(intro ? 250 : 120);
+      const run = () => {
+        const carW = drive.offsetWidth;
+        const r = (carW * 0.122) / 2;
+        const X0 = window.innerWidth * 1.15;
+        const D = 2700;
+        const ease = (p) => 1 - Math.pow(1 - p, 3.4);
         hero.classList.remove('is-waiting');
-        void hero.offsetWidth;
         hero.classList.add('is-driving');
-        await wait(2500);
-        hero.classList.add('is-parked');
-        if (tail) {
-          tail.classList.add('is-on');
-          setTimeout(() => tail.classList.remove('is-on'), 900);
-        }
-      });
+        let start = null, lastX = X0, lastV = 0;
+        const step = (t) => {
+          if (start == null) start = t;
+          const p = Math.min(1, (t - start) / D);
+          const x = X0 * (1 - ease(p));
+          const v = lastX - x;                 // px per frame, leftwards
+          const a = v - lastV;                 // negative while braking
+          lastX = x; lastV = v;
+          drive.style.setProperty('--x', x.toFixed(1) + 'px');
+          const spin = -((X0 - x) / r) * (180 / Math.PI);
+          wheels.forEach((w) => w.style.setProperty('--spin', spin.toFixed(1) + 'deg'));
+          if (blur) blur.setAttribute('stdDeviation', `${Math.min(16, v * 0.55).toFixed(1)} 0`);
+          body.style.setProperty('--pitch', Math.max(-0.9, Math.min(0, a * 0.35)).toFixed(3) + 'deg');
+          if (tail) tail.classList.toggle('is-on', p > 0.35);
+          if (p < 1) return requestAnimationFrame(step);
+          // stopped: the body settles on its springs
+          hero.classList.remove('is-driving');
+          if (blur) blur.setAttribute('stdDeviation', '0 0');
+          const s0 = performance.now();
+          const settle = (tt) => {
+            const k = tt - s0;
+            body.style.setProperty('--pitch', (-0.7 * Math.exp(-k / 170) * Math.cos(k / 70)).toFixed(3) + 'deg');
+            if (k < 900) return requestAnimationFrame(settle);
+            body.style.setProperty('--pitch', '0deg');
+          };
+          requestAnimationFrame(settle);
+          hero.classList.add('is-parked');
+          setTimeout(() => tail && tail.classList.remove('is-on'), 700);
+        };
+        requestAnimationFrame(step);
+      };
+      const io = new IntersectionObserver(([en]) => {
+        if (en.isIntersecting) { io.disconnect(); run(); }
+      }, { threshold: 0.35 });
+      io.observe($('.hero__stage', hero) || hero);
     }
     // tail light blinks "HMR" in Morse every ~25 s: .... -- .-.
     if (tail && !reduced) {
@@ -170,7 +163,7 @@
     reveals.forEach((el) => el.classList.add('is-in'));
   }
 
-  /* ---------- showroom carousel (collection) ---------- */
+  /* ---------- showroom carousel (collection): arrows, tabs, drag or swipe; never tied to page scroll ---------- */
   const show = $('[data-show]');
   if (show) {
     const items = $$('[data-show-item]', show);
@@ -179,69 +172,92 @@
     const mirrors = $$('[data-show-mirror]', show);
     const nowEl = $('[data-show-now]', show);
     const codeEl = $('[data-show-code]', show);
+    const pin = $('.show__pin', show);
     const n = items.length;
-    let cur = -1;
+    let cur = 0, drag = 0;
 
-    const set = (i) => {
-      i = Math.max(0, Math.min(n - 1, i));
-      if (i === cur) return;
-      cur = i;
+    const gap = () => (window.innerWidth < 860 ? window.innerWidth * 0.62 : Math.min(window.innerWidth * 0.3, 500));
+    const layout = () => {
+      const g = gap();
       items.forEach((el, k) => {
-        const d = k - i;
-        el.classList.toggle('is-on', d === 0);
-        el.classList.toggle('is-prev', d === -1);
-        el.classList.toggle('is-next', d === 1);
-        el.classList.toggle('is-far-prev', d < -1);
-        el.classList.toggle('is-far-next', d > 1);
-        el.tabIndex = d === 0 ? 0 : -1;
-        el.setAttribute('aria-hidden', d === 0 ? 'false' : 'true');
+        const d = k - cur - drag;
+        const a = Math.abs(d);
+        el.style.setProperty('--x', (d * g).toFixed(1) + 'px');
+        el.style.setProperty('--z', (-a * 240).toFixed(1) + 'px');
+        el.style.setProperty('--ry', (Math.max(-2, Math.min(2, d)) * -20).toFixed(2) + 'deg');
+        el.style.setProperty('--s', Math.max(0.42, 1 - a * 0.4).toFixed(3));
+        el.style.setProperty('--o', a > 2.4 ? '0' : Math.max(0, 1 - a * 0.42).toFixed(3));
+        el.style.setProperty('--b', (Math.min(a, 2) * 2.4).toFixed(2) + 'px');
+        el.style.setProperty('--br', (1 - Math.min(a, 1) * 0.55).toFixed(3));
       });
-      panels.forEach((el, k) => { el.classList.toggle('is-on', k === i); el.setAttribute('aria-hidden', k === i ? 'false' : 'true'); });
-      tabs.forEach((el, k) => el.setAttribute('aria-selected', k === i ? 'true' : 'false'));
-      mirrors.forEach((el, k) => el.classList.toggle('is-on', k === i));
-      if (nowEl) nowEl.textContent = String(i + 1).padStart(2, '0');
-      if (codeEl && mirrors[i]) codeEl.textContent = mirrors[i].textContent;
     };
-
-    // the section is tall and the stage is pinned: scroll position picks the product
-    const span = () => Math.max(1, show.offsetHeight - window.innerHeight);
-    const fromScroll = () => {
-      const p = Math.min(1, Math.max(0, -show.getBoundingClientRect().top / span()));
-      set(Math.round(p * (n - 1)));
+    const set = (i) => {
+      cur = (i + n) % n;
+      drag = 0;
+      items.forEach((el, k) => {
+        const on = k === cur;
+        el.classList.toggle('is-on', on);
+        el.tabIndex = on ? 0 : -1;
+        el.setAttribute('aria-hidden', on ? 'false' : 'true');
+      });
+      panels.forEach((el, k) => { el.classList.toggle('is-on', k === cur); el.setAttribute('aria-hidden', k === cur ? 'false' : 'true'); });
+      tabs.forEach((el, k) => el.setAttribute('aria-selected', k === cur ? 'true' : 'false'));
+      mirrors.forEach((el, k) => el.classList.toggle('is-on', k === cur));
+      if (nowEl) nowEl.textContent = String(cur + 1).padStart(2, '0');
+      if (codeEl && mirrors[cur]) codeEl.textContent = mirrors[cur].textContent;
+      layout();
     };
-    const go = (i) => {
-      i = Math.max(0, Math.min(n - 1, i));
-      const top = show.getBoundingClientRect().top + window.scrollY;
-      const y = n > 1 ? top + (i / (n - 1)) * span() : top;
-      window.scrollTo({ top: Math.round(y) + 1, behavior: reduced ? 'auto' : 'smooth' });
-      set(i);
-    };
-
     set(0);
-    fromScroll();
-    window.addEventListener('scroll', () => requestAnimationFrame(fromScroll), { passive: true });
-    window.addEventListener('resize', fromScroll);
-    tabs.forEach((t) => t.addEventListener('click', () => go(+t.dataset.showTab)));
-    $('[data-show-prev]', show).addEventListener('click', () => go(cur - 1));
-    $('[data-show-next]', show).addEventListener('click', () => go(cur + 1));
-    items.forEach((el, k) => el.addEventListener('click', (e) => { if (k !== cur) { e.preventDefault(); go(k); } }));
+    window.addEventListener('resize', layout);
+    tabs.forEach((t) => t.addEventListener('click', () => set(+t.dataset.showTab)));
+    $('[data-show-prev]', show).addEventListener('click', () => set(cur - 1));
+    $('[data-show-next]', show).addEventListener('click', () => set(cur + 1));
     document.addEventListener('keydown', (e) => {
       if (e.target.closest('input, textarea, select')) return;
       const r = show.getBoundingClientRect();
-      if (r.top > 1 || r.bottom < window.innerHeight) return;
-      if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
-      if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
+      if (r.bottom < window.innerHeight * 0.4 || r.top > window.innerHeight * 0.6) return;
+      if (e.key === 'ArrowRight') set(cur + 1);
+      if (e.key === 'ArrowLeft') set(cur - 1);
     });
-    // horizontal swipe / drag
-    let sx = null, sy = 0;
-    const stage = $('.show__pin', show);
-    stage.addEventListener('pointerdown', (e) => { sx = e.clientX; sy = e.clientY; }, { passive: true });
-    stage.addEventListener('pointerup', (e) => {
+
+    // drag / swipe with the product following the finger
+    let sx = null, sy = 0, moved = false, horiz = null;
+    pin.addEventListener('pointerdown', (e) => {
+      if (e.target.closest('button, form, .show__panel a, .show__hint')) return;
+      sx = e.clientX; sy = e.clientY; moved = false; horiz = null;
+    });
+    window.addEventListener('pointermove', (e) => {
       if (sx == null) return;
       const dx = e.clientX - sx, dy = e.clientY - sy;
-      sx = null;
-      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.4) go(cur + (dx < 0 ? 1 : -1));
+      if (horiz == null && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) horiz = Math.abs(dx) > Math.abs(dy);
+      if (!horiz) return;
+      moved = true;
+      show.classList.add('is-drag');
+      drag = Math.max(-1.2, Math.min(1.2, -dx / gap()));
+      layout();
     }, { passive: true });
+    const end = () => {
+      if (sx == null) return;
+      sx = null;
+      show.classList.remove('is-drag');
+      if (moved) set(Math.abs(drag) > 0.18 ? cur + Math.sign(drag) : cur);
+    };
+    window.addEventListener('pointerup', end);
+    window.addEventListener('pointercancel', end);
+    items.forEach((el, k) => el.addEventListener('click', (e) => {
+      if (moved) { e.preventDefault(); moved = false; return; }
+      if (k !== cur) { e.preventDefault(); set(k); }
+    }));
+    // trackpad side-swipe
+    let wheelLock = 0;
+    pin.addEventListener('wheel', (e) => {
+      if (Math.abs(e.deltaX) < Math.abs(e.deltaY) || Math.abs(e.deltaX) < 25) return;
+      e.preventDefault();
+      const now = Date.now();
+      if (now < wheelLock) return;
+      wheelLock = now + 650;
+      set(cur + (e.deltaX > 0 ? 1 : -1));
+    }, { passive: false });
   }
 
   /* ---------- filter chips ---------- */

@@ -97,7 +97,7 @@
           "height": 1500
         }
       ],
-      "showcase": "/media/naklejka-logo.webp",
+      "showcase": "/media/sticker-logo-czarna.webp",
       "short": "Logo · czarna"
     },
     {
@@ -118,7 +118,7 @@
           "height": 1200
         }
       ],
-      "showcase": "/media/naklejka-logo.webp",
+      "showcase": "/media/sticker-logo-biala.webp",
       "short": "Logo · biała"
     },
     {
@@ -139,7 +139,7 @@
           "height": 600
         }
       ],
-      "showcase": "/media/naklejka-napis.webp",
+      "showcase": "/media/sticker-napis.webp",
       "short": "Napis · biały"
     }
   ],
@@ -156,6 +156,16 @@
         "kominiarka-himery",
         "flaga-himery",
         "naklejka-logo-czarna"
+      ]
+    },
+    {
+      "handle": "latajace",
+      "title": "Latające na wejściu",
+      "handles": [
+        "flaga-himery",
+        "naklejka-logo-czarna",
+        "naklejka-napis-biala",
+        "naklejka-logo-biala"
       ]
     }
   ]

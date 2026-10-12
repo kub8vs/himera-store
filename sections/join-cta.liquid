@@ -36,10 +36,14 @@
       {%- endif -%}
     </div>
 
-    <figure class="join__fig" aria-hidden="true">
+    <figure class="join__fig{% unless section.settings.show_portrait %} join__fig--logo{% endunless %}" aria-hidden="true">
       <div class="join__ring"></div>
-      <img class="join__portrait" src="{{ portrait }}" alt="" width="1483" height="1843" loading="lazy">
-      <img class="join__mark" src="{{ 'himera-logo.webp' | asset_url }}" alt="" width="120" height="100" loading="lazy" data-stare>
+      {%- if section.settings.show_portrait -%}
+        <img class="join__portrait" src="{{ portrait }}" alt="" width="1483" height="1843" loading="lazy">
+        <img class="join__mark" src="{{ 'himera-logo.webp' | asset_url }}" alt="" width="120" height="100" loading="lazy" data-stare>
+      {%- else -%}
+        <img class="join__logo" src="{{ 'himera-logo.webp' | asset_url }}" alt="" width="1078" height="896" loading="lazy" data-stare>
+      {%- endif -%}
       <figcaption class="mono join__cap">HMR · {{ 'now' | date: '%Y' }}</figcaption>
     </figure>
   </div>
@@ -49,11 +53,12 @@
   "name": "Stań się częścią",
   "settings": [
     { "type": "text", "id": "anchor", "label": "Kotwica (#)", "default": "dolacz" },
-    { "type": "text", "id": "kicker", "label": "Nadtytuł", "default": "DOŁĄCZ DO RUCHU" },
-    { "type": "text", "id": "heading", "label": "Nagłówek", "info": "Znak | łamie linię.", "default": "Stań się|częścią|HIMERY." },
+    { "type": "text", "id": "kicker", "label": "Nadtytuł", "default": "LISTA HIMERY" },
+    { "type": "text", "id": "heading", "label": "Nagłówek", "info": "Znak | łamie linię.", "default": "Bądź|pierwszy|przy dropie." },
     { "type": "textarea", "id": "text", "label": "Tekst", "default": "Zapisz się, a dowiesz się o dropie jako pierwszy. Bez spamu, tylko nowe serie, spoty i rzeczy, których nie wrzucamy nigdzie indziej." },
     { "type": "text", "id": "note", "label": "Dopisek pod polem", "default": "Zero spamu. Wypisujesz się jednym kliknięciem." },
     { "type": "text", "id": "ig_label", "label": "Link do Instagrama", "default": "Albo napisz do nas na Instagramie" },
+    { "type": "checkbox", "id": "show_portrait", "label": "Pokaż zdjęcie (wyłączone: duże logo)", "default": false },
     { "type": "image_picker", "id": "image", "label": "Zdjęcie (wycięte, przezroczyste tło)" }
   ],
   "presets": [{ "name": "Stań się częścią" }]

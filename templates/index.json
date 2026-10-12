@@ -1,9 +1,5 @@
 {
   "sections": {
-    "intro": {
-      "type": "himera-intro",
-      "settings": {}
-    },
     "hero": {
       "type": "hero-car",
       "settings": {}
@@ -49,13 +45,19 @@
         "p3"
       ],
       "settings": {}
+    },
+    "ph": {
+      "type": "hero-himera",
+      "settings": {
+        "collection": "latajace"
+      }
     }
   },
   "order": [
-    "intro",
+    "ph",
     "hero",
-    "join",
     "top",
+    "join",
     "about"
   ]
 }

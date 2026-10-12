@@ -3,7 +3,7 @@
   assign total = items.size
   assign types = items | map: 'type' | uniq
 -%}
-<section class="show" data-show style="--count: {{ total }}" aria-label="{{ collection.title | escape }}">
+<section class="show" data-show aria-label="{{ collection.title | escape }}">
   <div class="show__pin">
     <div class="show__room" aria-hidden="true"><i class="show__wall"></i><i class="show__floor"></i></div>
 
@@ -11,14 +11,17 @@
       <i class="show__disc"></i><i class="show__led show__led--1"></i><i class="show__led show__led--2"></i><i class="show__led show__led--3"></i><i class="show__scan"></i>
     </div>
     <div class="show__cone" aria-hidden="true"></div>
+    <div class="show__dust" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
 
     <div class="show__stage" data-show-stage>
       {%- for product in items -%}
         {%- assign img = product.metafields.custom.showcase_image.value | default: product.featured_image -%}
         {%- capture src -%}{{ img | image_url: width: 1400 }}{%- endcapture -%}
-        <a class="show__item" href="{{ product.url }}" data-show-item="{{ forloop.index0 }}" style="--src: url('{{ src }}')" tabindex="-1" aria-hidden="true">
-          <img src="{{ src }}" alt="{{ product.title | escape }}" width="1200" height="1200" {% if forloop.index > 2 %}loading="lazy"{% else %}fetchpriority="high"{% endif %}>
-          <i class="show__lit"></i>
+        <a class="show__item" href="{{ product.url }}" data-show-item="{{ forloop.index0 }}" style="--src: url('{{ src }}'); --i: {{ forloop.index0 }}" tabindex="-1" aria-hidden="true" draggable="false">
+          <span class="show__float">
+            <img src="{{ src }}" alt="{{ product.title | escape }}" width="1200" height="1200" draggable="false" {% if forloop.index > 2 %}loading="lazy"{% else %}fetchpriority="high"{% endif %}>
+            <i class="show__lit"></i>
+          </span>
         </a>
       {%- endfor -%}
     </div>
@@ -87,7 +90,7 @@
 {
   "name": "Kolekcja: showroom",
   "settings": [
-    { "type": "text", "id": "hint", "label": "Podpowiedź", "default": "Przewiń, aby odkryć" }
+    { "type": "text", "id": "hint", "label": "Podpowiedź", "default": "Wszystkie produkty niżej" }
   ]
 }
 {% endschema %}

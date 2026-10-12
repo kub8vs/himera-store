@@ -10,8 +10,10 @@
     <div class="show__cone"></div>
     {%- capture src -%}{{ img | image_url: width: 1400 }}{%- endcapture -%}
     <div class="show__item is-on pdp__item" style="--src: url('{{ src }}')">
-      <img src="{{ src }}" alt="" width="1200" height="1200" fetchpriority="high">
-      <i class="show__lit"></i>
+      <span class="show__float">
+        <img src="{{ src }}" alt="" width="1200" height="1200" fetchpriority="high">
+        <i class="show__lit"></i>
+      </span>
     </div>
     <div class="show__pool"><span class="show__mirror is-on">{{ code }}</span></div>
   </div>
