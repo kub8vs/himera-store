@@ -1,57 +1,85 @@
-<section class="hero" id="{{ section.settings.anchor | default: 'ruch' }}" data-hero aria-label="{{ section.settings.heading | remove: '|' | escape }}">
-  <h2 class="hero__title" data-reveal>
-    {%- assign lines = section.settings.heading | split: '|' -%}
-    {%- for line in lines -%}<span class="hero__tl"><span>{{ line | strip }}</span></span>{%- endfor -%}
-  </h2>
-  <div class="hero__wallword" aria-hidden="true">{{ section.settings.wall_text }}</div>
+{%- comment -%} "Stań się częścią HIMERY": heading on one side, the car rolling in on the other, three CTA cards below. {%- endcomment -%}
+<section class="part" id="{{ section.settings.anchor | default: 'ruch' }}" data-hero>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><filter id="hmr-blur" x="-10%" y="0" width="120%" height="100%"><feGaussianBlur data-blur stdDeviation="0 0"/></filter></svg>
-  <div class="hero__stage">
-    <div class="hero__floor" aria-hidden="true"></div>
-    <div class="hero__word" aria-hidden="true"><span>HIMERA</span><span class="hero__word-lit">HIMERA</span></div>
-    <div class="hero__car" data-car>
-      <div class="hero__drive" data-drive>
-        <div class="hero__shadow"></div>
-        <img class="hero__refl" src="{{ 'himera-car.webp' | asset_url }}" alt="" width="1968" height="633" loading="lazy">
-        <div class="hero__body" data-body>
-          <img class="hero__img" src="{{ 'himera-car.webp' | asset_url }}" alt="{{ section.settings.car_alt | escape }}" width="1968" height="633" loading="lazy">
-          <img class="hero__wheel hero__wheel--f" src="{{ 'himera-wheel-f.webp' | asset_url }}" alt="" width="240" height="240" data-wheel>
-          <img class="hero__wheel hero__wheel--r" src="{{ 'himera-wheel-r.webp' | asset_url }}" alt="" width="240" height="240" data-wheel>
-          <div class="hero__sheen" style="--mask: url('{{ 'himera-car.webp' | asset_url }}')"></div>
-          <i class="hero__tail" data-tail></i>
-          <i class="hero__head"></i>
-        </div>
+  <div class="part__wallword" aria-hidden="true">{{ section.settings.wall_text }}</div>
+
+  <div class="part__top">
+    <div class="part__copy wrap">
+      <span class="mono part__kicker" data-reveal>{{ section.settings.kicker }}</span>
+      <h2 class="part__title" data-reveal>
+        {%- assign lines = section.settings.heading | split: '|' -%}
+        {%- for line in lines -%}<span class="part__tl"><span>{{ line | strip }}</span></span>{%- endfor -%}
+      </h2>
+      <p class="part__text" data-reveal>{{ section.settings.text }}</p>
+      <div class="btns" data-reveal>
+        <a class="btn btn--bone" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}">{{ section.settings.cta_label }}{% render 'icon-arrow' %}</a>
       </div>
-      <i class="hero__beam" aria-hidden="true"></i>
+    </div>
+
+    <div class="part__stage">
+      <div class="hero__floor" aria-hidden="true"></div>
+      <div class="hero__car" data-car>
+        <div class="hero__drive" data-drive>
+          <div class="hero__shadow"></div>
+          <img class="hero__refl" src="{{ 'himera-car.webp' | asset_url }}" alt="" width="1968" height="633" loading="lazy">
+          <div class="hero__body" data-body>
+            <img class="hero__img" src="{{ 'himera-car.webp' | asset_url }}" alt="{{ section.settings.car_alt | escape }}" width="1968" height="633" loading="lazy">
+            <img class="hero__wheel hero__wheel--f" src="{{ 'himera-wheel-f.webp' | asset_url }}" alt="" width="240" height="240" data-wheel>
+            <img class="hero__wheel hero__wheel--r" src="{{ 'himera-wheel-r.webp' | asset_url }}" alt="" width="240" height="240" data-wheel>
+            <div class="hero__sheen" style="--mask: url('{{ 'himera-car.webp' | asset_url }}')"></div>
+            <i class="hero__tail" data-tail></i>
+            <i class="hero__head"></i>
+          </div>
+        </div>
+        <i class="hero__beam" aria-hidden="true"></i>
+      </div>
+      <span class="mono part__plate" aria-hidden="true">{{ section.settings.car_label }}</span>
     </div>
   </div>
 
-  <div class="hero__copy wrap">
-    <div class="hero__left">
-      <span class="mono hero__kicker">{{ section.settings.kicker }}</span>
-    </div>
-    <div class="hero__right">
-      <p>{{ section.settings.text }}</p>
-      <div class="btns">
-        <a class="btn btn--bone" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}">{{ section.settings.cta_label }}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <a class="btn btn--line" href="#dolacz">{{ section.settings.cta2_label }}</a>
-      </div>
-    </div>
+  <div class="part__cards wrap">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign url = block.settings.url
+        if url == blank
+          assign url = routes.root_url
+        endif
+      -%}
+      <a class="cta" href="{{ url }}" data-tilt data-reveal style="--d: {{ forloop.index0 | times: 0.1 }}s" {{ block.shopify_attributes }}{% if url contains 'http' %} target="_blank" rel="noopener"{% endif %}>
+        <span class="cta__glare" aria-hidden="true"></span>
+        <span class="cta__num" aria-hidden="true">0{{ forloop.index }}</span>
+        <span class="mono cta__kicker">{{ block.settings.kicker }}</span>
+        <h3 class="cta__title">{{ block.settings.title }}</h3>
+        <p class="cta__text">{{ block.settings.text }}</p>
+        <span class="cta__go mono">{{ block.settings.label }}{% render 'icon-arrow' %}</span>
+      </a>
+    {%- endfor -%}
   </div>
 </section>
 {% schema %}
 {
-  "name": "Auto Himery",
+  "name": "Stań się częścią + auto",
   "settings": [
     { "type": "text", "id": "anchor", "label": "Kotwica (#)", "default": "ruch" },
-    { "type": "text", "id": "heading", "label": "Nagłówek", "info": "Znak | łamie linię.", "default": "Stań się częścią|HIMERY." },
-    { "type": "text", "id": "kicker", "label": "Podpis przy aucie", "default": "BMW M3 · OKLEINA HIMERY" },
+    { "type": "text", "id": "kicker", "label": "Nadtytuł", "default": "HMR · EKIPA" },
+    { "type": "text", "id": "heading", "label": "Nagłówek", "info": "Znak | łamie linię.", "default": "Stań się|częścią|HIMERY." },
     { "type": "textarea", "id": "text", "label": "Tekst", "default": "Nocne spoty, auta i ludzie, którzy trzymają się razem. Każdy drop to krótka seria. Kiedy się kończy, nie wraca w tej samej formie." },
-    { "type": "text", "id": "cta_label", "label": "Przycisk 1", "default": "Wejdź do sklepu" },
-    { "type": "url", "id": "cta_url", "label": "Link przycisku 1" },
-    { "type": "text", "id": "cta2_label", "label": "Przycisk 2", "default": "Zapisz się na drop" },
+    { "type": "text", "id": "cta_label", "label": "Przycisk", "default": "Zobacz produkty" },
+    { "type": "url", "id": "cta_url", "label": "Link przycisku" },
     { "type": "text", "id": "car_alt", "label": "Opis auta", "default": "Czarne BMW M3 z okleiną Himery" },
-    { "type": "text", "id": "wall_text", "label": "Ukryty napis na ścianie", "default": "JESTEŚMY RUCHEM A TY JEGO CZĘŚCIĄ" }
+    { "type": "text", "id": "car_label", "label": "Podpis przy aucie", "default": "BMW M3 · OKLEINA HIMERY" },
+    { "type": "text", "id": "wall_text", "label": "Ukryty napis w tle", "default": "JESTEŚMY RUCHEM A TY JEGO CZĘŚCIĄ" }
   ],
-  "presets": [{ "name": "Auto Himery" }]
+  "blocks": [
+    { "type": "cta", "name": "Karta CTA", "settings": [
+      { "type": "text", "id": "kicker", "label": "Nadtytuł", "default": "HIMERA" },
+      { "type": "text", "id": "title", "label": "Tytuł", "default": "Tytuł" },
+      { "type": "textarea", "id": "text", "label": "Tekst", "default": "Opis." },
+      { "type": "text", "id": "label", "label": "Tekst linku", "default": "Zobacz" },
+      { "type": "url", "id": "url", "label": "Link" }
+    ] }
+  ],
+  "max_blocks": 3,
+  "presets": [{ "name": "Stań się częścią + auto", "blocks": [{ "type": "cta" }, { "type": "cta" }, { "type": "cta" }] }]
 }
 {% endschema %}

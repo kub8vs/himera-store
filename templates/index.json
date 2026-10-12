@@ -1,63 +1,58 @@
 {
   "sections": {
-    "hero": {
+    "intro": {
+      "type": "hero-himera",
+      "settings": {}
+    },
+    "part": {
       "type": "hero-car",
-      "settings": {}
-    },
-    "join": {
-      "type": "join-cta",
-      "settings": {}
-    },
-    "top": {
-      "type": "featured-products",
-      "settings": {
-        "collection": "top-3"
-      }
-    },
-    "about": {
-      "type": "manifest",
       "blocks": {
-        "p1": {
-          "type": "point",
+        "c1": {
+          "type": "cta",
           "settings": {
-            "title": "Ekipa",
-            "text": "Spoty, przejazdy i nagrania robimy razem. Każdy, kto nosi Himerę, jest jej częścią."
+            "kicker": "CZYM JEST HIMERA",
+            "title": "Ekipa, nie logo",
+            "text": "Auta, noc i ludzie, którzy trzymają się razem. Poznaj historię za kominiarką.",
+            "label": "O Himerze",
+            "url": "/pages/o-himerze"
           }
         },
-        "p2": {
-          "type": "point",
+        "c2": {
+          "type": "cta",
           "settings": {
+            "kicker": "DROP",
             "title": "Krótkie serie",
-            "text": "Drop wychodzi w małej liczbie. Kiedy się kończy, nie wraca w tej samej formie."
+            "text": "Kominiarki, flagi i naklejki. Kiedy seria się kończy, nie wraca w tej samej formie.",
+            "label": "Produkty",
+            "url": "/collections/all"
           }
         },
-        "p3": {
-          "type": "point",
+        "c3": {
+          "type": "cta",
           "settings": {
-            "title": "Noc",
-            "text": "Najlepsze rzeczy dzieją się po zmroku. Stąd czerń, światło i auta."
+            "kicker": "DOŁĄCZ",
+            "title": "Bądź w ruchu",
+            "text": "Spoty, przejazdy i nowe dropy najpierw lądują na Instagramie. Obserwuj i pisz śmiało.",
+            "label": "Instagram",
+            "url": "https://www.instagram.com/x.himera/"
           }
         }
       },
       "block_order": [
-        "p1",
-        "p2",
-        "p3"
+        "c1",
+        "c2",
+        "c3"
       ],
       "settings": {}
     },
-    "ph": {
-      "type": "hero-himera",
-      "settings": {
-        "collection": "latajace"
-      }
+    "episode": {
+      "type": "episode",
+      "settings": {}
     }
   },
   "order": [
-    "ph",
-    "hero",
-    "top",
-    "join",
-    "about"
+    "intro",
+    "part",
+    "episode"
   ]
 }

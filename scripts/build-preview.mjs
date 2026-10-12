@@ -57,7 +57,7 @@ for (const [handle, links] of Object.entries(data.menus)) linklists[handle] = { 
 const globals = {
   shop: { name: 'HIMERA', url: '/', currency: 'PLN', email: data.shop.email },
   settings,
-  routes: { root_url: '/', cart_url: '/cart', cart_add_url: '/cart/add', collections_url: '/collections', all_products_collection_url: '/collections/all', search_url: '/search', account_url: '#', account_login_url: '#' },
+  routes: { root_url: '/', cart_url: '/cart', cart_add_url: '/cart/add', collections_url: '/collections', all_products_collection_url: '/collections/all', search_url: '/search', account_url: '/account/login', account_login_url: '/account/login' },
   cart: { item_count: 0, items: [], total_price: 0 },
   collections,
   all_products: Object.fromEntries(products.map((p) => [p.handle, p])),
@@ -201,7 +201,8 @@ engine.registerFilter('payment_type_svg_tag', () => '');
 // ---------- pages ----------
 const layoutSrc = read('layout/theme.liquid');
 async function renderPage(outFile, templateName, extra) {
-  const ctx = { ...globals, ...extra, template: { name: templateName, suffix: null }, request: { page_type: templateName, path: extra.path || '/' } };
+  const [tplName, tplSuffix = null] = templateName.split('.');
+  const ctx = { ...globals, ...extra, template: { name: tplName, suffix: tplSuffix }, request: { page_type: tplName, path: extra.path || '/' } };
   const tpl = readJson(`templates/${templateName}.json`);
   let content = '';
   for (const key of tpl.order) {
@@ -225,6 +226,7 @@ console.log('HIMERA preview →', DIST);
 await renderPage('index.html', 'index', { page_title: 'HIMERA', path: '/' });
 for (const c of Object.values(collections)) await renderPage(`collections/${c.handle}.html`, 'collection', { collection: c, page_title: c.title, path: c.url });
 for (const p of products) await renderPage(`products/${p.handle}.html`, 'product', { product: p, page_title: p.title, path: p.url });
+for (const pg of data.pages || []) await renderPage(pg.out || `pages/${pg.handle}.html`, pg.template ? `page.${pg.template}` : 'page', { page: { ...pg, url: `/pages/${pg.handle}` }, page_title: pg.title, path: `/pages/${pg.handle}` });
 await renderPage('cart.html', 'cart', { page_title: 'Koszyk', path: '/cart' });
 await renderPage('404.html', '404', { page_title: 'Nie znaleziono', path: '/404' });
 fs.writeFileSync(path.join(DIST, 'sklep.html'), '<!doctype html><meta http-equiv="refresh" content="0;url=/collections/all"><link rel="canonical" href="/collections/all">');

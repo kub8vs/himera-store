@@ -5,16 +5,12 @@
   "menus": {
     "main-menu": [
       {
-        "title": "Sklep",
+        "title": "Strona główna",
+        "url": "/"
+      },
+      {
+        "title": "Produkty",
         "url": "/collections/all"
-      },
-      {
-        "title": "O Himerze",
-        "url": "/#o-himerze"
-      },
-      {
-        "title": "Dołącz",
-        "url": "/#dolacz"
       }
     ],
     "footer": [
@@ -33,6 +29,16 @@
       {
         "title": "Kontakt",
         "url": "#"
+      }
+    ],
+    "main-menu-right": [
+      {
+        "title": "O Himerze",
+        "url": "/pages/o-himerze"
+      },
+      {
+        "title": "FAQ",
+        "url": "/pages/faq"
       }
     ]
   },
@@ -167,6 +173,27 @@
         "naklejka-napis-biala",
         "naklejka-logo-biala"
       ]
+    }
+  ],
+  "pages": [
+    {
+      "handle": "o-himerze",
+      "template": "o-himerze",
+      "title": "O Himerze",
+      "content": "<p>Himera zaczęła się od aut, nocnych spotów i ludzi, którzy trzymają się razem. Logo z gargulcem stało się znakiem ekipy, a kominiarka jej twarzą.</p><p>Dziś to marka i społeczność: dropy w krótkich seriach, nagrania z przejazdów i spoty, na które każdy może przyjść.</p>"
+    },
+    {
+      "handle": "faq",
+      "template": "faq",
+      "title": "FAQ",
+      "content": ""
+    },
+    {
+      "handle": "login",
+      "template": null,
+      "title": "Zaloguj się",
+      "content": "<p>W sklepie Shopify w tym miejscu jest logowanie do konta klienta. W podglądzie konto nie działa.</p>",
+      "out": "account/login.html"
     }
   ]
 }

@@ -49,33 +49,87 @@
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !drawer.hidden) close(); });
   }
 
-  /* ---------- entrance: mouse parallax, slow "breathing" drift on touch screens ---------- */
+  /* ---------- intro: the whole HIMERA word follows the cursor; Himera stands in front ---------- */
   const ph = $('[data-ph]');
   if (ph) {
-    $$('[data-depth]', ph).forEach((el) => el.style.setProperty('--d', el.dataset.depth));
+    const word = $('[data-ph-word]', ph);
+    const heroImg = $('[data-ph-hero]', ph);
+    const eyes = $$('.ph__eye', ph);
     requestAnimationFrame(() => requestAnimationFrame(() => ph.classList.add('is-in')));
-    if (!reduced) {
+
+    // clock in the corner; after 22:00 the glow gets stronger
+    const clock = $('[data-ph-clock]', ph);
+    if (clock) {
+      const tick = () => {
+        const d = new Date();
+        const h = d.getHours();
+        const night = h >= 22 || h < 4;
+        clock.textContent = d.toLocaleTimeString('pl-PL', { hour12: false }) + (night ? ' · NOC' : '');
+        document.body.classList.toggle('is-night', night);
+      };
+      tick();
+      setInterval(tick, 1000);
+    }
+
+    if (!reduced && word) {
       const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-      let tx = 0, ty = 0, x = 0, y = 0, visible = true;
+      let tx = 0.5, ty = 0.5, x = 0.5, y = 0.5, moved = false, visible = true, touched = 0, idle = 0, flickered = false;
       new IntersectionObserver(([en]) => { visible = en.isIntersecting; }).observe(ph);
-      if (fine) {
-        window.addEventListener('pointermove', (e) => {
-          tx = (e.clientX / window.innerWidth) * 2 - 1;
-          ty = (e.clientY / window.innerHeight) * 2 - 1;
-        }, { passive: true });
-      }
-      const t0 = performance.now();
+      const aim = (cx, cy) => {
+        const r = ph.getBoundingClientRect();
+        tx = Math.min(Math.max((cx - r.left) / r.width, 0), 1);
+        ty = Math.min(Math.max((cy - r.top) / r.height, 0), 1);
+        idle = performance.now();
+        moved = true;
+      };
+      ph.addEventListener('pointermove', (e) => { aim(e.clientX, e.clientY); if (e.pointerType !== 'mouse') touched = performance.now(); }, { passive: true });
+      ph.addEventListener('touchmove', (e) => { const t = e.touches[0]; if (t) { aim(t.clientX, t.clientY); touched = performance.now(); } }, { passive: true });
+      ph.addEventListener('pointerleave', () => { if (fine) { tx = 0.5; ty = 0.5; } });
+      const t0 = idle = performance.now();
       const loop = (t) => {
         if (visible) {
-          if (!fine) { const s = (t - t0) / 1000; tx = Math.sin(s * 0.55) * 0.8; ty = Math.cos(s * 0.4) * 0.6; }
-          x += (tx - x) * 0.06; y += (ty - y) * 0.06;
-          ph.style.setProperty('--mx', x.toFixed(4));
-          ph.style.setProperty('--my', y.toFixed(4));
+          // phones: a slow drift unless the finger is moving
+          if (!fine && t - touched > 2500) { const s = (t - t0) / 1000; tx = 0.5 + Math.sin(s * 0.5) * 0.3; ty = 0.5 + Math.cos(s * 0.37) * 0.22; }
+          x += (tx - x) * 0.075; y += (ty - y) * 0.075;
+          const dx = x - 0.5, dy = y - 0.5;
+          const w = ph.clientWidth, h = ph.clientHeight;
+          word.style.setProperty('--tx', (dx * w * 0.16).toFixed(1) + 'px');
+          word.style.setProperty('--ty', (dy * h * 0.14).toFixed(1) + 'px');
+          word.style.setProperty('--ry', (dx * 16).toFixed(2) + 'deg');
+          word.style.setProperty('--rx', (-dy * 12).toFixed(2) + 'deg');
+          word.style.setProperty('--lx', (x * 100).toFixed(1) + '%');
+          word.style.setProperty('--ly', (y * 100).toFixed(1) + '%');
+          ph.style.setProperty('--cx', (x * 100).toFixed(1) + '%');
+          ph.style.setProperty('--cy', (y * 100).toFixed(1) + '%');
+          if (heroImg) heroImg.style.setProperty('--hx', (-dx * w * 0.025).toFixed(1) + 'px');
+          // the eyes glint when you come close to them
+          if (fine && moved && eyes.length) {
+            const r = ph.getBoundingClientRect();
+            const px = x * r.width + r.left, py = y * r.height + r.top;
+            const near = eyes.some((el) => { const b = el.getBoundingClientRect(); return Math.hypot(b.left + b.width / 2 - px, b.top + b.height / 2 - py) < 90; });
+            ph.classList.toggle('is-stare', near);
+          }
+          // leave the mouse still for 6 s and the neon flickers once
+          if (fine && !flickered && t - idle > 6000) {
+            flickered = true;
+            word.classList.add('is-flicker');
+            setTimeout(() => word.classList.remove('is-flicker'), 1000);
+          }
+          if (t - idle < 100) flickered = false;
         }
         requestAnimationFrame(loop);
       };
       requestAnimationFrame(loop);
     }
+  }
+
+  /* ---------- the top bar slides in once you scroll past the intro ---------- */
+  const top = $('.top--intro');
+  if (top) {
+    const onScroll = () => top.classList.toggle('is-shown', window.scrollY > window.innerHeight * 0.6 || document.body.classList.contains('is-locked'));
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
   }
 
   /* ---------- the car rolls in when its section comes into view ---------- */
@@ -132,7 +186,7 @@
       const io = new IntersectionObserver(([en]) => {
         if (en.isIntersecting) { io.disconnect(); run(); }
       }, { threshold: 0.35 });
-      io.observe($('.hero__stage', hero) || hero);
+      io.observe($('.part__stage', hero) || hero);
     }
     // tail light blinks "HMR" in Morse every ~25 s: .... -- .-.
     if (tail && !reduced) {
@@ -151,6 +205,52 @@
       setInterval(blink, 25000);
     }
   }
+
+  /* ---------- CTA cards tilt toward the pointer ---------- */
+  if (!reduced && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    $$('[data-tilt]').forEach((card) => {
+      card.addEventListener('pointermove', (e) => {
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+        card.style.setProperty('--try', ((px - 0.5) * 8).toFixed(2) + 'deg');
+        card.style.setProperty('--trx', ((0.5 - py) * 8).toFixed(2) + 'deg');
+        card.style.setProperty('--gx', (px * 100).toFixed(1) + '%');
+        card.style.setProperty('--gy', (py * 100).toFixed(1) + '%');
+      });
+      card.addEventListener('pointerleave', () => { card.style.setProperty('--trx', '0deg'); card.style.setProperty('--try', '0deg'); });
+    });
+  }
+
+  /* ---------- latest episode: YouTube loads only after a click ---------- */
+  $$('[data-ep-player]').forEach((player) => {
+    const tc = $('[data-ep-tc]', player);
+    if (tc && !reduced) {
+      const t0 = performance.now();
+      const pad = (n) => String(n).padStart(2, '0');
+      const tickTc = () => {
+        if (!player.isConnected || player.classList.contains('is-playing')) return;
+        const ms = performance.now() - t0, s = Math.floor(ms / 1000);
+        tc.textContent = `${pad(Math.floor(s / 3600))}:${pad(Math.floor(s / 60) % 60)}:${pad(s % 60)}:${pad(Math.floor((ms % 1000) / 40))}`;
+        requestAnimationFrame(tickTc);
+      };
+      requestAnimationFrame(tickTc);
+    }
+    const id = player.dataset.yt;
+    const btn = $('[data-ep-play]', player);
+    if (!id || !btn) return;
+    const play = () => {
+      if (player.classList.contains('is-playing')) return;
+      player.classList.add('is-playing');
+      const f = document.createElement('iframe');
+      f.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0`;
+      f.title = btn.getAttribute('aria-label') || 'YouTube';
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.allowFullscreen = true;
+      player.appendChild(f);
+    };
+    btn.addEventListener('click', (e) => { e.stopPropagation(); play(); });
+    player.addEventListener('click', play);
+  });
 
   /* ---------- reveal on scroll ---------- */
   const reveals = $$('[data-reveal]');

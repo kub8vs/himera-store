@@ -1,0 +1,68 @@
+{%- liquid
+  assign channel = section.settings.channel_url | default: settings.youtube_url
+  assign vid = section.settings.video
+  assign watch = channel
+  if vid != blank and vid.type == 'youtube'
+    assign watch = 'https://www.youtube.com/watch?v=' | append: vid.id
+  endif
+-%}
+<section class="ep" id="odcinek" data-ep>
+  <div class="ep__inner wrap">
+    <div class="ep__head" data-reveal>
+      <span class="mono ep__kicker"><i class="ep__rec" aria-hidden="true"></i>{{ section.settings.kicker }}</span>
+      <h2 class="ep__h">{{ section.settings.heading }}</h2>
+    </div>
+
+    <div class="ep__grid">
+      <div class="ep__player" data-ep-player{% if vid != blank and vid.type == 'youtube' %} data-yt="{{ vid.id }}"{% endif %} data-reveal>
+        <div class="ep__poster">
+          {%- if section.settings.poster -%}
+            {{ section.settings.poster | image_url: width: 1600 | image_tag: loading: 'lazy', alt: section.settings.title, width: 1600, height: 900 }}
+          {%- else -%}
+            <img src="{{ 'himera-car.webp' | asset_url }}" alt="" width="1968" height="633" loading="lazy" class="ep__fallback">
+          {%- endif -%}
+        </div>
+        <div class="ep__hud mono" aria-hidden="true">
+          <span><i class="ep__rec"></i>REC</span>
+          <span data-ep-tc>00:00:00:00</span>
+        </div>
+        <span class="ep__corner ep__corner--tl" aria-hidden="true"></span><span class="ep__corner ep__corner--tr" aria-hidden="true"></span>
+        <span class="ep__corner ep__corner--bl" aria-hidden="true"></span><span class="ep__corner ep__corner--br" aria-hidden="true"></span>
+        {%- if vid != blank and vid.type == 'youtube' -%}
+          <button class="ep__play" type="button" data-ep-play aria-label="{{ section.settings.play_label | escape }}">{% render 'icon', name: 'play' %}</button>
+        {%- else -%}
+          <a class="ep__play" href="{{ watch }}" target="_blank" rel="noopener" aria-label="{{ section.settings.play_label | escape }}">{% render 'icon', name: 'play' %}</a>
+        {%- endif -%}
+      </div>
+
+      <div class="ep__info" data-reveal>
+        <span class="mono ep__num">{{ section.settings.number }}</span>
+        <h3 class="ep__title">{{ section.settings.title }}</h3>
+        <p class="ep__text">{{ section.settings.text }}</p>
+        <div class="btns">
+          <a class="btn btn--blood" href="{{ watch }}" target="_blank" rel="noopener">{{ section.settings.watch_label }}{% render 'icon-arrow' %}</a>
+          {%- if channel != blank -%}<a class="btn btn--line" href="{{ channel }}" target="_blank" rel="noopener">{{ section.settings.all_label }}</a>{%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Ostatni odcinek",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Nadtytuł", "default": "OSTATNI ODCINEK" },
+    { "type": "text", "id": "heading", "label": "Nagłówek", "default": "Na kanale" },
+    { "type": "video_url", "id": "video", "label": "Link do odcinka (YouTube)", "accept": ["youtube"] },
+    { "type": "image_picker", "id": "poster", "label": "Miniaturka", "info": "Opcjonalnie. Bez niej: zdjęcie auta." },
+    { "type": "text", "id": "number", "label": "Numer odcinka", "default": "NAJNOWSZY ODCINEK" },
+    { "type": "text", "id": "title", "label": "Tytuł odcinka", "default": "Zobacz, co działo się ostatnio" },
+    { "type": "textarea", "id": "text", "label": "Opis", "default": "Najnowszy materiał z kanału Himery. Spoty, auta i ekipa, bez cięć na pokaz." },
+    { "type": "text", "id": "watch_label", "label": "Przycisk oglądania", "default": "Oglądaj na YouTube" },
+    { "type": "text", "id": "all_label", "label": "Przycisk kanału", "default": "Wszystkie odcinki" },
+    { "type": "text", "id": "play_label", "label": "Opis przycisku play", "default": "Odtwórz odcinek" },
+    { "type": "url", "id": "channel_url", "label": "Link do kanału", "info": "Domyślnie: link YouTube z ustawień motywu." }
+  ],
+  "presets": [{ "name": "Ostatni odcinek" }]
+}
+{% endschema %}

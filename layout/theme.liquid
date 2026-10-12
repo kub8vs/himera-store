@@ -26,8 +26,10 @@
 <body class="tpl-{{ template.name }}" data-eggs="{{ settings.easter_eggs }}" data-away-title="{{ settings.away_title | escape }}">
   <a class="skip-link" href="#main">{{ 'general.skip_to_content' | t }}</a>
   <div class="grain" aria-hidden="true"></div>
-  {% section 'announcement' %}
-  {% section 'header' %}
+  <div class="top{% if template.name == 'index' %} top--intro{% endif %}" data-top>
+    {% section 'announcement' %}
+    {% section 'header' %}
+  </div>
   <main id="main" tabindex="-1">
     {{ content_for_layout }}
   </main>

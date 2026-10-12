@@ -4,55 +4,37 @@
   else
     assign portrait = 'himera-portret.webp' | asset_url
   endif
-  assign col = section.settings.collection
-  if col == blank
-    assign col = collections.all
-  endif
   assign word = section.settings.word | default: 'HIMERA' | upcase
 -%}
 <section class="ph" data-ph aria-label="{{ shop.name }}">
+  <h1 class="visually-hidden">{{ shop.name }}: {{ section.settings.line }}</h1>
   <div class="ph__glow" aria-hidden="true"></div>
+  <div class="ph__grid" aria-hidden="true"></div>
 
-  <div class="ph__layer ph__word-wrap" data-depth="-0.25" aria-hidden="true">
-    <div class="ph__word" data-word="{{ word }}">{{ word }}</div>
+  <div class="ph__stage" aria-hidden="true">
+    <div class="ph__word" data-ph-word>
+      <span class="ph__fill" data-word="{{ word }}">{{ word }}</span>
+    </div>
   </div>
 
-  <div class="ph__floats">
-    {%- for product in col.products limit: section.settings.limit -%}
-      {%- assign img = product.metafields.custom.showcase_image.value | default: product.featured_image -%}
-      <a class="ph__layer ph__float ph__float--{{ forloop.index }}" href="{{ product.url }}" data-depth="{% cycle '0.9', '-0.7', '1.2', '-1', '0.6', '-0.5' %}" style="--n: {{ forloop.index0 }}">
-        <span class="ph__bob">
-          {{ img | image_url: width: 700 | image_tag: alt: product.title, width: 700, height: 700, loading: 'eager' }}
-          <span class="ph__tag mono">{{ product.metafields.custom.short_title.value | default: product.title }} · {{ product.price | money_without_trailing_zeros }}</span>
-        </span>
-      </a>
-    {%- endfor -%}
-  </div>
-
-  <div class="ph__layer ph__hero" data-depth="0.35">
+  <div class="ph__hero" data-ph-hero>
     <img class="ph__portrait" src="{{ portrait }}" alt="{{ section.settings.alt | escape }}" width="1483" height="1843" fetchpriority="high">
+    <i class="ph__eye" style="left: 37.4%; top: 43.2%" aria-hidden="true"></i><i class="ph__eye" style="left: 58.4%; top: 42.6%" aria-hidden="true"></i>
   </div>
 
-  <div class="ph__bar wrap">
-    <span class="mono ph__line">{{ section.settings.line }}</span>
-    <a class="mono ph__cue" href="#ruch"><i></i><span>{{ section.settings.cue }}</span></a>
-    <a class="btn btn--bone ph__cta" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}">{{ section.settings.cta_label }}{% render 'icon-arrow' %}</a>
-  </div>
+  <a class="ph__cue mono" href="#ruch" aria-label="{{ section.settings.cue }}"><span>{{ section.settings.cue }}</span><i></i></a>
+  <span class="ph__clock mono" aria-hidden="true" data-ph-clock></span>
 </section>
 {% schema %}
 {
-  "name": "Wejście HIMERA",
+  "name": "Intro HIMERA",
   "settings": [
-    { "type": "text", "id": "word", "label": "Napis w tle", "default": "HIMERA" },
+    { "type": "text", "id": "word", "label": "Napis", "default": "HIMERA" },
     { "type": "image_picker", "id": "image", "label": "Zdjęcie na pierwszym planie", "info": "Wycięte, przezroczyste tło. Domyślnie: zdjęcie w kominiarce z motywu." },
     { "type": "text", "id": "alt", "label": "Opis zdjęcia", "default": "Himera w kominiarce z logo" },
-    { "type": "collection", "id": "collection", "label": "Latające produkty", "info": "Najlepiej działają zdjęcia z polem custom.showcase_image (przezroczyste tło)." },
-    { "type": "range", "id": "limit", "label": "Ile produktów lata", "min": 2, "max": 6, "step": 1, "default": 5 },
-    { "type": "text", "id": "line", "label": "Hasło na dole", "default": "Jesteśmy ruchem, a ty jego częścią." },
-    { "type": "text", "id": "cue", "label": "Podpowiedź przewijania", "default": "Przewiń" },
-    { "type": "text", "id": "cta_label", "label": "Przycisk", "default": "Wejdź do sklepu" },
-    { "type": "url", "id": "cta_url", "label": "Link przycisku" }
+    { "type": "text", "id": "line", "label": "Hasło (dla wyszukiwarek i czytników)", "default": "Jesteśmy ruchem, a ty jego częścią." },
+    { "type": "text", "id": "cue", "label": "Podpowiedź przewijania", "default": "Przewiń" }
   ],
-  "presets": [{ "name": "Wejście HIMERA" }]
+  "presets": [{ "name": "Intro HIMERA" }]
 }
 {% endschema %}

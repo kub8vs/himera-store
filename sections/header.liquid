@@ -1,15 +1,26 @@
 {%- liquid
-  assign menu = linklists[section.settings.menu]
-  assign overlay = false
-  if template.name == 'index' or template.name == 'collection'
-    assign overlay = true
+  assign left = linklists[section.settings.menu_left]
+  assign right = linklists[section.settings.menu_right]
+  assign intro = false
+  if template.name == 'index'
+    assign intro = true
   endif
 -%}
-<header class="hdr{% if overlay %} hdr--overlay{% endif %}" data-header>
-  <div class="hdr__side">
-    {%- if settings.instagram_url != blank -%}<a href="{{ settings.instagram_url }}" target="_blank" rel="noopener">IG</a>{%- endif -%}
-    {%- if settings.youtube_url != blank -%}<a href="{{ settings.youtube_url }}" target="_blank" rel="noopener">YT</a>{%- endif -%}
+<header class="hdr" data-header>
+  <div class="hdr__corner">
+    <button class="hdr__burger" type="button" aria-expanded="false" aria-controls="menu-drawer" aria-label="{{ 'general.menu' | t }}" data-menu-open>
+      <i></i><i></i>
+    </button>
+    {%- if settings.instagram_url != blank -%}<a class="hdr__social" href="{{ settings.instagram_url }}" target="_blank" rel="noopener">IG</a>{%- endif -%}
+    {%- if settings.youtube_url != blank -%}<a class="hdr__social" href="{{ settings.youtube_url }}" target="_blank" rel="noopener">YT</a>{%- endif -%}
   </div>
+
+  <nav class="hdr__nav hdr__nav--l" aria-label="Menu">
+    {%- for link in left.links -%}
+      <a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}><span>{{ link.title }}</span></a>
+    {%- endfor -%}
+  </nav>
+
   <a class="hdr__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
     {%- if settings.logo -%}
       {{ settings.logo | image_url: width: 240 | image_tag: alt: shop.name, width: settings.logo_width }}
@@ -18,12 +29,22 @@
     {%- endif -%}
     <i class="hdr__glint" aria-hidden="true"></i><i class="hdr__glint hdr__glint--r" aria-hidden="true"></i>
   </a>
-  <div class="hdr__side hdr__side--r">
-    <button class="hdr__menu" type="button" aria-expanded="false" aria-controls="menu-drawer" data-menu-open>
-      <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><g fill="currentColor"><rect width="4" height="4"/><rect x="10" width="4" height="4"/><rect y="10" width="4" height="4"/><rect x="10" y="10" width="4" height="4"/></g></svg>
-      <span>{{ 'general.menu' | t }}</span>
-    </button>
-    <a class="hdr__cart" href="{{ routes.cart_url }}">{{ 'general.cart' | t }}<span class="hdr__count" data-cart-count>{% if cart.item_count > 0 %}{{ cart.item_count }}{% endif %}</span></a>
+
+  <nav class="hdr__nav hdr__nav--r" aria-label="Menu">
+    {%- for link in right.links -%}
+      <a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}><span>{{ link.title }}</span></a>
+    {%- endfor -%}
+  </nav>
+
+  <div class="hdr__corner hdr__corner--r">
+    {%- if shop.customer_accounts_enabled or preview -%}
+      {%- if customer -%}
+        <a class="hdr__icon" href="{{ routes.account_url }}" aria-label="{{ 'general.account' | t }}">{% render 'icon', name: 'user' %}<span class="hdr__label">{{ 'general.account' | t }}</span></a>
+      {%- else -%}
+        <a class="hdr__icon" href="{{ routes.account_login_url }}" aria-label="{{ 'general.login' | t }}">{% render 'icon', name: 'user' %}<span class="hdr__label">{{ 'general.login' | t }}</span></a>
+      {%- endif -%}
+    {%- endif -%}
+    <a class="hdr__icon hdr__cart" href="{{ routes.cart_url }}" aria-label="{{ 'general.cart' | t }}">{% render 'icon', name: 'bag' %}<span class="hdr__label">{{ 'general.cart' | t }}</span><span class="hdr__count" data-cart-count>{% if cart.item_count > 0 %}{{ cart.item_count }}{% endif %}</span></a>
   </div>
 </header>
 
@@ -32,13 +53,13 @@
     <button class="drawer__close" type="button" data-menu-close>{{ 'general.close' | t }}</button>
     <nav aria-label="Menu główne">
       <ol class="drawer__list">
-        {%- for link in menu.links -%}
-          <li><a href="{{ link.url }}"><span class="mono">0{{ forloop.index }}</span>{{ link.title }}</a></li>
-        {%- endfor -%}
+        {%- assign n = 0 -%}
+        {%- for link in left.links -%}{%- assign n = n | plus: 1 -%}<li><a href="{{ link.url }}"><span class="mono">0{{ n }}</span>{{ link.title }}</a></li>{%- endfor -%}
+        {%- for link in right.links -%}{%- assign n = n | plus: 1 -%}<li><a href="{{ link.url }}"><span class="mono">0{{ n }}</span>{{ link.title }}</a></li>{%- endfor -%}
       </ol>
     </nav>
     <div class="drawer__foot mono">
-      <span>{{ settings.announcement }}</span>
+      <a href="{{ routes.account_login_url }}">{{ 'general.login' | t }}</a>
       <span>{%- if settings.instagram_url != blank -%}<a href="{{ settings.instagram_url }}" target="_blank" rel="noopener">Instagram</a>{%- endif %} · {% if settings.youtube_url != blank -%}<a href="{{ settings.youtube_url }}" target="_blank" rel="noopener">YouTube</a>{%- endif -%}</span>
     </div>
   </div>
@@ -48,7 +69,8 @@
 {
   "name": "Nagłówek",
   "settings": [
-    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" }
+    { "type": "link_list", "id": "menu_left", "label": "Menu po lewej od logo", "default": "main-menu" },
+    { "type": "link_list", "id": "menu_right", "label": "Menu po prawej od logo", "default": "main-menu-right" }
   ]
 }
 {% endschema %}

@@ -1,0 +1,49 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "about": {
+      "type": "manifest",
+      "blocks": {
+        "p1": {
+          "type": "point",
+          "settings": {
+            "title": "Ekipa",
+            "text": "Spoty, przejazdy i nagrania robimy razem. Każdy, kto nosi Himerę, jest jej częścią."
+          }
+        },
+        "p2": {
+          "type": "point",
+          "settings": {
+            "title": "Krótkie serie",
+            "text": "Drop wychodzi w małej liczbie. Kiedy się kończy, nie wraca w tej samej formie."
+          }
+        },
+        "p3": {
+          "type": "point",
+          "settings": {
+            "title": "Noc",
+            "text": "Najlepsze rzeczy dzieją się po zmroku. Stąd czerń, światło i auta."
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {}
+    },
+    "join": {
+      "type": "join-cta",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "about",
+    "join"
+  ]
+}

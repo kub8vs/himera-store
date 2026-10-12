@@ -5,7 +5,9 @@
     "close": "Zamknij",
     "cart": "Koszyk",
     "cart_count": "Koszyk ({{ count }})",
-    "free_shipping": "Darmowa dostawa od 70 zł"
+    "free_shipping": "Darmowa dostawa od 70 zł",
+    "account": "Konto",
+    "login": "Zaloguj"
   },
   "products": {
     "add_to_cart": "Dodaj do koszyka",
@@ -19,7 +21,10 @@
     "view": "Zobacz produkt",
     "all": "Wszystkie produkty",
     "filter_all": "Wszystko",
-    "count": { "one": "{{ count }} produkt", "other": "{{ count }} produktów" }
+    "count": {
+      "one": "{{ count }} produkt",
+      "other": "{{ count }} produktów"
+    }
   },
   "cart": {
     "title": "Koszyk",
@@ -42,5 +47,10 @@
     "text": "Tej strony nie ma. Wróć tam, gdzie jest ruch.",
     "back": "Strona główna"
   },
-  "search": { "title": "Szukaj", "placeholder": "Czego szukasz?", "submit": "Szukaj", "empty": "Brak wyników." }
+  "search": {
+    "title": "Szukaj",
+    "placeholder": "Czego szukasz?",
+    "submit": "Szukaj",
+    "empty": "Brak wyników."
+  }
 }

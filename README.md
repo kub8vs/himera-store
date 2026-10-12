@@ -4,7 +4,7 @@ To repozytorium to gotowy motyw Shopify (Online Store 2.0). Ten sam kod buduje t
 
 ```
 layout/      theme.liquid, password.liquid
-sections/    wejście (napis HIMERA, Himera, latające produkty), auto, lista, top produkty, o Himerze, showroom kolekcji, produkt, koszyk…
+sections/    intro HIMERA, „Stań się częścią HIMERY” (auto + 3 CTA), ostatni odcinek, FAQ, showroom kolekcji, produkt, koszyk…
 snippets/    karta produktu, cena, ikona
 templates/   *.json (strona główna, kolekcja, produkt, koszyk, 404, strona, szukaj, blog, hasło)
 assets/      theme.css, theme.js, zdjęcia (auto, koła, portret, logo)
@@ -34,12 +34,26 @@ Motyw najpierw wgrywamy jako nieopublikowany i sprawdzamy w „Podglądzie”. P
    - `custom.showcase_image` (Plik, obraz): zdjęcie produktu na przezroczystym tle do showroomu z pierścieniem. Bez niego używane jest zdjęcie główne.
    - `custom.code` (Tekst jednowierszowy): kod produktu, np. `HMR-01`.
    - `custom.short_title` (Tekst jednowierszowy): krótka nazwa do dużego napisu w showroomie, np. `Kominiarka`.
-2. **Nawigacja**: menu `main-menu` (Sklep, O Himerze `/#o-himerze`, Dołącz `/#dolacz`) i `footer`.
-3. **Dostosuj motyw → Ustawienia motywu**: linki Instagram i YouTube, logo (opcjonalnie), kolory.
-4. Strona główna: w sekcji „Wejście HIMERA” wybierz kolekcję produktów, które mają latać wokół zdjęcia (najlepiej 4–5 z przezroczystym tłem), a w „Top produkty” kolekcję z trzema bestsellerami.
+2. **Sklep online → Strony**: dodaj stronę „O Himerze” (szablon `page.o-himerze`, adres `o-himerze`) i „FAQ” (szablon `page.faq`, adres `faq`). Odpowiedzi w FAQ (dostawa, zwroty) potwierdza Bruno i edytuje w „Dostosuj”.
+3. **Nawigacja**: menu `main-menu` (Strona główna, Produkty), menu `main-menu-right` (O Himerze, FAQ) i `footer`. Logo w nagłówku jest pośrodku, lewe menu po lewej, prawe po prawej.
+4. **Ustawienia → Konta klientów**: włącz konta, żeby w prawym górnym rogu działało logowanie (ikonka obok koszyka).
+5. **Dostosuj motyw → Ustawienia motywu**: linki Instagram i YouTube, logo (opcjonalnie), kolory.
+6. Strona główna, sekcja „Ostatni odcinek”: wklej link do najnowszego filmu z YouTube (bez linku przycisk prowadzi na kanał). Teksty trzech kart CTA zmienia się w sekcji „Stań się częścią HIMERY”.
+
+## Strona główna
+
+1. Intro: wielki napis HIMERA na cały ekran i zdjęcie Himery w kominiarce pojawiają się razem. Cały napis podąża za kursorem (na telefonie za palcem albo powoli dryfuje).
+2. Po zjechaniu w dół wysuwa się menu, a obok napisu „Stań się częścią HIMERY” wjeżdża BMW. Pod spodem trzy karty CTA (czym jest Himera, drop, dołącz).
+3. Ostatni odcinek z YouTube: film ładuje się dopiero po kliknięciu, więc strona nie zwalnia.
+4. Stopka.
 
 ## Smaczki (ukryte detale)
 
+- Gdy kursor zbliży się do oczu Himery w intro, łapią czerwony błysk.
+- Zostaw myszkę w spokoju na 6 s, a neon HIMERA raz zamruga.
+- Zegar w rogu intro; po 22:00 dopisuje „NOC” i czerwona poświata robi się mocniejsza.
+- W odtwarzaczu odcinka biegnie licznik REC jak w kamerze.
+- Karty CTA przechylają się za kursorem.
 - Ściana za autem ma ledwo widoczny napis „JESTEŚMY RUCHEM A TY JEGO CZĘŚCIĄ”.
 - Tylne światło auta co ~25 s mruga alfabetem Morse'a „HMR”.
 - Oczy w logo w nagłówku co ~40 s łapią czerwony błysk; po najechaniu kursorem świecą.

@@ -1,0 +1,65 @@
+{
+  "sections": {
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q1": {
+          "type": "q",
+          "settings": {
+            "question": "Ile kosztuje dostawa?",
+            "answer": "<p>Od 70 zł dostawa jest darmowa. Przy mniejszym zamówieniu koszt dostawy zobaczysz w kasie przed zapłatą.</p>"
+          }
+        },
+        "q2": {
+          "type": "q",
+          "settings": {
+            "question": "Kiedy wyślecie moje zamówienie?",
+            "answer": "<p>Czas wysyłki podajemy przy produkcie i w potwierdzeniu zamówienia. Gdy paczka wyjdzie, dostaniesz maila z numerem do śledzenia.</p>"
+          }
+        },
+        "q3": {
+          "type": "q",
+          "settings": {
+            "question": "Czy mogę zwrócić produkt?",
+            "answer": "<p>Tak. Kupując online, masz 14 dni na odstąpienie od umowy bez podawania przyczyny. Szczegóły znajdziesz w regulaminie i zakładce Zwroty.</p>"
+          }
+        },
+        "q4": {
+          "type": "q",
+          "settings": {
+            "question": "Jakie są formy płatności?",
+            "answer": "<p>Wszystkie dostępne metody zobaczysz w kasie. Płatność przechodzi przez bezpieczną bramkę Shopify.</p>"
+          }
+        },
+        "q5": {
+          "type": "q",
+          "settings": {
+            "question": "Produkt jest wyprzedany. Wróci?",
+            "answer": "<p>Dropy to krótkie serie i nie zawsze wracają w tej samej formie. Obserwuj nas na Instagramie, tam najpierw ogłaszamy nowe serie.</p>"
+          }
+        },
+        "q6": {
+          "type": "q",
+          "settings": {
+            "question": "Jak się z wami skontaktować?",
+            "answer": "<p>Napisz do nas na Instagramie albo mailowo. Adres znajdziesz w stopce i w zakładce Kontakt.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6"
+      ],
+      "settings": {
+        "text": "Najczęstsze pytania o zamówienia, dostawę i dropy."
+      }
+    }
+  },
+  "order": [
+    "faq"
+  ]
+}

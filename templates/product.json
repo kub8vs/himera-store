@@ -6,13 +6,13 @@
         "f1": {
           "type": "fact",
           "settings": {
-            "text": "Wysyłka w 1–3 dni robocze"
+            "text": "14 dni na zwrot"
           }
         },
         "f2": {
           "type": "fact",
           "settings": {
-            "text": "14 dni na zwrot"
+            "text": "Bezpieczne płatności"
           }
         }
       },
