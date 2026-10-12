@@ -1,0 +1,35 @@
+{%- liquid
+  if section.settings.image
+    assign photo = section.settings.image | image_url: width: 2000
+  else
+    assign photo = 'himera-portret-full.jpg' | asset_url
+  endif
+  assign word = section.settings.word | default: 'HIMERA' | upcase
+-%}
+<div class="intro" data-intro data-every-visit="{{ section.settings.every_visit }}" style="--photo: url('{{ photo }}');" aria-hidden="true">
+  <div class="intro__word" data-intro-word data-word="{{ word }}">
+    {%- for i in (1..word.size) -%}
+      {%- assign idx = forloop.index0 -%}
+      <span class="intro__l" style="--i: {{ idx }}">{{ word | slice: idx }}</span>
+    {%- endfor -%}
+  </div>
+  <div class="intro__photo" data-intro-photo></div>
+  <div class="intro__meta mono"><span>{{ section.settings.kicker }}</span><span data-intro-count>00</span></div>
+  <div class="intro__bar"><i data-intro-bar></i></div>
+  <button class="intro__skip mono" type="button" data-intro-skip tabindex="-1">{{ section.settings.skip_label }}</button>
+</div>
+<noscript><style>.intro{display:none}</style></noscript>
+{% schema %}
+{
+  "name": "Intro HIMERA",
+  "class": "section-intro",
+  "settings": [
+    { "type": "text", "id": "word", "label": "Napis", "default": "HIMERA" },
+    { "type": "image_picker", "id": "image", "label": "Zdjęcie w literach", "info": "Ciemne tło, twarz na środku. Domyślnie: zdjęcie w kominiarce z motywu." },
+    { "type": "text", "id": "kicker", "label": "Podpis", "default": "HMR — DROP 01" },
+    { "type": "text", "id": "skip_label", "label": "Przycisk pominięcia", "default": "Pomiń" },
+    { "type": "checkbox", "id": "every_visit", "label": "Pokazuj przy każdym wejściu", "info": "Wyłączone: raz na sesję.", "default": false }
+  ],
+  "presets": [{ "name": "Intro HIMERA" }]
+}
+{% endschema %}

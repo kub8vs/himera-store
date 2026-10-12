@@ -1,0 +1,61 @@
+{%- liquid
+  if section.settings.image
+    assign portrait = section.settings.image | image_url: width: 1400
+  else
+    assign portrait = 'himera-portret.webp' | asset_url
+  endif
+-%}
+<section class="join" id="{{ section.settings.anchor | default: 'dolacz' }}" data-join>
+  <div class="join__glow" aria-hidden="true"></div>
+  <div class="wrap join__grid">
+    <div class="join__copy">
+      <span class="mono join__kicker" data-reveal>{{ section.settings.kicker }}</span>
+      <h2 class="join__h" data-reveal>
+        {%- assign lines = section.settings.heading | split: '|' -%}
+        {%- for line in lines -%}<span class="join__line"><span>{{ line | strip }}</span></span>{%- endfor -%}
+      </h2>
+      <p class="join__text" data-reveal>{{ section.settings.text }}</p>
+
+      {%- form 'customer', id: 'join-form', class: 'join__form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        {%- if form.posted_successfully? -%}
+          <p class="join__ok mono" role="status">{{ 'newsletter.success' | t }}</p>
+        {%- else -%}
+          <label class="visually-hidden" for="join-email">{{ 'newsletter.label' | t }}</label>
+          <div class="join__field" data-reveal>
+            <input id="join-email" type="email" name="contact[email]" required autocomplete="email" placeholder="{{ 'newsletter.placeholder' | t }}">
+            <button class="btn btn--blood" type="submit">{{ 'newsletter.submit' | t }}{% render 'icon-arrow' %}</button>
+          </div>
+          {%- if form.errors -%}<p class="join__err mono">{{ form.errors | default_errors }}</p>{%- endif -%}
+          <p class="join__note mono" data-join-note>{{ section.settings.note }}</p>
+        {%- endif -%}
+      {%- endform -%}
+
+      {%- if settings.instagram_url != blank -%}
+        <a class="join__ig mono" href="{{ settings.instagram_url }}" target="_blank" rel="noopener">{{ section.settings.ig_label }} <span aria-hidden="true">↗</span></a>
+      {%- endif -%}
+    </div>
+
+    <figure class="join__fig" aria-hidden="true">
+      <div class="join__ring"></div>
+      <img class="join__portrait" src="{{ portrait }}" alt="" width="1483" height="1843" loading="lazy">
+      <img class="join__mark" src="{{ 'himera-logo.webp' | asset_url }}" alt="" width="120" height="100" loading="lazy" data-stare>
+      <figcaption class="mono join__cap">HMR · {{ 'now' | date: '%Y' }}</figcaption>
+    </figure>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Stań się częścią",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Kotwica (#)", "default": "dolacz" },
+    { "type": "text", "id": "kicker", "label": "Nadtytuł", "default": "DOŁĄCZ DO RUCHU" },
+    { "type": "text", "id": "heading", "label": "Nagłówek", "info": "Znak | łamie linię.", "default": "Stań się|częścią|HIMERY." },
+    { "type": "textarea", "id": "text", "label": "Tekst", "default": "Zapisz się, a dowiesz się o dropie jako pierwszy. Bez spamu, tylko nowe serie, spoty i rzeczy, których nie wrzucamy nigdzie indziej." },
+    { "type": "text", "id": "note", "label": "Dopisek pod polem", "default": "Zero spamu. Wypisujesz się jednym kliknięciem." },
+    { "type": "text", "id": "ig_label", "label": "Link do Instagrama", "default": "Albo napisz do nas na Instagramie" },
+    { "type": "image_picker", "id": "image", "label": "Zdjęcie (wycięte, przezroczyste tło)" }
+  ],
+  "presets": [{ "name": "Stań się częścią" }]
+}
+{% endschema %}

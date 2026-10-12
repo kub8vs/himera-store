@@ -1,0 +1,93 @@
+{%- liquid
+  assign items = collection.products
+  assign total = items.size
+  assign types = items | map: 'type' | uniq
+-%}
+<section class="show" data-show style="--count: {{ total }}" aria-label="{{ collection.title | escape }}">
+  <div class="show__pin">
+    <div class="show__room" aria-hidden="true"><i class="show__wall"></i><i class="show__floor"></i></div>
+
+    <div class="show__ring" aria-hidden="true">
+      <i class="show__disc"></i><i class="show__led show__led--1"></i><i class="show__led show__led--2"></i><i class="show__led show__led--3"></i><i class="show__scan"></i>
+    </div>
+    <div class="show__cone" aria-hidden="true"></div>
+
+    <div class="show__stage" data-show-stage>
+      {%- for product in items -%}
+        {%- assign img = product.metafields.custom.showcase_image.value | default: product.featured_image -%}
+        {%- capture src -%}{{ img | image_url: width: 1400 }}{%- endcapture -%}
+        <a class="show__item" href="{{ product.url }}" data-show-item="{{ forloop.index0 }}" style="--src: url('{{ src }}')" tabindex="-1" aria-hidden="true">
+          <img src="{{ src }}" alt="{{ product.title | escape }}" width="1200" height="1200" {% if forloop.index > 2 %}loading="lazy"{% else %}fetchpriority="high"{% endif %}>
+          <i class="show__lit"></i>
+        </a>
+      {%- endfor -%}
+    </div>
+    <div class="show__pool" aria-hidden="true">
+      {%- for product in items -%}<span class="show__mirror" data-show-mirror="{{ forloop.index0 }}">{{ product.metafields.custom.code.value | default: product.title }}</span>{%- endfor -%}
+    </div>
+
+    <div class="show__hud mono wrap">
+      <div class="show__count"><span data-show-code>{{ items.first.metafields.custom.code.value }}</span> <b data-show-now>01</b> / {{ total | prepend: '0' | slice: -2, 2 }}</div>
+      <div class="show__ship">{{ 'general.free_shipping' | t }}</div>
+    </div>
+
+    <div class="show__info wrap">
+      {%- for product in items -%}
+        {%- assign short = product.metafields.custom.short_title.value | default: product.title -%}
+        <div class="show__panel" data-show-panel="{{ forloop.index0 }}"{% unless forloop.first %} aria-hidden="true"{% endunless %}>
+          {%- if short != product.title -%}<span class="mono show__full">{{ product.title }}</span>{%- endif -%}
+          <h2 class="show__title"><span>{{ short }}</span></h2>
+          <div class="show__row">
+            {% render 'price', product: product %}
+            {%- if product.available -%}
+              {%- form 'product', product, class: 'show__form', data-type: 'add' -%}
+                <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                <input type="hidden" name="quantity" value="1">
+                <button class="btn btn--bone" type="submit" data-add data-title="{{ product.title | escape }}" data-price="{{ product.price }}" data-url="{{ product.url }}" data-img="{{ product.featured_image | image_url: width: 300 }}">{{ 'products.add_to_cart' | t }}</button>
+              {%- endform -%}
+            {%- else -%}
+              <span class="btn btn--off" aria-disabled="true">{{ 'products.sold_out' | t }}</span>
+            {%- endif -%}
+            <a class="btn btn--line" href="{{ product.url }}">{{ 'products.view' | t }}{% render 'icon-arrow' %}</a>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="show__nav wrap">
+      <button class="show__arrow" type="button" data-show-prev aria-label="Poprzedni">{% render 'icon-arrow', dir: 'left' %}</button>
+      <ol class="show__tabs mono" role="tablist">
+        {%- for product in items -%}
+          <li><button type="button" role="tab" data-show-tab="{{ forloop.index0 }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">{{ product.metafields.custom.short_title.value | default: product.title | upcase }}</button></li>
+        {%- endfor -%}
+      </ol>
+      <button class="show__arrow" type="button" data-show-next aria-label="Następny">{% render 'icon-arrow' %}</button>
+    </div>
+    <a class="show__hint mono" href="#wszystkie"><span>{{ section.settings.hint }}</span><i></i></a>
+  </div>
+</section>
+
+<section class="grid-sec wrap" id="wszystkie">
+  <div class="grid-sec__head">
+    <h1 class="grid-sec__h">{{ collection.title }}</h1>
+    <span class="mono">{{ 'products.count' | t: count: total }}</span>
+  </div>
+  <div class="chips mono" role="group" aria-label="Filtr" data-chips>
+    <button type="button" class="chip is-on" data-chip="all">{{ 'products.filter_all' | t }}</button>
+    {%- for t in types -%}{%- if t != blank -%}<button type="button" class="chip" data-chip="{{ t | handleize }}">{{ t }}</button>{%- endif -%}{%- endfor -%}
+  </div>
+  {%- paginate collection.products by 24 -%}
+    <div class="grid" data-grid>
+      {%- for product in collection.products -%}{% render 'product-card', product: product %}{%- endfor -%}
+    </div>
+    {%- if paginate.pages > 1 -%}<nav class="pager mono">{{ paginate | default_pagination }}</nav>{%- endif -%}
+  {%- endpaginate -%}
+</section>
+{% schema %}
+{
+  "name": "Kolekcja: showroom",
+  "settings": [
+    { "type": "text", "id": "hint", "label": "Podpowiedź", "default": "Przewiń, aby odkryć" }
+  ]
+}
+{% endschema %}

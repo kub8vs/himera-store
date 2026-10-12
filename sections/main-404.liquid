@@ -1,0 +1,7 @@
+<section class="nf wrap">
+  <span class="nf__code" aria-hidden="true">404</span>
+  <h1 class="page-h">{{ '404.title' | t }}</h1>
+  <p>{{ '404.text' | t }}</p>
+  <a class="btn btn--bone" href="{{ routes.root_url }}">{{ '404.back' | t }}{% render 'icon-arrow' %}</a>
+</section>
+{% schema %}{ "name": "404" }{% endschema %}

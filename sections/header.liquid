@@ -1,0 +1,54 @@
+{%- liquid
+  assign menu = linklists[section.settings.menu]
+  assign overlay = false
+  if template.name == 'index' or template.name == 'collection'
+    assign overlay = true
+  endif
+-%}
+<header class="hdr{% if overlay %} hdr--overlay{% endif %}" data-header>
+  <div class="hdr__side">
+    {%- if settings.instagram_url != blank -%}<a href="{{ settings.instagram_url }}" target="_blank" rel="noopener">IG</a>{%- endif -%}
+    {%- if settings.youtube_url != blank -%}<a href="{{ settings.youtube_url }}" target="_blank" rel="noopener">YT</a>{%- endif -%}
+  </div>
+  <a class="hdr__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+    {%- if settings.logo -%}
+      {{ settings.logo | image_url: width: 240 | image_tag: alt: shop.name, width: settings.logo_width }}
+    {%- else -%}
+      <img src="{{ 'himera-logo.webp' | asset_url }}" alt="{{ shop.name }}" width="{{ settings.logo_width }}" height="{{ settings.logo_width | times: 0.83 | round }}">
+    {%- endif -%}
+    <i class="hdr__glint" aria-hidden="true"></i><i class="hdr__glint hdr__glint--r" aria-hidden="true"></i>
+  </a>
+  <div class="hdr__side hdr__side--r">
+    <button class="hdr__menu" type="button" aria-expanded="false" aria-controls="menu-drawer" data-menu-open>
+      <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><g fill="currentColor"><rect width="4" height="4"/><rect x="10" width="4" height="4"/><rect y="10" width="4" height="4"/><rect x="10" y="10" width="4" height="4"/></g></svg>
+      <span>{{ 'general.menu' | t }}</span>
+    </button>
+    <a class="hdr__cart" href="{{ routes.cart_url }}">{{ 'general.cart' | t }}<span class="hdr__count" data-cart-count>{% if cart.item_count > 0 %}{{ cart.item_count }}{% endif %}</span></a>
+  </div>
+</header>
+
+<div class="drawer" id="menu-drawer" hidden data-menu>
+  <div class="drawer__inner">
+    <button class="drawer__close" type="button" data-menu-close>{{ 'general.close' | t }}</button>
+    <nav aria-label="Menu główne">
+      <ol class="drawer__list">
+        {%- for link in menu.links -%}
+          <li><a href="{{ link.url }}"><span class="mono">0{{ forloop.index }}</span>{{ link.title }}</a></li>
+        {%- endfor -%}
+      </ol>
+    </nav>
+    <div class="drawer__foot mono">
+      <span>{{ settings.announcement }}</span>
+      <span>{%- if settings.instagram_url != blank -%}<a href="{{ settings.instagram_url }}" target="_blank" rel="noopener">Instagram</a>{%- endif %} · {% if settings.youtube_url != blank -%}<a href="{{ settings.youtube_url }}" target="_blank" rel="noopener">YouTube</a>{%- endif -%}</span>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Nagłówek",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" }
+  ]
+}
+{% endschema %}

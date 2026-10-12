@@ -1,0 +1,8 @@
+{%- comment -%} Renders: {% render 'price', product: product %} {%- endcomment -%}
+<span class="price{% if product.compare_at_price > product.price %} price--sale{% endif %}">
+  <span class="visually-hidden">{{ 'products.price' | t }}</span>
+  <span class="price__now">{{ product.price | money }}</span>
+  {%- if product.compare_at_price > product.price -%}
+    <s class="price__was"><span class="visually-hidden">{{ 'products.regular_price' | t }}</span>{{ product.compare_at_price | money }}</s>
+  {%- endif -%}
+</span>

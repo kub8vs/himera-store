@@ -1,0 +1,37 @@
+<section class="mani" id="{{ section.settings.anchor | default: 'o-himerze' }}">
+  <div class="mani__marquee" aria-hidden="true">
+    <div class="mani__track">
+      {%- for i in (1..4) -%}<span>{{ section.settings.marquee }}</span><i></i>{%- endfor -%}
+    </div>
+  </div>
+  <div class="wrap mani__grid">
+    <h2 class="mani__h" data-reveal>{{ section.settings.heading }}</h2>
+    <ol class="mani__list">
+      {%- for block in section.blocks -%}
+        <li class="mani__item" data-reveal {{ block.shopify_attributes }}>
+          <span class="mono">0{{ forloop.index }}</span>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </li>
+      {%- endfor -%}
+    </ol>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "O Himerze",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Kotwica (#)", "default": "o-himerze" },
+    { "type": "text", "id": "marquee", "label": "Pasek przewijany", "default": "JESTEŚMY RUCHEM · A TY JEGO CZĘŚCIĄ" },
+    { "type": "textarea", "id": "heading", "label": "Nagłówek", "default": "Himera to nie logo na kominiarce. To ludzie, którzy wyjeżdżają w nocy i wracają razem." }
+  ],
+  "blocks": [
+    { "type": "point", "name": "Punkt", "settings": [
+      { "type": "text", "id": "title", "label": "Tytuł", "default": "Ruch" },
+      { "type": "textarea", "id": "text", "label": "Tekst", "default": "Opis." }
+    ] }
+  ],
+  "max_blocks": 4,
+  "presets": [{ "name": "O Himerze", "blocks": [{ "type": "point" }, { "type": "point" }, { "type": "point" }] }]
+}
+{% endschema %}

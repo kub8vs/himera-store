@@ -1,0 +1,162 @@
+{
+  "shop": {
+    "email": "kontakt@himeradrop.com"
+  },
+  "menus": {
+    "main-menu": [
+      {
+        "title": "Sklep",
+        "url": "/collections/all"
+      },
+      {
+        "title": "O Himerze",
+        "url": "/#o-himerze"
+      },
+      {
+        "title": "Dołącz",
+        "url": "/#dolacz"
+      }
+    ],
+    "footer": [
+      {
+        "title": "Regulamin",
+        "url": "#"
+      },
+      {
+        "title": "Polityka prywatności",
+        "url": "#"
+      },
+      {
+        "title": "Zwroty",
+        "url": "#"
+      },
+      {
+        "title": "Kontakt",
+        "url": "#"
+      }
+    ]
+  },
+  "products": [
+    {
+      "id": 1,
+      "handle": "kominiarka-himery",
+      "title": "Kominiarka Himery",
+      "code": "HMR-01",
+      "type": "Akcesoria",
+      "price": 13999,
+      "compare_at_price": 15999,
+      "available": false,
+      "description": "<p>Kominiarka z logo Himery, ta sama, którą widzisz na nagraniach. Lekki, oddychający materiał, haft na wysokości ust. Pierwsza seria zeszła, następna jest w drodze.</p>",
+      "images": [
+        {
+          "src": "/media/kominiarka.webp",
+          "alt": "Kominiarka Himery",
+          "width": 1200,
+          "height": 1500
+        }
+      ],
+      "showcase": "/media/kominiarka-showcase.webp",
+      "short": "Kominiarka"
+    },
+    {
+      "id": 2,
+      "handle": "flaga-himery",
+      "title": "Flaga Himery",
+      "code": "HMR-02",
+      "type": "Akcesoria",
+      "price": 4999,
+      "compare_at_price": 6000,
+      "available": true,
+      "description": "<p>Tworzona po to, by się z nią obnosić. Sama flaga 60×50 cm, bez kija, tunel z lewej strony 22 mm. Trwały i lekki materiał.</p>",
+      "images": [
+        {
+          "src": "/media/flaga.webp",
+          "alt": "Flaga Himery",
+          "width": 1200,
+          "height": 1500
+        }
+      ],
+      "showcase": "/media/flaga-showcase.webp",
+      "short": "Flaga"
+    },
+    {
+      "id": 3,
+      "handle": "naklejka-logo-czarna",
+      "title": "Naklejka na samochód — logo Himery — czarna",
+      "code": "HMR-03",
+      "type": "Naklejki",
+      "price": 2999,
+      "compare_at_price": 4000,
+      "available": true,
+      "description": "<p>Stań się częścią Himery. Logo na auto, do przyklejenia w kilka minut. Folia odporna na myjnię i słońce.</p>",
+      "images": [
+        {
+          "src": "/media/naklejka-czarna.webp",
+          "alt": "Czarna naklejka z logo Himery na aucie",
+          "width": 1200,
+          "height": 1500
+        }
+      ],
+      "showcase": "/media/naklejka-logo.webp",
+      "short": "Logo · czarna"
+    },
+    {
+      "id": 4,
+      "handle": "naklejka-logo-biala",
+      "title": "Naklejka na samochód — logo Himery — biała",
+      "code": "HMR-04",
+      "type": "Naklejki",
+      "price": 2999,
+      "compare_at_price": 4000,
+      "available": false,
+      "description": "<p>Biała wersja logo na ciemne auta.</p>",
+      "images": [
+        {
+          "src": "/media/naklejka-logo.webp",
+          "alt": "Biała naklejka z logo Himery",
+          "width": 1200,
+          "height": 1200
+        }
+      ],
+      "showcase": "/media/naklejka-logo.webp",
+      "short": "Logo · biała"
+    },
+    {
+      "id": 5,
+      "handle": "naklejka-napis-biala",
+      "title": "Naklejka na samochód — napis Himera — biała",
+      "code": "HMR-05",
+      "type": "Naklejki",
+      "price": 2999,
+      "compare_at_price": 4000,
+      "available": true,
+      "description": "<p>Napis HIMERA w ostrym kroju, na szybę albo karoserię.</p>",
+      "images": [
+        {
+          "src": "/media/naklejka-napis.webp",
+          "alt": "Biała naklejka z napisem Himera",
+          "width": 1200,
+          "height": 600
+        }
+      ],
+      "showcase": "/media/naklejka-napis.webp",
+      "short": "Napis · biały"
+    }
+  ],
+  "collections": [
+    {
+      "handle": "all",
+      "title": "Wszystkie produkty",
+      "handles": "*"
+    },
+    {
+      "handle": "top-3",
+      "title": "Top 3",
+      "handles": [
+        "kominiarka-himery",
+        "flaga-himery",
+        "naklejka-logo-czarna"
+      ]
+    }
+  ]
+}

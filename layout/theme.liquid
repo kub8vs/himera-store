@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="{{ localization.language.iso_code | default: 'pl' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="{{ settings.color_ink }}">
+  <title>{% if page_title and page_title != shop.name %}{{ page_title }} · {% endif %}{{ shop.name }}</title>
+  <meta name="description" content="{{ page_description | default: 'HIMERA. Jesteśmy ruchem, a ty jego częścią. Kominiarki, flagi i naklejki Himery.' | escape }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    :root {
+      --ink: {{ settings.color_ink }};
+      --bone: {{ settings.color_bone }};
+      --blood: {{ settings.color_blood }};
+      --logo-w: {{ settings.logo_width }}px;
+    }
+  </style>
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'theme.js' | asset_url }}" defer></script>
+  <script>window.HIMERA_T = { added: {{ 'products.added' | t | json }}, success: {{ 'newsletter.success' | t | json }}, remove: {{ 'cart.remove' | t | json }}, subtotal: {{ 'cart.subtotal' | t | json }}, checkout: {{ 'cart.checkout' | t | json }} };</script>
+  {%- if preview -%}<script>window.HIMERA_PREVIEW = true;</script>{%- endif -%}
+  {{ content_for_header }}
+</head>
+<body class="tpl-{{ template.name }}" data-eggs="{{ settings.easter_eggs }}" data-away-title="{{ settings.away_title | escape }}">
+  <a class="skip-link" href="#main">{{ 'general.skip_to_content' | t }}</a>
+  <div class="grain" aria-hidden="true"></div>
+  {% section 'announcement' %}
+  {% section 'header' %}
+  <main id="main" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
+  {% section 'footer' %}
+  <div class="toast" role="status" aria-live="polite" data-toast></div>
+  <div class="ruch" aria-hidden="true" data-ruch><span>RUCH</span></div>
+</body>
+</html>

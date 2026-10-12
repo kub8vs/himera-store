@@ -1,0 +1,46 @@
+{
+  "general": {
+    "skip_to_content": "Przejdź do treści",
+    "menu": "Menu",
+    "close": "Zamknij",
+    "cart": "Koszyk",
+    "cart_count": "Koszyk ({{ count }})",
+    "free_shipping": "Darmowa dostawa od 70 zł"
+  },
+  "products": {
+    "add_to_cart": "Dodaj do koszyka",
+    "sold_out": "Wyprzedane",
+    "notify": "Powiadom o dostępności",
+    "added": "Dodano do koszyka",
+    "price": "Cena",
+    "regular_price": "Było",
+    "sale": "Rabat",
+    "status": "Status",
+    "view": "Zobacz produkt",
+    "all": "Wszystkie produkty",
+    "filter_all": "Wszystko",
+    "count": { "one": "{{ count }} produkt", "other": "{{ count }} produktów" }
+  },
+  "cart": {
+    "title": "Koszyk",
+    "empty": "Twój koszyk jest pusty.",
+    "continue": "Wróć do sklepu",
+    "subtotal": "Suma",
+    "checkout": "Przejdź do kasy",
+    "remove": "Usuń",
+    "update": "Aktualizuj",
+    "taxes": "Podatki i dostawa liczone przy kasie."
+  },
+  "newsletter": {
+    "placeholder": "Twój e-mail",
+    "label": "Adres e-mail",
+    "submit": "Dołączam",
+    "success": "Jesteś w ruchu. Damy znać przed kolejnym dropem."
+  },
+  "404": {
+    "title": "Zgubiłeś trasę",
+    "text": "Tej strony nie ma. Wróć tam, gdzie jest ruch.",
+    "back": "Strona główna"
+  },
+  "search": { "title": "Szukaj", "placeholder": "Czego szukasz?", "submit": "Szukaj", "empty": "Brak wyników." }
+}

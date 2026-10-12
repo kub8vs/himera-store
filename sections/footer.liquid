@@ -1,0 +1,28 @@
+{%- assign menu = linklists[section.settings.menu] -%}
+<footer class="ftr">
+  <div class="wrap ftr__top">
+    <div class="ftr__brand">
+      <img src="{{ 'himera-logo.webp' | asset_url }}" alt="{{ shop.name }}" width="88" height="73" loading="lazy">
+      <p>{{ section.settings.tagline }}</p>
+    </div>
+    <nav class="ftr__nav mono" aria-label="Informacje">
+      {%- for link in menu.links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- endfor -%}
+      {%- if settings.instagram_url != blank -%}<a href="{{ settings.instagram_url }}" target="_blank" rel="noopener">Instagram</a>{%- endif -%}
+      {%- if settings.youtube_url != blank -%}<a href="{{ settings.youtube_url }}" target="_blank" rel="noopener">YouTube</a>{%- endif -%}
+    </nav>
+  </div>
+  <div class="wrap ftr__bottom mono">
+    <span>© MMXXVI {{ shop.name }}</span>
+    <span>{{ settings.announcement }}</span>
+    <span class="ftr__sig" title="H · M · R">.... -- .-.</span>
+  </div>
+</footer>
+{% schema %}
+{
+  "name": "Stopka",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" },
+    { "type": "text", "id": "tagline", "label": "Hasło", "default": "Jesteśmy ruchem, a ty jego częścią." }
+  ]
+}
+{% endschema %}

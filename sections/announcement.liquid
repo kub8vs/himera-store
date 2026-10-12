@@ -1,0 +1,6 @@
+{%- if settings.announcement != blank -%}
+<div class="announce"><span>{{ settings.announcement }}</span></div>
+{%- endif -%}
+{% schema %}
+{ "name": "Pasek informacji", "settings": [] }
+{% endschema %}

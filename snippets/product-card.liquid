@@ -1,0 +1,20 @@
+{%- comment -%} Renders: {% render 'product-card', product: product, index: forloop.index %} {%- endcomment -%}
+{%- assign code = product.metafields.custom.code.value | default: product.type -%}
+{%- assign alt = product.featured_image.alt | default: product.title -%}
+<article class="card{% unless product.available %} card--out{% endunless %}" data-type="{{ product.type | handleize }}">
+  <a class="card__link" href="{{ product.url }}">
+    <div class="card__media">
+      {%- if product.featured_image -%}
+        {{ product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: alt, width: 900, height: 1125 }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag }}
+      {%- endif -%}
+      <span class="card__code mono">{{ code }}</span>
+      {%- unless product.available -%}<span class="card__flag mono">{{ 'products.sold_out' | t }}</span>{%- endunless -%}
+    </div>
+    <div class="card__info">
+      <h3 class="card__title">{{ product.title }}</h3>
+      {% render 'price', product: product %}
+    </div>
+  </a>
+</article>

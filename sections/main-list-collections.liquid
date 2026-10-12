@@ -1,0 +1,7 @@
+<section class="pg wrap">
+  <h1 class="page-h">{{ page_title }}</h1>
+  <ul class="cols">
+    {%- for c in collections -%}<li><a href="{{ c.url }}"><span class="mono">0{{ forloop.index }}</span>{{ c.title }}</a></li>{%- endfor -%}
+  </ul>
+</section>
+{% schema %}{ "name": "Lista kolekcji" }{% endschema %}

@@ -1,0 +1,15 @@
+{
+  "name": "himera-store",
+  "private": true,
+  "description": "HIMERA: motyw Shopify (Online Store 2.0) z podglądem statycznym pod Vercel",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-preview.mjs",
+    "dev": "node scripts/build-preview.mjs && npx --yes serve dist -l 4321",
+    "theme:zip": "node scripts/zip-theme.mjs"
+  },
+  "devDependencies": {
+    "liquidjs": "10.30.0"
+  },
+  "engines": { "node": ">=18" }
+}

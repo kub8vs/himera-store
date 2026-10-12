@@ -1,0 +1,36 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "HIMERA",
+    "theme_version": "2.0.0",
+    "theme_author": "The Domain",
+    "theme_documentation_url": "https://github.com/kub8vs/himera-store",
+    "theme_support_url": "https://github.com/kub8vs/himera-store"
+  },
+  {
+    "name": "Marka",
+    "settings": [
+      { "type": "image_picker", "id": "logo", "label": "Logo (białe, przezroczyste tło)" },
+      { "type": "range", "id": "logo_width", "label": "Szerokość logo w nagłówku", "min": 32, "max": 120, "step": 2, "unit": "px", "default": 54 },
+      { "type": "text", "id": "announcement", "label": "Pasek informacji", "default": "Darmowa dostawa od 70 zł" },
+      { "type": "url", "id": "instagram_url", "label": "Instagram", "default": "https://www.instagram.com/x.himera/" },
+      { "type": "url", "id": "youtube_url", "label": "YouTube", "default": "https://www.youtube.com/@brunowaty" }
+    ]
+  },
+  {
+    "name": "Kolory",
+    "settings": [
+      { "type": "color", "id": "color_ink", "label": "Tło", "default": "#070606" },
+      { "type": "color", "id": "color_bone", "label": "Tekst", "default": "#ECE6E0" },
+      { "type": "color", "id": "color_blood", "label": "Akcent", "default": "#C4161C" }
+    ]
+  },
+  {
+    "name": "Smaczki",
+    "settings": [
+      { "type": "paragraph", "content": "Ukryte detale: napis na ścianie studia, alfabet Morse’a w świetle stopu, błysk w oczach logo, tryb RUCH po wpisaniu słowa HIMERA, tytuł karty po wyjściu ze strony, logo budzące się po 3 s patrzenia na portret, podpis Morse’em w stopce, kod produktu odbity na podłodze showroomu." },
+      { "type": "checkbox", "id": "easter_eggs", "label": "Włącz ukryte detale", "default": true },
+      { "type": "text", "id": "away_title", "label": "Tytuł karty, gdy ktoś z niej wyjdzie", "default": "Wróć do ruchu." }
+    ]
+  }
+]
