@@ -55,6 +55,24 @@
     const word = $('[data-ph-word]', ph);
     const heroImg = $('[data-ph-hero]', ph);
     const floats = $$('[data-ph-float]', ph).map((el) => ({ el, d: parseFloat(el.dataset.depth) || 0 }));
+
+    // phones (portrait): photo sized by the screen height, the word stretched to fill the space above the head
+    const fitPhone = () => {
+      const w = ph.clientWidth, h = ph.clientHeight;
+      if (w > 860 || w > h) { ['--wtop', '--hw', '--sy'].forEach((v) => ph.style.removeProperty(v)); return; }
+      const imgH = Math.min(h * 0.6, (w * 1.3) / 0.805);
+      const headTop = h - imgH * 0.91;
+      const top = Math.max(h * 0.1, 64);
+      const bottom = headTop + h * 0.045;
+      const base = word ? word.offsetHeight : w * 0.287;
+      const sy = Math.min(Math.max((bottom - top) / base, 1.25), 2.4);
+      ph.style.setProperty('--hw', (imgH * 0.805).toFixed(0) + 'px');
+      ph.style.setProperty('--wtop', top.toFixed(0) + 'px');
+      ph.style.setProperty('--sy', sy.toFixed(3));
+    };
+    fitPhone();
+    window.addEventListener('resize', fitPhone);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitPhone);
     requestAnimationFrame(() => requestAnimationFrame(() => ph.classList.add('is-in')));
     if (reduced) ph.classList.add('is-lit');
 
@@ -183,10 +201,10 @@
           const dx = x - 0.5, dy = y - 0.5;
           const w = ph.clientWidth, h = ph.clientHeight;
           // the word is wider than the screen: following the cursor reveals its ends
-          const travel = fine && w > 700 ? Math.max(w * 0.16, (word.offsetWidth - w) / 2 + 28) : Math.max(8, (w - word.offsetWidth) / 2 - 4);
+          const travel = fine && w > 700 ? Math.max(w * 0.16, (word.offsetWidth - w) / 2 + 28) : Math.min(24, Math.max(0, (w - word.offsetWidth) / 2 - 12));
           word.style.setProperty('--tx', (dx * 2 * travel).toFixed(1) + 'px');
           word.style.setProperty('--ty', (dy * h * 0.14).toFixed(1) + 'px');
-          word.style.setProperty('--ry', (dx * (fine ? 16 : 5)).toFixed(2) + 'deg');
+          word.style.setProperty('--ry', (dx * (fine && ph.clientWidth > 700 ? 16 : 3)).toFixed(2) + 'deg');
           word.style.setProperty('--rx', (-dy * 12).toFixed(2) + 'deg');
           word.style.setProperty('--lx', (x * 100).toFixed(1) + '%');
           word.style.setProperty('--ly', (y * 100).toFixed(1) + '%');

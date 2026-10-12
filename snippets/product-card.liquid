@@ -4,8 +4,9 @@
 <article class="card{% unless product.available %} card--out{% endunless %}" data-type="{{ product.type | handleize }}">
   <a class="card__link" href="{{ product.url }}">
     <div class="card__media">
-      {%- if product.featured_image -%}
-        {{ product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: alt, width: 900, height: 1125 }}
+      {%- assign card_img = product.metafields.custom.showcase_image.value | default: product.featured_image -%}
+      {%- if card_img -%}
+        {{ card_img | image_url: width: 900 | image_tag: loading: 'lazy', alt: alt, width: 900, height: 1125 }}
       {%- else -%}
         {{ 'product-1' | placeholder_svg_tag }}
       {%- endif -%}

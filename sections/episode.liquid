@@ -18,6 +18,8 @@
         <div class="ep__poster">
           {%- if section.settings.poster -%}
             {{ section.settings.poster | image_url: width: 1600 | image_tag: loading: 'lazy', alt: section.settings.title, width: 1600, height: 900 }}
+          {%- elsif vid != blank and vid.type == 'youtube' -%}
+            <img src="https://i.ytimg.com/vi/{{ vid.id }}/maxresdefault.jpg" alt="{{ section.settings.title | escape }}" width="1280" height="720" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/{{ vid.id }}/hqdefault.jpg'">
           {%- else -%}
             <img src="{{ 'himera-car.webp' | asset_url }}" alt="" width="1968" height="633" loading="lazy" class="ep__fallback">
           {%- endif -%}

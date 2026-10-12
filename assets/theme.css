@@ -149,7 +149,7 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .drawer__foot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: var(--mute); }
 
 /* ---------- intro: full-screen HIMERA that follows the cursor, Himera in front ---------- */
-.ph { position: relative; height: 100svh; min-height: 560px; overflow: hidden; isolation: isolate; background: var(--ink); --cx: 50%; --cy: 50%; }
+.ph { position: relative; height: 100vh; height: 100svh; min-height: 320px; overflow: hidden; isolation: isolate; background: var(--ink); --cx: 50%; --cy: 50%; }
 .ph__glow { position: absolute; inset: 0; z-index: -2; pointer-events: none;
   background: radial-gradient(42% 50% at var(--cx) var(--cy), rgba(196, 22, 28, .26), transparent 70%), radial-gradient(70% 55% at 50% 105%, rgba(196, 22, 28, .14), transparent 70%);
 }
@@ -759,7 +759,8 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .grid { gap: 16px; background: transparent; border: 0; }
 .card { background: var(--glass); border-radius: var(--r); box-shadow: inset 0 0 0 1px rgba(236, 230, 224, .05); overflow: hidden; transition: transform .5s var(--ease), box-shadow .5s; }
 .card:hover { transform: translateY(-6px); box-shadow: inset 0 0 0 1px rgba(196, 22, 28, .4), 0 40px 80px -40px rgba(196, 22, 28, .5); }
-.card__media { border-radius: 0; margin: 0; }
+.card__media { border-radius: 0; margin: 0; background: radial-gradient(55% 50% at 50% 52%, rgba(196, 22, 28, .22), transparent 72%), #0c0909; }
+.card__media img { object-fit: contain; padding: 12%; filter: drop-shadow(0 18px 22px rgba(0, 0, 0, .7)); }
 .card__flag { border-radius: 999px; padding: 6px 10px; }
 .card__info { padding: 18px 20px 20px; }
 .price { white-space: nowrap; flex-wrap: wrap; gap: 4px 10px; }
@@ -784,6 +785,8 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .mani__list { gap: 10px; }
 .show__pool, .show__panel .btn { border-radius: 999px; }
 
+/* phones on their side: intro and showroom keep a usable height */
+
 /* ---------- responsive ---------- */
 @media (max-width: 1024px) {
   .grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -796,7 +799,8 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   .feat__rail { padding: 0 var(--gutter); }
   .hdr__nav, .hdr__social { display: none; }
   .hdr__burger { display: inline-flex; }
-  .ph__word { font-size: 31vw; --sy: 1.55; }
+  .ph { --sy: 1.55; }
+  .ph__word { font-size: 31vw; }
   .ph__float { width: 22vw; }
   .ph__float--1 { left: 3%; top: 9%; width: 27vw; }
   .ph__float--2 { right: 4%; top: 8%; width: 20vw; }
@@ -805,9 +809,10 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   .ph__float--5 { left: 40%; top: 5%; width: 15vw; }
   .ph__float--6 { display: none; }
   .ph__tag { display: none; }
-  .ph__stage { place-items: start center; padding-top: 19svh; }
+  .ph__stage { place-items: start center; padding-top: var(--wtop, 19svh); }
+  .ph__fill, .ph__neon, .ph__gl { transform-origin: 50% 0; }
   .ph__portrait { -webkit-mask: radial-gradient(44% 70% at 50% 38%, #000 55%, transparent 96%); mask: radial-gradient(44% 70% at 50% 38%, #000 55%, transparent 96%); }
-  .ph__hero { width: min(128vw, 80svh); }
+  .ph__hero { width: var(--hw, min(128vw, 80svh)); }
   .part__top { grid-template-columns: minmax(0, 1fr); gap: 28px; }
   .part__stage { min-height: 0; }
   .hero__car { width: 112%; margin-left: -6%; }
@@ -825,10 +830,11 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   .feat__item { scroll-snap-align: start; }
   .mani__grid { grid-template-columns: 1fr; }
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .show__item { width: 70vw; top: 44%; }
-  .show__ring { width: 58vw; }
-  .show__cone { width: 66vw; }
-  .show__pool { width: 80vw; bottom: 25%; }
+  .show { min-height: 0; max-height: none; }
+  .show__item { width: min(84vw, 38svh); top: 43%; }
+  .show__ring { width: min(66vw, 30svh); }
+  .show__cone { width: min(74vw, 34svh); }
+  .show__pool { width: min(90vw, 44svh); bottom: 25%; }
   .show__info { bottom: 120px; }
   .show__nav { bottom: 22px; gap: 8px; }
   .show__tabs { gap: 0; flex-wrap: nowrap; }
@@ -882,9 +888,21 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   .show__ship { display: none; }
 }
 @media (max-width: 860px) and (max-height: 740px) {
-  .show__item { width: 56vw; top: 38%; }
-  .show__ring { width: 50vw; }
+  .show__item { top: 39%; }
   .show__info { bottom: 96px; }
   .show__title { font-size: 40px; }
   .show__full { display: none; }
 }
+
+/* landscape phones (kept last so it wins over the phone rules) */
+@media (orientation: landscape) and (max-height: 520px) {
+  .ph { min-height: 0; --sy: 1.3; }
+  .ph__stage { place-items: center; padding-top: 0; }
+  .ph__word { font-size: min(28vw, 56svh); }
+  .ph__fill, .ph__neon, .ph__gl { transform-origin: 50% 55%; }
+  .ph__hero { width: min(70svh, 40vw); }
+  .ph__float { width: min(11vw, 22svh) !important; }
+  .ph__tag { display: none; }
+  .show { min-height: 520px !important; }
+}
+.ep__player img { color: transparent; }

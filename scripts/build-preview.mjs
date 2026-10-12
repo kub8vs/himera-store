@@ -158,6 +158,10 @@ async function renderSection(name, ctx, json = {}) {
   for (const st of schema.settings || []) {
     if (st.type === 'collection' && typeof section.settings[st.id] === 'string') section.settings[st.id] = collections[section.settings[st.id]] || collections.all;
     if (st.type === 'collection' && section.settings[st.id] == null) section.settings[st.id] = collections[(json.settings || {})[st.id]] || null;
+    if (st.type === 'video_url' && typeof section.settings[st.id] === 'string') {
+      const m = section.settings[st.id].match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/);
+      section.settings[st.id] = m ? { type: 'youtube', id: m[1] } : null;
+    }
   }
   const html = await engine.parseAndRender(src, { ...ctx, section });
   return `<div id="shopify-section-${id}" class="shopify-section section-${name}">${html}</div>`;

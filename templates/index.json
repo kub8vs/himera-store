@@ -50,7 +50,9 @@
     },
     "episode": {
       "type": "episode",
-      "settings": {}
+      "settings": {
+        "video": "https://www.youtube.com/watch?v=BZEsjGBhaOE"
+      }
     },
     "ticker": {
       "type": "ticker",
