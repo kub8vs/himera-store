@@ -392,7 +392,7 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .join__err { color: var(--blood); }
 .join__ig { display: inline-block; margin-top: 30px; border-bottom: 1px solid var(--line); padding-bottom: 4px; transition: border-color .3s; }
 .join__ig:hover { border-color: var(--bone); }
-.join__fig { position: relative; margin: 0; aspect-ratio: 1483 / 1843; max-height: 86vh; justify-self: center; width: 100%; max-width: 560px; }
+.join__fig { position: relative; margin: 0; aspect-ratio: 1024 / 1272; max-height: 86vh; justify-self: center; width: 100%; max-width: 560px; }
 .join__ring { position: absolute; left: 8%; right: 8%; top: 4%; aspect-ratio: 1; border-radius: 50%; border: 1px solid rgba(196, 22, 28, .35); box-shadow: 0 0 80px rgba(196, 22, 28, .25), inset 0 0 60px rgba(196, 22, 28, .12); }
 .join__portrait { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; -webkit-mask: radial-gradient(62% 58% at 50% 42%, #000 62%, transparent 100%); mask: radial-gradient(62% 58% at 50% 42%, #000 62%, transparent 100%); filter: drop-shadow(14px 0 30px rgba(196, 22, 28, .35)) drop-shadow(-1px 0 0 rgba(236, 230, 224, .25)); }
 .join__mark { position: absolute; right: 2%; bottom: 8%; width: 18%; height: auto; opacity: .14; transition: opacity 1.2s, filter 1.2s; }
