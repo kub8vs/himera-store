@@ -58,7 +58,8 @@
 
     // phones (portrait): photo sized by the screen height, the word stretched to fill the space above the head
     const fitPhone = () => {
-      const w = ph.clientWidth, h = ph.clientHeight;
+      const ext = heroImg ? parseFloat(getComputedStyle(heroImg).bottom) || 0 : 0;
+      const w = ph.clientWidth, h = ph.clientHeight - ext;
       if (w > 860 || w > h) { ['--wtop', '--hw', '--sy'].forEach((v) => ph.style.removeProperty(v)); return; }
       const imgH = Math.min(h * 0.6, (w * 1.3) / 0.805);
       const headTop = h - imgH * 0.91;

@@ -149,7 +149,7 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .drawer__foot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: var(--mute); }
 
 /* ---------- intro: full-screen HIMERA that follows the cursor, Himera in front ---------- */
-.ph { position: relative; height: 100vh; height: 100lvh; min-height: 320px; overflow: hidden; isolation: isolate; background: var(--ink); --cx: 50%; --cy: 50%; }
+.ph { --ext: 0px; position: relative; height: 100vh; height: calc(100lvh + var(--ext)); min-height: 320px; overflow: hidden; isolation: isolate; background: var(--ink); --cx: 50%; --cy: 50%; }
 .ph__glow { position: absolute; inset: 0; z-index: -2; pointer-events: none;
   background: radial-gradient(42% 50% at var(--cx) var(--cy), rgba(196, 22, 28, .26), transparent 70%), radial-gradient(70% 55% at 50% 105%, rgba(196, 22, 28, .14), transparent 70%);
 }
@@ -255,10 +255,10 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 @keyframes heroIn { from { translate: 0 4%; } to { translate: 0 0; } }
 .ph__word.is-flicker { animation: flicker .9s steps(1); }
 @keyframes flicker { 0% { opacity: 1; } 10% { opacity: .2; } 18% { opacity: 1; } 30% { opacity: .35; } 34% { opacity: 1; } 60% { opacity: .7; } 64% { opacity: 1; } }
-.ph__cue { position: absolute; left: 50%; bottom: max(22px, env(safe-area-inset-bottom)); bottom: calc(max(22px, env(safe-area-inset-bottom)) + 100lvh - 100svh); transform: translateX(-50%); z-index: 5; display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--mute); opacity: 0; transition: opacity 1s 1.2s; }
+.ph__cue { position: absolute; left: 50%; bottom: max(22px, env(safe-area-inset-bottom)); bottom: calc(max(22px, env(safe-area-inset-bottom)) + 100lvh - 100svh + var(--ext)); transform: translateX(-50%); z-index: 5; display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--mute); opacity: 0; transition: opacity 1s 1.2s; }
 .ph.is-in .ph__cue { opacity: 1; }
 .ph__cue i { width: 1px; height: 30px; background: linear-gradient(var(--bone), transparent); animation: cue 2s ease-in-out infinite; }
-.ph__clock { position: absolute; right: var(--gutter); bottom: max(28px, env(safe-area-inset-bottom)); bottom: calc(max(28px, env(safe-area-inset-bottom)) + 100lvh - 100svh); z-index: 5; color: rgba(236, 230, 224, .38); opacity: 0; transition: opacity 1s 1.4s; }
+.ph__clock { position: absolute; right: var(--gutter); bottom: max(28px, env(safe-area-inset-bottom)); bottom: calc(max(28px, env(safe-area-inset-bottom)) + 100lvh - 100svh + var(--ext)); z-index: 5; color: rgba(236, 230, 224, .38); opacity: 0; transition: opacity 1s 1.4s; }
 .ph.is-in .ph__clock { opacity: 1; }
 
 /* ---------- "Stań się częścią HIMERY": copy left, car on the right, three CTA cards ---------- */
@@ -799,7 +799,11 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   .feat__rail { padding: 0 var(--gutter); }
   .hdr__nav, .hdr__social { display: none; }
   .hdr__burger { display: inline-flex; }
-  .ph { --sy: 1.55; }
+  /* the intro runs a bit past the bottom of the screen: only „Przewiń” sits at the bottom edge, the ticker starts below */
+  .ph { --sy: 1.55; --ext: 18svh; }
+  .ph__hero { bottom: var(--ext); }
+  .ph__portrait { -webkit-mask-image: linear-gradient(#000 78%, transparent); mask-image: linear-gradient(#000 78%, transparent); }
+  .ph__fog { height: calc(30% + var(--ext)); }
   .ph__word { font-size: 31vw; }
   .ph__float { width: 22vw; }
   .ph__float--1 { left: 3%; top: 9%; width: 27vw; }
@@ -896,7 +900,9 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 
 /* landscape phones (kept last so it wins over the phone rules) */
 @media (orientation: landscape) and (max-height: 520px) {
-  .ph { min-height: 0; --sy: 1.3; }
+  .ph { min-height: 0; --sy: 1.3; --ext: 0px; }
+  .ph__hero { bottom: 0; }
+  .ph__portrait { -webkit-mask-image: none; mask-image: none; }
   .ph__stage { place-items: center; padding-top: 0; }
   .ph__word { font-size: min(28vw, 56svh); }
   .ph__fill, .ph__neon, .ph__gl { transform-origin: 50% 55%; }
