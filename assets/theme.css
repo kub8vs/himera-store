@@ -800,7 +800,7 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   .hdr__nav, .hdr__social { display: none; }
   .hdr__burger { display: inline-flex; }
   /* the intro runs a bit past the bottom of the screen: only „Przewiń” sits at the bottom edge, the ticker starts below */
-  .ph { --sy: 1.55; --ext: 18svh; }
+  .ph { --sy: 1.55; --ext: 6svh; }
   .ph__hero { bottom: var(--ext); }
   .ph__portrait { -webkit-mask-image: linear-gradient(#000 78%, transparent); mask-image: linear-gradient(#000 78%, transparent); }
   .ph__fog { height: calc(30% + var(--ext)); }
