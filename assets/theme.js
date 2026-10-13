@@ -319,14 +319,16 @@
     if (reduced || !rows.length) return;
     let seen = false, boost = 0, lastY = window.scrollY, last = performance.now();
     new IntersectionObserver(([en]) => { seen = en.isIntersecting; }).observe(tk);
-    window.addEventListener('scroll', () => { boost += Math.abs(window.scrollY - lastY) * 0.35; lastY = window.scrollY; }, { passive: true });
+    // phones scroll in big flicks, so the push is much gentler there
+    const phone = () => window.innerWidth <= 860;
+    window.addEventListener('scroll', () => { boost += Math.abs(window.scrollY - lastY) * (phone() ? 0.04 : 0.2); lastY = window.scrollY; }, { passive: true });
     const step = (t) => {
       const dt = Math.min(t - last, 50) / 16.7; last = t;
       if (seen) {
         boost *= 0.92;
         for (const r of rows) {
           const half = r.track.scrollWidth / 2;
-          r.x += r.dir * (0.6 + Math.min(boost, 40)) * dt;
+          r.x += r.dir * (0.6 + Math.min(boost, phone() ? 2.4 : 14)) * dt;
           if (r.x <= -half) r.x += half;
           if (r.x > 0) r.x -= half;
           r.track.style.setProperty('--tk', r.x.toFixed(1) + 'px');

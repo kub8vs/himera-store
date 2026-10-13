@@ -799,7 +799,10 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   .feat__rail { padding: 0 var(--gutter); }
   .hdr__nav, .hdr__social { display: none; }
   .hdr__burger { display: inline-flex; }
-  .ph { --sy: 1.55; }
+  /* full screen even when the browser bars collapse, so the ticker never peeks in on load */
+  .ph { --sy: 1.55; height: 100vh; height: 100lvh; }
+  .ph__cue { bottom: calc(22px + 100lvh - 100svh); }
+  .ph__clock { bottom: calc(28px + 100lvh - 100svh); }
   .ph__word { font-size: 31vw; }
   .ph__float { width: 22vw; }
   .ph__float--1 { left: 3%; top: 9%; width: 27vw; }
