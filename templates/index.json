@@ -60,41 +60,6 @@
         "heading": "Dołącz|do|Himery."
       }
     },
-    "produkty": {
-      "type": "product-spotlight",
-      "blocks": {
-        "p1": {
-          "type": "product",
-          "settings": {
-            "product": "kominiarka-himery",
-            "emoji": "🥷",
-            "label": "Kominiarka"
-          }
-        },
-        "p2": {
-          "type": "product",
-          "settings": {
-            "product": "flaga-himery",
-            "emoji": "🏴",
-            "label": "Flaga"
-          }
-        },
-        "p3": {
-          "type": "product",
-          "settings": {
-            "product": "naklejka-logo-czarna",
-            "emoji": "🦇",
-            "label": "Naklejka"
-          }
-        }
-      },
-      "block_order": [
-        "p1",
-        "p2",
-        "p3"
-      ],
-      "settings": {}
-    },
     "znak": {
       "type": "emblem",
       "blocks": {
@@ -124,8 +89,36 @@
       ],
       "settings": {}
     },
-    "kolekcja": {
-      "type": "collection-band",
+    "produkty": {
+      "type": "shop-gate",
+      "blocks": {
+        "p1": {
+          "type": "product",
+          "settings": {
+            "product": "naklejka-logo-himery",
+            "label": "Naklejka"
+          }
+        },
+        "p2": {
+          "type": "product",
+          "settings": {
+            "product": "kominiarka-himery",
+            "label": "Kominiarka"
+          }
+        },
+        "p3": {
+          "type": "product",
+          "settings": {
+            "product": "flaga-himery",
+            "label": "Flaga"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
       "settings": {}
     }
   },
@@ -134,7 +127,6 @@
     "produkty",
     "znak",
     "part",
-    "kolekcja",
     "join"
   ]
 }

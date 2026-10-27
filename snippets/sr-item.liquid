@@ -1,0 +1,64 @@
+{%- comment -%} One showroom product: its panel image, title, tab label and the detail panel with colour options. {%- endcomment -%}
+{%- liquid
+  assign base = p.metafields.custom.showcase_image.value | default: p.featured_image
+  assign code = p.metafields.custom.code.value | default: p.type
+  assign short = label | default: p.metafields.custom.short_title.value | default: p.title
+  assign variant = p.variants.first
+  assign mat = p.metafields.custom.material.value
+  assign size = p.metafields.custom.size.value
+  assign num = idx | plus: 1 | prepend: '0' | slice: -2, 2
+  assign tot = total | prepend: '0' | slice: -2, 2
+  assign title = p.title | upcase
+-%}
+<article class="sr__item" data-sr-item="{{ idx }}" data-code="{{ code | escape }}" data-title="{{ p.title | escape }}" data-short="{{ short | escape }}" data-heading="{{ heading | default: p.title | escape }}" data-img="{{ base | image_url: width: 1200 }}">
+  <div class="sr__info">
+    <span class="mono sr__meta">{{ num }} / {{ tot }}{% if mat != blank %} — {{ mat }}{% endif %}{% if size != blank %} · {{ size }}{% endif %}</span>
+    <h2 class="sr__name" data-sr-split>{{ p.title }}</h2>
+    <div class="sr__price">
+      <span class="sr__now" data-sr-price>{{ variant.price | default: p.price | money }}</span>
+      {%- if p.compare_at_price > p.price -%}
+        {%- assign off = p.compare_at_price | minus: p.price | times: 100 | divided_by: p.compare_at_price | round -%}
+        <s class="sr__was">{{ p.compare_at_price | money }}</s><span class="sr__off mono">-{{ off }}%</span>
+      {%- endif -%}
+    </div>
+    <div class="sr__desc rte">{{ p.description }}</div>
+
+    {%- form 'product', p, class: 'sr__form', data-type: 'add' -%}
+      <input type="hidden" name="id" value="{{ variant.id }}" data-sr-id>
+      <input type="hidden" name="quantity" value="1">
+      {%- unless p.has_only_default_variant -%}
+        <div class="sr__opts" role="radiogroup" aria-label="{{ p.options.first }}">
+          <span class="mono sr__optlab">{{ p.options.first }}: <b data-sr-optname>{{ variant.title }}</b></span>
+          <div class="sr__swatches">
+            {%- for v in p.variants -%}
+              {%- liquid
+                assign vt = v.title | downcase
+                assign tone = 'dark'
+                if vt contains 'biał' or vt contains 'bial' or vt contains 'white'
+                  assign tone = 'light'
+                endif
+                assign vimg = v.metafields.custom.showcase_image.value | default: base
+              -%}
+              <button type="button" class="sr__sw sr__sw--{{ tone }}" role="radio" aria-checked="{% if v.id == variant.id %}true{% else %}false{% endif %}" data-sr-var="{{ v.id }}" data-tone="{{ tone }}" data-name="{{ v.title | escape }}" data-price="{{ v.price | money | escape }}" data-available="{{ v.available }}" data-img="{{ vimg | image_url: width: 1200 }}">
+                <i aria-hidden="true"></i><span>{{ v.title }}</span>{%- unless v.available -%}<em class="mono">{{ 'products.sold_out' | t }}</em>{%- endunless -%}
+              </button>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endunless -%}
+      {%- if mat != blank or size != blank -%}
+        <dl class="sr__specs">
+          {%- if mat != blank -%}<div><dt class="mono">Materiał</dt><dd>{{ mat }}</dd></div>{%- endif -%}
+          {%- if size != blank -%}<div><dt class="mono">Rozmiar</dt><dd>{{ size }}</dd></div>{%- endif -%}
+        </dl>
+      {%- endif -%}
+      <div class="sr__buy">
+        <button class="btn btn--bone" type="submit" data-add data-sr-add data-title="{{ p.title | escape }}" data-price="{{ variant.price | default: p.price }}" data-url="{{ p.url }}" data-img="{{ p.featured_image | image_url: width: 300 }}"{% unless variant.available %} disabled{% endunless %}>
+          <span data-sr-addlab data-on="{{ 'products.add_to_cart' | t }}" data-off="{{ 'products.sold_out' | t }}">{% if variant.available %}{{ 'products.add_to_cart' | t }}{% else %}{{ 'products.sold_out' | t }}{% endif %}</span>
+        </button>
+        <button class="btn btn--line" type="submit" data-sr-now-buy{% unless variant.available %} disabled{% endunless %}>Kup teraz</button>
+      </div>
+      <a class="sr__notify mono" href="{{ routes.root_url }}#dolacz"{% if variant.available %} hidden{% endif %} data-sr-notify>{{ 'products.notify' | t }} <span aria-hidden="true">↗</span></a>
+    {%- endform -%}
+  </div>
+</article>

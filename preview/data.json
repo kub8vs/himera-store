@@ -1,199 +1,222 @@
 {
-  "shop": {
-    "email": "kontakt@himeradrop.com"
-  },
-  "menus": {
-    "main-menu": [
-      {
-        "title": "Strona główna",
-        "url": "/"
-      },
-      {
-        "title": "Produkty",
-        "url": "/collections/all"
-      }
-    ],
-    "footer": [
-      {
-        "title": "Regulamin",
-        "url": "#"
-      },
-      {
-        "title": "Polityka prywatności",
-        "url": "#"
-      },
-      {
-        "title": "Zwroty",
-        "url": "#"
-      },
-      {
-        "title": "Kontakt",
-        "url": "#"
-      }
-    ],
-    "main-menu-right": [
-      {
-        "title": "O Himerze",
-        "url": "/pages/o-himerze"
-      },
-      {
-        "title": "FAQ",
-        "url": "/pages/faq"
-      }
-    ]
-  },
-  "products": [
-    {
-      "id": 1,
-      "handle": "kominiarka-himery",
-      "title": "Kominiarka Himery",
-      "code": "HMR-01",
-      "type": "Akcesoria",
-      "price": 13999,
-      "compare_at_price": 15999,
-      "available": false,
-      "description": "<p>Kominiarka z logo Himery, ta sama, którą widzisz na nagraniach. Lekki, oddychający materiał, haft na wysokości ust. Pierwsza seria zeszła, następna jest w drodze.</p>",
-      "images": [
-        {
-          "src": "/media/kominiarka.webp",
-          "alt": "Kominiarka Himery",
-          "width": 1200,
-          "height": 1500
-        }
-      ],
-      "showcase": "/media/kominiarka-showcase.webp",
-      "short": "Kominiarka"
-    },
-    {
-      "id": 2,
-      "handle": "flaga-himery",
-      "title": "Flaga Himery",
-      "code": "HMR-02",
-      "type": "Akcesoria",
-      "price": 4999,
-      "compare_at_price": 6000,
-      "available": true,
-      "description": "<p>Tworzona po to, by się z nią obnosić. Sama flaga 60×50 cm, bez kija, tunel z lewej strony 22 mm. Trwały i lekki materiał.</p>",
-      "images": [
-        {
-          "src": "/media/flaga.webp",
-          "alt": "Flaga Himery",
-          "width": 1200,
-          "height": 1500
-        }
-      ],
-      "showcase": "/media/flaga-showcase.webp",
-      "short": "Flaga"
-    },
-    {
-      "id": 3,
-      "handle": "naklejka-logo-czarna",
-      "title": "Naklejka na samochód — logo Himery — czarna",
-      "code": "HMR-03",
-      "type": "Naklejki",
-      "price": 2999,
-      "compare_at_price": 4000,
-      "available": true,
-      "description": "<p>Stań się częścią Himery. Logo na auto, do przyklejenia w kilka minut. Folia odporna na myjnię i słońce.</p>",
-      "images": [
-        {
-          "src": "/media/naklejka-czarna.webp",
-          "alt": "Czarna naklejka z logo Himery na aucie",
-          "width": 1200,
-          "height": 1500
-        }
-      ],
-      "showcase": "/media/sticker-logo-czarna.webp",
-      "short": "Logo · czarna"
-    },
-    {
-      "id": 4,
-      "handle": "naklejka-logo-biala",
-      "title": "Naklejka na samochód — logo Himery — biała",
-      "code": "HMR-04",
-      "type": "Naklejki",
-      "price": 2999,
-      "compare_at_price": 4000,
-      "available": false,
-      "description": "<p>Biała wersja logo na ciemne auta.</p>",
-      "images": [
-        {
-          "src": "/media/naklejka-logo.webp",
-          "alt": "Biała naklejka z logo Himery",
-          "width": 1200,
-          "height": 1200
-        }
-      ],
-      "showcase": "/media/sticker-logo-biala.webp",
-      "short": "Logo · biała"
-    },
-    {
-      "id": 5,
-      "handle": "naklejka-napis-biala",
-      "title": "Naklejka na samochód — napis Himera — biała",
-      "code": "HMR-05",
-      "type": "Naklejki",
-      "price": 2999,
-      "compare_at_price": 4000,
-      "available": true,
-      "description": "<p>Napis HIMERA w ostrym kroju, na szybę albo karoserię.</p>",
-      "images": [
-        {
-          "src": "/media/naklejka-napis.webp",
-          "alt": "Biała naklejka z napisem Himera",
-          "width": 1200,
-          "height": 600
-        }
-      ],
-      "showcase": "/media/sticker-napis.webp",
-      "short": "Napis · biały"
-    }
+ "shop": {
+  "email": "kontakt@himeradrop.com"
+ },
+ "menus": {
+  "main-menu": [
+   {
+    "title": "Strona główna",
+    "url": "/"
+   },
+   {
+    "title": "Produkty",
+    "url": "/collections/all"
+   }
   ],
-  "collections": [
-    {
-      "handle": "all",
-      "title": "Wszystkie produkty",
-      "handles": "*"
-    },
-    {
-      "handle": "top-3",
-      "title": "Top 3",
-      "handles": [
-        "kominiarka-himery",
-        "flaga-himery",
-        "naklejka-logo-czarna"
-      ]
-    },
-    {
-      "handle": "latajace",
-      "title": "Latające na wejściu",
-      "handles": [
-        "flaga-himery",
-        "naklejka-logo-czarna",
-        "naklejka-napis-biala",
-        "naklejka-logo-biala"
-      ]
-    }
+  "footer": [
+   {
+    "title": "Regulamin",
+    "url": "#"
+   },
+   {
+    "title": "Polityka prywatności",
+    "url": "#"
+   },
+   {
+    "title": "Zwroty",
+    "url": "#"
+   },
+   {
+    "title": "Kontakt",
+    "url": "#"
+   }
   ],
-  "pages": [
-    {
-      "handle": "o-himerze",
-      "template": "o-himerze",
-      "title": "O Himerze",
-      "content": "<p>Himera zaczęła się od aut, nocnych spotów i ludzi, którzy trzymają się razem. Logo z gargulcem stało się znakiem ekipy, a kominiarka jej twarzą.</p><p>Dziś to marka i społeczność: dropy w krótkich seriach, nagrania z przejazdów i spoty, na które każdy może przyjść.</p>"
-    },
-    {
-      "handle": "faq",
-      "template": "faq",
-      "title": "FAQ",
-      "content": ""
-    },
-    {
-      "handle": "login",
-      "template": null,
-      "title": "Zaloguj się",
-      "content": "<p>W sklepie Shopify w tym miejscu jest logowanie do konta klienta. W podglądzie konto nie działa.</p>",
-      "out": "account/login.html"
-    }
+  "main-menu-right": [
+   {
+    "title": "O Himerze",
+    "url": "/pages/o-himerze"
+   },
+   {
+    "title": "FAQ",
+    "url": "/pages/faq"
+   }
   ]
+ },
+ "products": [
+  {
+   "id": 1,
+   "handle": "kominiarka-himery",
+   "title": "Kominiarka Himery",
+   "code": "HMR-01",
+   "type": "Akcesoria",
+   "price": 13999,
+   "compare_at_price": 15999,
+   "available": false,
+   "description": "<p>Kominiarka z logo Himery, ta sama, którą widzisz na nagraniach. Lekki, oddychający materiał, haft na wysokości ust. Pierwsza seria zeszła, następna jest w drodze.</p>",
+   "images": [
+    {
+     "src": "/media/kominiarka.webp",
+     "alt": "Kominiarka Himery",
+     "width": 1200,
+     "height": 1500
+    }
+   ],
+   "showcase": "/media/kominiarka-czarna.webp",
+   "short": "Kominiarka",
+   "variants": [
+    {
+     "title": "Czarna",
+     "available": false,
+     "showcase": "/media/kominiarka-czarna.webp"
+    },
+    {
+     "title": "Biała",
+     "available": true,
+     "showcase": "/media/kominiarka-czarna.webp"
+    }
+   ],
+   "material": "96% wiskoza, 4% elastan",
+   "size": "Uniwersalny (unisex)",
+   "meta": "96% wiskoza · 4% elastan · unisex"
+  },
+  {
+   "id": 2,
+   "handle": "flaga-himery",
+   "title": "Flaga Himery",
+   "code": "HMR-02",
+   "type": "Akcesoria",
+   "price": 4999,
+   "compare_at_price": 6000,
+   "available": true,
+   "description": "<p>Tworzona po to, by się z nią obnosić. Sama flaga 60×50 cm, bez kija, tunel z lewej strony 22 mm. Trwały i lekki materiał.</p>",
+   "images": [
+    {
+     "src": "/media/flaga.webp",
+     "alt": "Flaga Himery",
+     "width": 1200,
+     "height": 1500
+    }
+   ],
+   "showcase": "/media/flaga-showcase.webp",
+   "short": "Flaga",
+   "variants": [
+    {
+     "title": "Czarna",
+     "available": true
+    },
+    {
+     "title": "Biała",
+     "available": true
+    }
+   ],
+   "material": "Trwały, lekki materiał",
+   "size": "60 × 50 cm, bez kija",
+   "meta": "60 × 50 cm · tunel 22 mm"
+  },
+  {
+   "id": 3,
+   "handle": "naklejka-logo-himery",
+   "title": "Naklejka na samochód — logo Himery",
+   "code": "HMR-03",
+   "type": "Naklejki",
+   "price": 2999,
+   "compare_at_price": 4000,
+   "available": true,
+   "description": "<p>Stań się częścią Himery. Logo na auto, do przyklejenia w kilka minut. Folia odporna na myjnię i słońce. Czarna na jasne auta, biała na ciemne.</p>",
+   "images": [
+    {
+     "src": "/media/naklejka-czarna.webp",
+     "alt": "Czarna naklejka z logo Himery na aucie",
+     "width": 1200,
+     "height": 1500
+    }
+   ],
+   "showcase": "/media/sticker-logo-czarna.webp",
+   "short": "Naklejka",
+   "variants": [
+    {
+     "title": "Czarna",
+     "available": true,
+     "showcase": "/media/sticker-logo-czarna.webp",
+     "image": "/media/naklejka-czarna.webp"
+    },
+    {
+     "title": "Biała",
+     "available": false,
+     "showcase": "/media/sticker-logo-biala.webp",
+     "image": "/media/naklejka-logo.webp"
+    }
+   ],
+   "material": "Folia samochodowa",
+   "size": "Na szybę lub karoserię",
+   "meta": "Folia · odporna na myjnię i słońce"
+  },
+  {
+   "id": 5,
+   "handle": "naklejka-napis-biala",
+   "title": "Naklejka na samochód — napis Himera — biała",
+   "code": "HMR-05",
+   "type": "Naklejki",
+   "price": 2999,
+   "compare_at_price": 4000,
+   "available": true,
+   "description": "<p>Napis HIMERA w ostrym kroju, na szybę albo karoserię.</p>",
+   "images": [
+    {
+     "src": "/media/naklejka-napis.webp",
+     "alt": "Biała naklejka z napisem Himera",
+     "width": 1200,
+     "height": 600
+    }
+   ],
+   "showcase": "/media/sticker-napis.webp",
+   "short": "Napis · biały"
+  }
+ ],
+ "collections": [
+  {
+   "handle": "all",
+   "title": "Wszystkie produkty",
+   "handles": "*"
+  },
+  {
+   "handle": "top-3",
+   "title": "Top 3",
+   "handles": [
+    "kominiarka-himery",
+    "flaga-himery",
+    "naklejka-logo-himery"
+   ]
+  },
+  {
+   "handle": "latajace",
+   "title": "Latające na wejściu",
+   "handles": [
+    "flaga-himery",
+    "naklejka-logo-himery",
+    "naklejka-napis-biala"
+   ]
+  }
+ ],
+ "pages": [
+  {
+   "handle": "o-himerze",
+   "template": "o-himerze",
+   "title": "O Himerze",
+   "content": "<p>Himera zaczęła się od aut, nocnych spotów i ludzi, którzy trzymają się razem. Logo z gargulcem stało się znakiem ekipy, a kominiarka jej twarzą.</p><p>Dziś to marka i społeczność: dropy w krótkich seriach, nagrania z przejazdów i spoty, na które każdy może przyjść.</p>"
+  },
+  {
+   "handle": "faq",
+   "template": "faq",
+   "title": "FAQ",
+   "content": ""
+  },
+  {
+   "handle": "login",
+   "template": null,
+   "title": "Zaloguj się",
+   "content": "<p>W sklepie Shopify w tym miejscu jest logowanie do konta klienta. W podglądzie konto nie działa.</p>",
+   "out": "account/login.html"
+  }
+ ]
 }

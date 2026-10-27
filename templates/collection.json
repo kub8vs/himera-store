@@ -2,6 +2,35 @@
   "sections": {
     "main": {
       "type": "main-collection",
+      "blocks": {
+        "p1": {
+          "type": "product",
+          "settings": {
+            "product": "kominiarka-himery",
+            "label": "Kominiarka"
+          }
+        },
+        "p2": {
+          "type": "product",
+          "settings": {
+            "product": "naklejka-logo-himery",
+            "label": "Naklejki",
+            "heading": "Naklejki na auto"
+          }
+        },
+        "p3": {
+          "type": "product",
+          "settings": {
+            "product": "flaga-himery",
+            "label": "Flaga"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
       "settings": {}
     }
   },

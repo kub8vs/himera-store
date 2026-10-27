@@ -31,21 +31,40 @@ const kw = (args) => Object.fromEntries(args.filter(Array.isArray));
 const lookup = (obj, key) => key.split('.').reduce((o, k) => (o == null ? o : o[k]), obj);
 
 // ---------- products / collections ----------
-const products = data.products.map((p) => ({
-  ...p,
-  url: `/products/${p.handle}`,
-  price: p.price,
-  compare_at_price: p.compare_at_price || null,
-  available: p.available !== false,
-  featured_image: p.images[0],
-  featured_media: p.images[0],
-  media: p.images,
-  first_available_variant: { id: p.id * 10 },
-  selected_or_first_available_variant: { id: p.id * 10, available: p.available !== false },
-  variants: [{ id: p.id * 10, title: 'Default Title', available: p.available !== false, price: p.price }],
-  has_only_default_variant: true,
-  metafields: { custom: { showcase_image: p.showcase ? { value: { src: p.showcase, alt: p.title, width: 1200, height: 1200 } } : null, code: { value: p.code }, short_title: p.short ? { value: p.short } : null } },
-}));
+const img = (src, alt) => (src ? { src, alt, width: 1200, height: 1200 } : null);
+const products = data.products.map((p) => {
+  const vlist = p.variants && p.variants.length
+    ? p.variants.map((v, k) => ({
+      id: p.id * 10 + k, title: v.title, option1: v.title, available: v.available !== false, price: v.price || p.price,
+      compare_at_price: p.compare_at_price || null,
+      featured_image: img(v.image || p.images[0].src, `${p.title} ${v.title}`),
+      metafields: { custom: { showcase_image: v.showcase || p.showcase ? { value: img(v.showcase || p.showcase, p.title) } : null } },
+    }))
+    : [{ id: p.id * 10, title: 'Default Title', option1: 'Default Title', available: p.available !== false, price: p.price, compare_at_price: p.compare_at_price || null, featured_image: p.images[0], metafields: { custom: {} } }];
+  const multi = vlist.length > 1;
+  const first = vlist.find((v) => v.available) || vlist[0];
+  return {
+    ...p,
+    url: `/products/${p.handle}`,
+    price: p.price,
+    compare_at_price: p.compare_at_price || null,
+    available: vlist.some((v) => v.available),
+    featured_image: p.images[0],
+    featured_media: p.images[0],
+    media: p.images,
+    first_available_variant: first,
+    selected_or_first_available_variant: first,
+    variants: vlist,
+    has_only_default_variant: !multi,
+    options: multi ? ['Kolor'] : ['Title'],
+    options_with_values: multi ? [{ name: 'Kolor', values: vlist.map((v) => v.title), position: 1 }] : [],
+    metafields: { custom: {
+      showcase_image: p.showcase ? { value: img(p.showcase, p.title) } : null,
+      code: { value: p.code }, short_title: p.short ? { value: p.short } : null,
+      material: p.material ? { value: p.material } : null, size: p.size ? { value: p.size } : null,
+    } },
+  };
+});
 const collections = {};
 for (const c of data.collections) {
   const items = c.handles === '*' ? products : products.filter((p) => c.handles.includes(p.handle));

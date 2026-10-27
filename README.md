@@ -4,7 +4,7 @@ To repozytorium to gotowy motyw Shopify (Online Store 2.0). Ten sam kod buduje t
 
 ```
 layout/      theme.liquid, password.liquid
-sections/    intro HIMERA, „Stań się częścią HIMERY” (auto + 3 CTA), ostatni odcinek, FAQ, showroom kolekcji, produkt, koszyk…
+sections/    intro HIMERA, wejście do sklepu, „Stań się częścią HIMERY” (auto + 3 CTA), ostatni odcinek, FAQ, showroom produktów, produkt, koszyk…
 snippets/    karta produktu, cena, ikona
 templates/   *.json (strona główna, kolekcja, produkt, koszyk, 404, strona, szukaj, blog, hasło)
 assets/      theme.css, theme.js, zdjęcia (auto, koła, portret, logo)
@@ -38,22 +38,27 @@ Motyw najpierw wgrywamy jako nieopublikowany i sprawdzamy w „Podglądzie”. P
    - `custom.showcase_image` (Plik, obraz): zdjęcie produktu na przezroczystym tle do showroomu z pierścieniem. Bez niego używane jest zdjęcie główne.
    - `custom.code` (Tekst jednowierszowy): kod produktu, np. `HMR-01`.
    - `custom.short_title` (Tekst jednowierszowy): krótka nazwa do dużego napisu w showroomie, np. `Kominiarka`.
+   - `custom.material` i `custom.size` (Tekst jednowierszowy): „Materiał” i „Rozmiar” w szczegółach produktu.
+   Każdy produkt (kominiarka, flaga, naklejka) ma opcję **Kolor** z wariantami **Czarna** i **Biała**, a każdy wariant własne zdjęcie (najlepiej na przezroczystym tle). Pierwszy wariant (Czarna) jest wybrany na start.
 2. **Sklep online → Strony**: dodaj stronę „O Himerze” (szablon `page.o-himerze`, adres `o-himerze`) i „FAQ” (szablon `page.faq`, adres `faq`). Odpowiedzi w FAQ (dostawa, zwroty) potwierdza Bruno i edytuje w „Dostosuj”.
 3. **Nawigacja**: menu `main-menu` (Strona główna, Produkty), menu `main-menu-right` (O Himerze, FAQ) i `footer`. Logo w nagłówku jest pośrodku, lewe menu po lewej, prawe po prawej.
 4. **Ustawienia → Konta klientów**: włącz konta, żeby w prawym górnym rogu działało logowanie (ikonka obok koszyka).
 5. **Dostosuj motyw → Ustawienia motywu**: linki Instagram i YouTube, logo (opcjonalnie), kolory.
-6. Strona główna, sekcja „Produkty (emoji)”: wybierz trzy produkty (kominiarka, flaga, naklejka). Sekcja „Ostatni odcinek” (film https://www.youtube.com/watch?v=BZEsjGBhaOE) jest w motywie, ale nie ma jej teraz na głównej. Teksty trzech kart CTA zmienia się w sekcji „Stań się częścią HIMERY”.
+6. Strona główna, sekcja „Wejście do sklepu”: wybierz trzy produkty, które wachlarzem stoją za przyciskiem. Strona „Produkty” (kolekcja): w sekcji showroomu wybierz kominiarkę, naklejkę i flagę oraz duże napisy (np. „Naklejki na auto”). Sekcja „Ostatni odcinek” (film https://www.youtube.com/watch?v=BZEsjGBhaOE) jest w motywie, ale nie ma jej teraz na głównej. Teksty trzech kart CTA zmienia się w sekcji „Stań się częścią HIMERY”.
 
 ## Strona główna
 
 1. Intro: wielki napis HIMERA na cały ekran, zdjęcie Himery w kominiarce, latające produkty i dym. „Przewiń” prowadzi do produktów.
-2. Produkty: ten sam showroom z przesuwaniem co na stronie produktów (strzałki, przeciąganie, swipe), pod nim wybrany produkt z opisem, ceną i przyciskiem „Dodaj do koszyka”. Produkty, emoji i krótkie nazwy zmienia się w sekcji „Produkty (emoji)”.
+2. Produkty: „Wejdź do showroomu”, jeden duży czerwony przycisk z obracającym się napisem, który lekko podąża za kursorem; za nim wachlarz trzech produktów, który rozchodzi się po najechaniu. Prowadzi na stronę Produkty.
 3. Znak rozpoznawczy: duże logo z czerwoną poświatą i gdzie je widać (auto, flaga, kominiarka).
 4. Jesteś w Himerze: wjeżdżające BMW i trzy karty (O Himerze, Produkty, Instagram).
-5. Cała kolekcja: pasek ze wszystkimi produktami, przycisk do kolekcji i pasek „Darmowa dostawa od 70 zł”.
-6. Dołącz do Himery: zapis na listę, stopka.
+5. Dołącz do Himery: zapis na listę, stopka.
 
 Sekcje „Przewijany napis”, „Ostatni odcinek” i „Top produkty” zostały w motywie i można je dodać z powrotem w „Dostosuj”.
+
+## Strona Produkty (showroom)
+
+Odwzorowanie filmu referencyjnego (0–10 s): ciemnoczerwony pokój z narożnikami, u góry chromowany pierścień z czerwonymi LED-ami i snopem światła, szklane panele z produktami w łuku (środkowy na wprost, boczne obrócone i dalej), duży chromowany napis, który przy zmianie produktu zapada się w podest, a nowy z niego wyjeżdża. Zakładki z kropką, licznik `HMR-01 01 / 03`, strzałki, przeciąganie i swipe. Przewinięcie w dół: pierścień i napis odjeżdżają, wybrany panel przesuwa się w lewo, a z prawej wchodzą szczegóły (cena, przekreślona stara cena, opis, kolor, materiał, rozmiar, „Dodaj do koszyka”, „Kup teraz”). Wybór „Biała” zalewa scenę jasnym tłem od miejsca kliknięcia, „Czarna” wraca do ciemnego.
 
 ## Telefony
 

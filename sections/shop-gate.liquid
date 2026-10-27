@@ -1,0 +1,70 @@
+{%- comment -%} Home "Produkty": one big magnetic button into the showroom, products fanned out behind it. {%- endcomment -%}
+{%- liquid
+  assign url = section.settings.link | default: routes.all_products_collection_url
+  assign ring = section.settings.ring_text | default: 'Wejdź do showroomu · Himera · Sklep · '
+-%}
+<section class="gate" id="{{ section.settings.anchor | default: 'produkty' }}" data-gate>
+  <div class="gate__glow" aria-hidden="true"></div>
+  <div class="wrap gate__head reveal">
+    <span class="mono gate__kicker">{{ section.settings.kicker }}</span>
+    <h2 class="gate__h">{{ section.settings.heading | replace: '|', '<br>' }}</h2>
+    {%- if section.settings.text != blank -%}<p class="gate__text">{{ section.settings.text }}</p>{%- endif -%}
+  </div>
+
+  <a class="gate__stage" href="{{ url }}" data-gate-stage aria-label="{{ section.settings.button_label | escape }}">
+    <span class="gate__fan" aria-hidden="true">
+      {%- for block in section.blocks -%}
+        {%- assign p = block.settings.product -%}
+        {%- if p != blank -%}
+          {%- assign img = p.metafields.custom.showcase_image.value | default: p.featured_image -%}
+          <span class="gate__card" style="--n:{{ forloop.index0 }};--of:{{ forloop.length }}" {{ block.shopify_attributes }}>
+            <span class="gate__glass">{{ img | image_url: width: 700 | image_tag: loading: 'lazy', alt: '' }}</span>
+            <span class="mono gate__tag">{{ block.settings.label | default: p.title }}</span>
+          </span>
+        {%- endif -%}
+      {%- endfor -%}
+    </span>
+    <span class="gate__btn" data-gate-btn>
+      <svg class="gate__ring" viewBox="0 0 200 200" aria-hidden="true">
+        <defs><path id="gate-path-{{ section.id }}" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs>
+        <text><textPath href="#gate-path-{{ section.id }}" textLength="486" lengthAdjust="spacing">{{ ring | upcase }}</textPath></text>
+      </svg>
+      <span class="gate__core">
+        <span class="gate__label">{{ section.settings.button_label }}</span>
+        <svg class="gate__arrow" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </span>
+  </a>
+
+  {%- if section.settings.note != blank -%}
+    <p class="mono gate__note reveal"><i></i>{{ section.settings.note }}</p>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Wejście do sklepu",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Kotwica", "default": "produkty" },
+    { "type": "text", "id": "kicker", "label": "Nadtytuł", "default": "Produkty" },
+    { "type": "text", "id": "heading", "label": "Nagłówek (| = nowa linia)", "default": "Wejdź|do showroomu." },
+    { "type": "text", "id": "text", "label": "Tekst", "default": "Kominiarka, flaga i naklejka. Wybierz swój kolor: czarny albo biały." },
+    { "type": "text", "id": "button_label", "label": "Przycisk", "default": "Zobacz produkty" },
+    { "type": "text", "id": "ring_text", "label": "Tekst dookoła przycisku", "default": "Wejdź do showroomu · Himera · Sklep · " },
+    { "type": "url", "id": "link", "label": "Link (domyślnie wszystkie produkty)" },
+    { "type": "text", "id": "note", "label": "Dopisek pod przyciskiem", "default": "Darmowa dostawa od 70 zł" }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Produkt w tle",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Produkt" },
+        { "type": "text", "id": "label", "label": "Podpis" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [{ "name": "Wejście do sklepu" }]
+}
+{% endschema %}
