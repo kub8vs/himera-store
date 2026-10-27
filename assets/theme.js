@@ -503,7 +503,7 @@
       const tb = tabEls[cur];
       dot.style.transform = `translateX(${(tb.offsetLeft + tb.offsetWidth / 2).toFixed(0)}px)`;
       items.forEach((it, i) => it.classList.toggle('is-on', i === cur));
-      $('[data-sr-details]', sr).scrollTop = 0;
+      if (open) window.scrollTo({ top: sr.getBoundingClientRect().top + window.scrollY, behavior: 'auto' });
       setTone(toneOf(cur));
       if (prev === undefined || prev === cur) { titleEls.forEach((t, i) => t.classList.toggle('is-on', i === cur)); return; }
       // the platform rises, the old title sinks into it, the new one climbs out
@@ -514,18 +514,16 @@
       swapT = setTimeout(() => sr.classList.remove('is-swap'), 1100);
     };
 
-    // picking a product: it slides under the light, details open, the page stops scrolling until "Wróć"
+    // picking a product: it slides under the light, details open; scrolling only runs through them until "Wróć"
     const backBtn = $('[data-sr-back]', sr);
     const setOpen = (o) => {
       if (o === open) return;
       open = o;
       sr.classList.toggle('is-open', o);
-      document.documentElement.classList.toggle('sr-lock', o);
+      document.documentElement.classList.toggle('sr-on', o);
       backBtn.tabIndex = o ? 0 : -1;
-      if (o) {
-        window.scrollTo({ top: sr.getBoundingClientRect().top + window.scrollY, behavior: 'auto' });
-        setTimeout(() => backBtn.focus({ preventScroll: true }), 50);
-      }
+      window.scrollTo({ top: sr.getBoundingClientRect().top + window.scrollY, behavior: 'auto' });
+      if (o) setTimeout(() => backBtn.focus({ preventScroll: true }), 50);
     };
     const down = () => setOpen(true);
     $('[data-sr-down]', sr).addEventListener('click', down);

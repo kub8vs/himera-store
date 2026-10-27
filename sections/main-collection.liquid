@@ -2,7 +2,7 @@
   Showroom: products on glass panels in an arc, a metal ring of light above and a platform below.
   Switching (arrows, tabs, drag, swipe) slides the arc; the platform rises and swaps the title.
   Clicking the front panel (or the hint) picks the product: it slides left under the light and the details open on the right.
-  While a product is picked the page does not scroll; only the arrows change it and "Wróć" goes back to the showroom.
+  While a product is picked the page scrolls only through its details (the rest of the page is hidden); only the arrows change it and "Wróć" goes back.
   Picking white turns the ring light white. Below the showroom every product is summed up in a few slogans.
 {%- endcomment -%}
 {%- liquid
@@ -52,28 +52,29 @@
       <i class="sr__dot" aria-hidden="true" data-sr-dot></i>
     </div>
     <button class="sr__hint mono" type="button" data-sr-down><span>{{ section.settings.hint }}</span><i aria-hidden="true"></i></button>
-    <button class="sr__back mono" type="button" data-sr-back tabindex="-1">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
-      <span>{{ section.settings.back }}</span>
-    </button>
 
-    {%- comment -%} one entry per product: data for the ring + the detail panel {%- endcomment -%}
-    <div class="sr__details" data-sr-details>
-      {%- assign n = 0 -%}
-      {%- for block in picks -%}
-        {%- assign p = block.settings.product -%}
-        {%- if p != blank -%}
-          {% render 'sr-item', p: p, idx: n, total: total, label: block.settings.label, heading: block.settings.heading %}
-          {%- assign n = n | plus: 1 -%}
-        {%- endif -%}
-      {%- endfor -%}
-      {%- if total == 0 -%}
-        {%- for p in source limit: 3 -%}
-          {% render 'sr-item', p: p, idx: forloop.index0, total: source.size, label: '', heading: '' %}
-        {%- endfor -%}
-      {%- endif -%}
-    </div>
   </div>
+
+  {%- comment -%} one entry per product: data for the ring + the detail panel {%- endcomment -%}
+  <div class="sr__details" data-sr-details>
+    {%- assign n = 0 -%}
+    {%- for block in picks -%}
+      {%- assign p = block.settings.product -%}
+      {%- if p != blank -%}
+        {% render 'sr-item', p: p, idx: n, total: total, label: block.settings.label, heading: block.settings.heading %}
+        {%- assign n = n | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if total == 0 -%}
+      {%- for p in source limit: 3 -%}
+        {% render 'sr-item', p: p, idx: forloop.index0, total: source.size, label: '', heading: '' %}
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+  <button class="sr__back mono" type="button" data-sr-back tabindex="-1">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+    <span>{{ section.settings.back }}</span>
+  </button>
 </section>
 
 {%- if total > 0 -%}
