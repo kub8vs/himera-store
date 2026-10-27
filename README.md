@@ -47,7 +47,7 @@ Motyw najpierw wgrywamy jako nieopublikowany i sprawdzamy w „Podglądzie”. P
 ## Strona główna
 
 1. Intro: wielki napis HIMERA na cały ekran, zdjęcie Himery w kominiarce, latające produkty i dym. „Przewiń” prowadzi do produktów.
-2. Produkty: trzy przyciski 🥷 🏴 🦇 (kominiarka, flaga, naklejka) i ten sam showroom z przesuwaniem co na stronie produktów (strzałki, przeciąganie, swipe), pod nim wybrany produkt z opisem, ceną i przyciskiem „Dodaj do koszyka”. Produkty, emoji i krótkie nazwy zmienia się w sekcji „Produkty (emoji)”.
+2. Produkty: ten sam showroom z przesuwaniem co na stronie produktów (strzałki, przeciąganie, swipe), pod nim wybrany produkt z opisem, ceną i przyciskiem „Dodaj do koszyka”. Produkty, emoji i krótkie nazwy zmienia się w sekcji „Produkty (emoji)”.
 3. Znak rozpoznawczy: duże logo z czerwoną poświatą i gdzie je widać (auto, flaga, kominiarka).
 4. Jesteś w Himerze: wjeżdżające BMW i trzy karty (O Himerze, Produkty, Instagram).
 5. Cała kolekcja: pasek ze wszystkimi produktami, przycisk do kolekcji i pasek „Darmowa dostawa od 70 zł”.

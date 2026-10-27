@@ -1,20 +1,9 @@
-{%- comment -%} "Produkty": three emoji tabs (🥷 🏴 🦇), below them the picked product with its description and the buy form. {%- endcomment -%}
+{%- comment -%} "Produkty": the sliding showroom, below it the picked product with its description and the buy form. {%- endcomment -%}
 <section class="spot" id="{{ section.settings.anchor | default: 'produkty' }}" data-show>
   <div class="spot__glow" aria-hidden="true"></div>
   <div class="wrap spot__head">
     <span class="mono spot__kicker" data-reveal>{{ section.settings.kicker }}</span>
     <h2 class="spot__h" data-reveal>{{ section.settings.heading }}</h2>
-    <div class="spot__tabs" role="tablist" aria-label="{{ section.settings.heading | escape }}" data-reveal>
-      {%- for block in section.blocks -%}
-        {%- assign p = block.settings.product -%}
-        {%- if p != blank -%}
-          <button class="spot__tab" type="button" role="tab" id="spot-tab-{{ block.id }}" aria-controls="spot-{{ block.id }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" data-show-tab="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
-            <span class="spot__emoji" aria-hidden="true">{{ block.settings.emoji }}</span>
-            <span class="mono spot__lab">{{ block.settings.label | default: p.title }}</span>
-          </button>
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
   </div>
 
   <div class="spot__room show__pin">
@@ -49,7 +38,7 @@
           assign code = p.metafields.custom.code.value | default: p.type
           assign variant = p.selected_or_first_available_variant
         -%}
-        <article class="spot__panel{% if forloop.first %} is-on{% endif %}" id="spot-{{ block.id }}" role="tabpanel" aria-labelledby="spot-tab-{{ block.id }}" data-show-panel="{{ forloop.index0 }}">
+        <article class="spot__panel{% if forloop.first %} is-on{% endif %}" id="spot-{{ block.id }}" role="tabpanel" data-show-panel="{{ forloop.index0 }}">
           <div class="spot__info">
             <span class="mono spot__code">{{ code }}</span>
             <h3 class="spot__title">{{ p.title }}</h3>
