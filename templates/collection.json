@@ -8,7 +8,7 @@
           "settings": {
             "product": "kominiarka-himery",
             "label": "Kominiarka",
-            "slogans": "Anonimowość|Znak Himery na twarzy|Lekka i oddychająca|Unisex"
+            "slogans": "Anonimowość w ruchu|Logo Himery wyhaftowane przy ustach|96% wiskoza, 4% elastan|Lekka i oddychająca|Trzyma kształt|Jeden rozmiar, unisex|Na auto, ulicę i nagrania|Czarna lub biała"
           }
         },
         "p2": {
@@ -17,7 +17,7 @@
             "product": "naklejka-logo-himery",
             "label": "Naklejki",
             "heading": "Naklejki na auto",
-            "slogans": "Twoje auto w Himerze|Na szybę lub karoserię|Folia samochodowa|Czarna lub biała"
+            "slogans": "Logo Himery na twoje auto|Folia samochodowa|Odporna na myjnię i słońce|Na szybę lub karoserię|Przyklejasz w kilka minut|Czarna na jasne auta, biała na ciemne"
           }
         },
         "p3": {
@@ -25,7 +25,7 @@
           "settings": {
             "product": "flaga-himery",
             "label": "Flaga",
-            "slogans": "Pokaż, że jesteś w Himerze|60 × 50 cm|Na ścianę, do auta, na event|Czarna lub biała"
+            "slogans": "Pokaż, że jesteś w Himerze|60 × 50 cm, bez kija|Trwały, lekki materiał|Na ścianę, do auta, na event|Duże logo Himery|Czarna lub biała"
           }
         }
       },
@@ -35,9 +35,18 @@
         "p3"
       ],
       "settings": {}
+    },
+    "join": {
+      "type": "join-cta",
+      "settings": {
+        "show_portrait": true,
+        "kicker": "LISTA HIMERY",
+        "heading": "Dołącz|do|Himery."
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "join"
   ]
 }

@@ -528,7 +528,6 @@
     const down = () => setOpen(true);
     $('[data-sr-down]', sr).addEventListener('click', down);
     backBtn.addEventListener('click', () => setOpen(false));
-    $$('[data-sr-pick]').forEach((b) => b.addEventListener('click', () => { go(+b.dataset.srPick); setOpen(true); }));
     $('[data-sr-prev]', sr).addEventListener('click', () => go(cur - 1, -1));
     $('[data-sr-next]', sr).addEventListener('click', () => go(cur + 1, 1));
     document.addEventListener('keydown', (e) => {
@@ -583,9 +582,17 @@
       go(cur + (e.deltaX > 0 ? 1 : -1), e.deltaX > 0 ? 1 : -1);
     }, { passive: false });
 
+    const swapImg = (k, src) => cards.forEach((card) => {
+      if (+card.dataset.k !== k) return;
+      const img = $('img', card);
+      if (img.getAttribute('src') === src) return;
+      card.classList.add('is-swapimg');
+      setTimeout(() => { img.src = src; card.classList.remove('is-swapimg'); }, 260);
+    });
     // colour options: swap the photo, price and stock; white turns the ring light white
     items.forEach((it, k) => {
       const sws = $$('[data-sr-var]', it);
+      const shots = $$('[data-sr-shot]', it);
       const idIn = $('[data-sr-id]', it);
       const add = $('[data-sr-add]', it);
       const addLab = $('[data-sr-addlab]', it);
@@ -600,14 +607,14 @@
         add.disabled = !ok; buyNow.disabled = !ok;
         addLab.textContent = ok ? addLab.dataset.on : addLab.dataset.off;
         notify.hidden = ok;
-        cards.forEach((card) => {
-          if (+card.dataset.k !== k) return;
-          const img = $('img', card);
-          if (img.getAttribute('src') === sw.dataset.img) return;
-          card.classList.add('is-swapimg');
-          setTimeout(() => { img.src = sw.dataset.img; card.classList.remove('is-swapimg'); }, 260);
-        });
+        swapImg(k, sw.dataset.img);
+        shots.forEach((x, i) => x.setAttribute('aria-pressed', i === 0 ? 'true' : 'false'));
         setTone(sw.dataset.tone === 'light');
+      }));
+      // photos from every side: show the picked one on the panel
+      shots.forEach((b) => b.addEventListener('click', () => {
+        shots.forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+        swapImg(k, b.dataset.srShot);
       }));
       // "Kup teraz": add, then straight to checkout
       buyNow.addEventListener('click', (e) => {

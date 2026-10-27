@@ -55,10 +55,22 @@
    "description": "<p>Kominiarka z logo Himery, ta sama, którą widzisz na nagraniach. Lekki, oddychający materiał, haft na wysokości ust. Pierwsza seria zeszła, następna jest w drodze.</p>",
    "images": [
     {
+     "src": "/media/kominiarka-czarna.webp",
+     "alt": "Kominiarka Himery, przód",
+     "width": 1024,
+     "height": 1272
+    },
+    {
      "src": "/media/kominiarka.webp",
      "alt": "Kominiarka Himery",
-     "width": 1200,
-     "height": 1500
+     "width": 1920,
+     "height": 418
+    },
+    {
+     "src": "/media/kominiarka-showcase.webp",
+     "alt": "Kominiarka Himery, bok",
+     "width": 950,
+     "height": 1290
     }
    ],
    "showcase": "/media/kominiarka-czarna.webp",
@@ -93,8 +105,14 @@
     {
      "src": "/media/flaga.webp",
      "alt": "Flaga Himery",
-     "width": 1200,
-     "height": 1500
+     "width": 1694,
+     "height": 954
+    },
+    {
+     "src": "/media/flaga-showcase.webp",
+     "alt": "Flaga Himery, rozłożona",
+     "width": 1500,
+     "height": 1101
     }
    ],
    "showcase": "/media/flaga-showcase.webp",
@@ -126,9 +144,27 @@
    "images": [
     {
      "src": "/media/naklejka-czarna.webp",
-     "alt": "Czarna naklejka z logo Himery na aucie",
-     "width": 1200,
-     "height": 1500
+     "alt": "Czarna naklejka na aucie",
+     "width": 1694,
+     "height": 954
+    },
+    {
+     "src": "/media/sticker-logo-czarna.webp",
+     "alt": "Czarna naklejka",
+     "width": 900,
+     "height": 763
+    },
+    {
+     "src": "/media/naklejka-logo.webp",
+     "alt": "Biała naklejka",
+     "width": 1078,
+     "height": 896
+    },
+    {
+     "src": "/media/sticker-logo-biala.webp",
+     "alt": "Biała naklejka, z bliska",
+     "width": 900,
+     "height": 763
     }
    ],
    "showcase": "/media/sticker-logo-czarna.webp",

@@ -21,7 +21,12 @@
         <s class="sr__was">{{ p.compare_at_price | money }}</s><span class="sr__off mono">-{{ off }}%</span>
       {%- endif -%}
     </div>
-    <div class="sr__desc rte">{{ p.description }}</div>
+    {%- assign pts = points | default: p.metafields.custom.points.value | split: '|' -%}
+    {%- if pts.size > 0 -%}
+      <ul class="sr__points">{%- for t in pts -%}<li><i aria-hidden="true"></i>{{ t | strip }}</li>{%- endfor -%}</ul>
+    {%- else -%}
+      <div class="sr__desc rte">{{ p.description }}</div>
+    {%- endif -%}
 
     {%- form 'product', p, class: 'sr__form', data-type: 'add' -%}
       <input type="hidden" name="id" value="{{ variant.id }}" data-sr-id>
@@ -60,5 +65,17 @@
       </div>
       <a class="sr__notify mono" href="{{ routes.root_url }}#dolacz"{% if variant.available %} hidden{% endif %} data-sr-notify>{{ 'products.notify' | t }} <span aria-hidden="true">↗</span></a>
     {%- endform -%}
+    {%- if p.images.size > 1 -%}
+      <div class="sr__gallery">
+        <span class="mono sr__optlab">Zdjęcia · {{ p.images.size }}</span>
+        <div class="sr__shots">
+          {%- for im in p.images -%}
+            <button type="button" class="sr__shot" data-sr-shot="{{ im | image_url: width: 1200 }}" aria-label="{{ im.alt | default: p.title | escape }}"{% if forloop.first %} aria-pressed="true"{% endif %}>
+              {{ im | image_url: width: 400 | image_tag: loading: 'lazy', alt: '' }}
+            </button>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
   </div>
 </article>
