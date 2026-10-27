@@ -1,5 +1,5 @@
 {%- comment -%} "Produkty": three emoji tabs (🥷 🏴 🦇), below them the picked product with its description and the buy form. {%- endcomment -%}
-<section class="spot" id="{{ section.settings.anchor | default: 'produkty' }}" data-spot>
+<section class="spot" id="{{ section.settings.anchor | default: 'produkty' }}" data-show>
   <div class="spot__glow" aria-hidden="true"></div>
   <div class="wrap spot__head">
     <span class="mono spot__kicker" data-reveal>{{ section.settings.kicker }}</span>
@@ -8,7 +8,7 @@
       {%- for block in section.blocks -%}
         {%- assign p = block.settings.product -%}
         {%- if p != blank -%}
-          <button class="spot__tab{% if forloop.first %} is-on{% endif %}" type="button" role="tab" id="spot-tab-{{ block.id }}" aria-controls="spot-{{ block.id }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" data-spot-tab="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+          <button class="spot__tab" type="button" role="tab" id="spot-tab-{{ block.id }}" aria-controls="spot-{{ block.id }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" data-show-tab="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
             <span class="spot__emoji" aria-hidden="true">{{ block.settings.emoji }}</span>
             <span class="mono spot__lab">{{ block.settings.label | default: p.title }}</span>
           </button>
@@ -17,21 +17,39 @@
     </div>
   </div>
 
+  <div class="spot__room show__pin">
+    <div class="show__room" aria-hidden="true"><i class="show__wall"></i><i class="show__floor"></i></div>
+    <div class="show__ring" aria-hidden="true"><i class="show__disc"></i><i class="show__led show__led--1"></i><i class="show__led show__led--2"></i><i class="show__led show__led--3"></i><i class="show__scan"></i></div>
+    <div class="show__cone" aria-hidden="true"></div>
+    <div class="show__dust" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="show__stage">
+      {%- for block in section.blocks -%}
+        {%- assign p = block.settings.product -%}
+        {%- if p != blank -%}
+          {%- assign img = p.metafields.custom.showcase_image.value | default: p.featured_image -%}
+          {%- capture src -%}{{ img | image_url: width: 1400 }}{%- endcapture -%}
+          <a class="show__item" href="{{ p.url }}" data-show-item="{{ forloop.index0 }}" style="--src: url('{{ src }}'); --i: {{ forloop.index0 }}" tabindex="-1" aria-hidden="true" draggable="false">
+            <span class="show__float"><img src="{{ src }}" alt="{{ p.title | escape }}" width="1200" height="1200" draggable="false" loading="lazy"><i class="show__lit"></i></span>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    <div class="show__pool" aria-hidden="true">
+      {%- for block in section.blocks -%}{%- assign p = block.settings.product -%}{%- if p != blank -%}<span class="show__mirror" data-show-mirror="{{ forloop.index0 }}">{{ p.metafields.custom.code.value | default: block.settings.label }}</span>{%- endif -%}{%- endfor -%}
+    </div>
+    <button class="show__arrow spot__arrow spot__arrow--l" type="button" data-show-prev aria-label="Poprzedni">{% render 'icon-arrow', dir: 'left' %}</button>
+    <button class="show__arrow spot__arrow spot__arrow--r" type="button" data-show-next aria-label="Następny">{% render 'icon-arrow' %}</button>
+  </div>
+
   <div class="wrap spot__panels">
     {%- for block in section.blocks -%}
       {%- assign p = block.settings.product -%}
       {%- if p != blank -%}
         {%- liquid
-          assign img = p.metafields.custom.showcase_image.value | default: p.featured_image
           assign code = p.metafields.custom.code.value | default: p.type
           assign variant = p.selected_or_first_available_variant
         -%}
-        <article class="spot__panel{% if forloop.first %} is-on{% endif %}" id="spot-{{ block.id }}" role="tabpanel" aria-labelledby="spot-tab-{{ block.id }}" data-spot-panel>
-          <a class="spot__stage" href="{{ p.url }}" aria-label="{{ p.title | escape }}">
-            <i class="spot__halo" aria-hidden="true"></i>
-            <span class="spot__float">{{ img | image_url: width: 1200 | image_tag: loading: 'lazy', alt: p.title, width: 1200, height: 1200 }}</span>
-            <i class="spot__floor" aria-hidden="true"></i>
-          </a>
+        <article class="spot__panel{% if forloop.first %} is-on{% endif %}" id="spot-{{ block.id }}" role="tabpanel" aria-labelledby="spot-tab-{{ block.id }}" data-show-panel="{{ forloop.index0 }}">
           <div class="spot__info">
             <span class="mono spot__code">{{ code }}</span>
             <h3 class="spot__title">{{ p.title }}</h3>

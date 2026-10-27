@@ -910,9 +910,9 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .spot__tabs { display: inline-flex; gap: 8px; padding: 6px; margin-top: 10px; border-radius: 999px; background: var(--glass); box-shadow: inset 0 0 0 1px rgba(236, 230, 224, .06); }
 .spot__tab { display: inline-flex; align-items: center; gap: 10px; padding: 10px 20px 10px 14px; border-radius: 999px; color: var(--mute); transition: background .4s var(--ease), color .3s, box-shadow .4s; }
 .spot__tab:hover { color: var(--bone); }
-.spot__tab.is-on { background: rgba(196, 22, 28, .16); color: var(--bone); box-shadow: inset 0 0 0 1px rgba(196, 22, 28, .5), 0 0 30px rgba(196, 22, 28, .25); }
+.spot__tab[aria-selected="true"] { background: rgba(196, 22, 28, .16); color: var(--bone); box-shadow: inset 0 0 0 1px rgba(196, 22, 28, .5), 0 0 30px rgba(196, 22, 28, .25); }
 .spot__emoji { font-size: 26px; line-height: 1; transition: transform .5s var(--ease); }
-.spot__tab.is-on .spot__emoji { transform: scale(1.15) rotate(-6deg); }
+.spot__tab[aria-selected="true"] .spot__emoji { transform: scale(1.15) rotate(-6deg); }
 .spot__lab { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
 .spot__panels { position: relative; }
 .spot__panel { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(28px, 5vw, 80px); align-items: center; }
@@ -1005,6 +1005,29 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 @media (prefers-reduced-motion: reduce) {
   .spot__float img, .band__media img, .mark__glow, .mark__scan { animation: none !important; }
   .band__bar i { width: 100%; transition: none; }
+}
+
+
+/* home showroom: same carousel as the collection page, a bit lower */
+.spot__room { position: relative; height: min(640px, 72svh); min-height: 460px; margin-bottom: clamp(24px, 4vw, 48px); border-radius: var(--r); }
+.spot__room .show__room { border-radius: inherit; }
+.spot__room .show__ring { top: 18px; }
+.spot__room .show__cone { top: calc(18px + clamp(24px, 3vw, 44px)); height: 90%; }
+.spot__room .show__item { top: 50%; width: clamp(240px, 28vw, 440px); }
+.spot__room .show__pool { bottom: 8%; }
+.spot.is-drag .show__item { transition: none; cursor: grabbing; }
+.spot__arrow { position: absolute; top: 50%; z-index: 4; transform: translateY(-50%); }
+.spot__arrow--l { left: var(--gutter); }
+.spot__arrow--r { right: var(--gutter); }
+.spot__panel { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; }
+.spot__panel .spot__info { justify-items: center; max-width: 620px; margin: 0 auto; }
+.spot__panel .spot__desc { margin-inline: auto; }
+.spot__panel .spot__buy { justify-content: center; }
+.spot__panel .spot__form { margin-inline: auto; }
+@media (max-width: 860px) {
+  .spot__room { height: min(520px, 62svh); min-height: 380px; border-radius: 0; }
+  .spot__room .show__item { width: min(78vw, 40svh); }
+  .spot__arrow { top: auto; bottom: 14px; transform: none; }
 }
 
 /* landscape phones (kept last so it wins over the phone rules) */
