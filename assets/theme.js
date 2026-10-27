@@ -404,18 +404,7 @@
     reveals.forEach((el) => el.classList.add('is-in'));
   }
 
-  /* ---------- home "Produkty": the button leans toward the cursor ---------- */
-  $$('[data-gate-stage]').forEach((st) => {
-    if (reduced || !matchMedia('(hover: hover)').matches) return;
-    st.addEventListener('pointermove', (e) => {
-      const r = st.getBoundingClientRect();
-      st.style.setProperty('--mx', ((e.clientX - r.left - r.width / 2) * 0.18).toFixed(1) + 'px');
-      st.style.setProperty('--my', ((e.clientY - r.top - r.height / 2) * 0.18).toFixed(1) + 'px');
-    });
-    st.addEventListener('pointerleave', () => { st.style.setProperty('--mx', '0px'); st.style.setProperty('--my', '0px'); });
-  });
-
-  /* ---------- showroom (collection): arc of glass panels, platform title swap, scroll into details ---------- */
+  /* ---------- showroom (collection): arc of glass panels, platform title swap, click a product to pick it ---------- */
   const sr = $('[data-sr]');
   if (sr) {
     const pinEl = $('.sr__pin', sr);
@@ -426,7 +415,6 @@
     const titles = $('[data-sr-titles]', sr);
     const tabsEl = $('[data-sr-tabs]', sr);
     const dot = $('[data-sr-dot]', sr);
-    const tone = $('[data-sr-tone]', sr);
     const C = N < 3 ? N * 3 : N * Math.ceil(9 / N);
     const cards = [];
     const titleEls = [];
@@ -487,14 +475,8 @@
         if (jump) requestAnimationFrame(() => { card.style.transition = ''; });
       });
     };
-    const setTone = (light, from) => {
-      if (from) {
-        const r = from.getBoundingClientRect(), p = pinEl.getBoundingClientRect();
-        tone.style.setProperty('--tx', (r.left + r.width / 2 - p.left).toFixed(0) + 'px');
-        tone.style.setProperty('--ty', (r.top + r.height / 2 - p.top).toFixed(0) + 'px');
-      }
-      sr.classList.toggle('is-light', !!light);
-    };
+    // white variant: the ring light turns white
+    const setTone = (light) => sr.classList.toggle('is-white', !!light);
     const toneOf = (k) => { const on = $('[data-sr-var][aria-checked="true"]', items[k]); return on && on.dataset.tone === 'light'; };
     let swapT;
     const go = (k, dir) => {
@@ -521,6 +503,7 @@
       const tb = tabEls[cur];
       dot.style.transform = `translateX(${(tb.offsetLeft + tb.offsetWidth / 2).toFixed(0)}px)`;
       items.forEach((it, i) => it.classList.toggle('is-on', i === cur));
+      $('[data-sr-details]', sr).scrollTop = 0;
       setTone(toneOf(cur));
       if (prev === undefined || prev === cur) { titleEls.forEach((t, i) => t.classList.toggle('is-on', i === cur)); return; }
       // the platform rises, the old title sinks into it, the new one climbs out
@@ -531,24 +514,28 @@
       swapT = setTimeout(() => sr.classList.remove('is-swap'), 1100);
     };
 
-    // scroll: from the ring into the details
-    const range = () => sr.offsetHeight - window.innerHeight;
-    const onScroll = () => {
-      const r = sr.getBoundingClientRect();
-      const p = Math.max(0, Math.min(1, -r.top / Math.max(1, range())));
-      const q = Math.max(0, Math.min(1, (p - 0.1) / 0.55));
-      const e = q * q * (3 - 2 * q);
-      sr.style.setProperty('--q', e.toFixed(4));
-      const o = e > 0.62;
-      if (o !== open) { open = o; sr.classList.toggle('is-open', o); }
+    // picking a product: it slides under the light, details open, the page stops scrolling until "Wróć"
+    const backBtn = $('[data-sr-back]', sr);
+    const setOpen = (o) => {
+      if (o === open) return;
+      open = o;
+      sr.classList.toggle('is-open', o);
+      document.documentElement.classList.toggle('sr-lock', o);
+      backBtn.tabIndex = o ? 0 : -1;
+      if (o) {
+        window.scrollTo({ top: sr.getBoundingClientRect().top + window.scrollY, behavior: 'auto' });
+        setTimeout(() => backBtn.focus({ preventScroll: true }), 50);
+      }
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    const down = () => window.scrollTo({ top: sr.offsetTop + range() * 0.82, behavior: reduced ? 'auto' : 'smooth' });
-    $('[data-sr-down]', sr).addEventListener('click', (e) => { e.preventDefault(); down(); });
+    const down = () => setOpen(true);
+    $('[data-sr-down]', sr).addEventListener('click', down);
+    backBtn.addEventListener('click', () => setOpen(false));
+    $$('[data-sr-pick]').forEach((b) => b.addEventListener('click', () => { go(+b.dataset.srPick); setOpen(true); }));
     $('[data-sr-prev]', sr).addEventListener('click', () => go(cur - 1, -1));
     $('[data-sr-next]', sr).addEventListener('click', () => go(cur + 1, 1));
     document.addEventListener('keydown', (e) => {
-      if (open || e.target.closest('input, textarea, select')) return;
+      if (e.target.closest('input, textarea, select')) return;
+      if (open && e.key === 'Escape') { setOpen(false); return; }
       const r = sr.getBoundingClientRect();
       if (r.top > window.innerHeight * 0.5 || r.bottom < window.innerHeight * 0.5) return;
       if (e.key === 'ArrowRight') go(cur + 1, 1);
@@ -582,7 +569,7 @@
         return;
       }
       const card = e.target.closest && e.target.closest('.sr__card');
-      if (!card) return;
+      if (!card || open) return;
       if (card.classList.contains('is-front')) down();
       else go(+card.dataset.k);
     };
@@ -590,6 +577,7 @@
     window.addEventListener('pointercancel', () => { sx = null; sr.classList.remove('is-drag'); });
     let wheelLock = 0;
     scene.addEventListener('wheel', (e) => {
+      if (open) return;
       if (Math.abs(e.deltaX) < Math.abs(e.deltaY) || Math.abs(e.deltaX) < 25) return;
       e.preventDefault();
       if (Date.now() < wheelLock) return;
@@ -597,7 +585,7 @@
       go(cur + (e.deltaX > 0 ? 1 : -1), e.deltaX > 0 ? 1 : -1);
     }, { passive: false });
 
-    // colour options: swap the photo, price and stock; white turns the room light
+    // colour options: swap the photo, price and stock; white turns the ring light white
     items.forEach((it, k) => {
       const sws = $$('[data-sr-var]', it);
       const idIn = $('[data-sr-id]', it);
@@ -621,7 +609,7 @@
           card.classList.add('is-swapimg');
           setTimeout(() => { img.src = sw.dataset.img; card.classList.remove('is-swapimg'); }, 260);
         });
-        setTone(sw.dataset.tone === 'light', sw);
+        setTone(sw.dataset.tone === 'light');
       }));
       // "Kup teraz": add, then straight to checkout
       buyNow.addEventListener('click', (e) => {
@@ -634,7 +622,6 @@
 
     size();
     sync();
-    onScroll();
     window.addEventListener('resize', () => { size(); sync(); });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => sync());
   }

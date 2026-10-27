@@ -49,7 +49,7 @@ Motyw najpierw wgrywamy jako nieopublikowany i sprawdzamy w „Podglądzie”. P
 ## Strona główna
 
 1. Intro: wielki napis HIMERA na cały ekran, zdjęcie Himery w kominiarce, latające produkty i dym. „Przewiń” prowadzi do produktów.
-2. Produkty: „Wejdź do showroomu”, jeden duży czerwony przycisk z obracającym się napisem, który lekko podąża za kursorem; za nim wachlarz trzech produktów, który rozchodzi się po najechaniu. Prowadzi na stronę Produkty.
+2. Produkty: „Wejdź do showroomu”, mały podgląd showroomu (pierścień światła i trzy szklane panele z produktami) z jednym przyciskiem w stylu reszty strony. Prowadzi na stronę Produkty.
 3. Znak rozpoznawczy: duże logo z czerwoną poświatą i gdzie je widać (auto, flaga, kominiarka).
 4. Jesteś w Himerze: wjeżdżające BMW i trzy karty (O Himerze, Produkty, Instagram).
 5. Dołącz do Himery: zapis na listę, stopka.
@@ -58,7 +58,7 @@ Sekcje „Przewijany napis”, „Ostatni odcinek” i „Top produkty” zosta�
 
 ## Strona Produkty (showroom)
 
-Odwzorowanie filmu referencyjnego (0–10 s): ciemnoczerwony pokój z narożnikami, u góry chromowany pierścień z czerwonymi LED-ami i snopem światła, szklane panele z produktami w łuku (środkowy na wprost, boczne obrócone i dalej), duży chromowany napis, który przy zmianie produktu zapada się w podest, a nowy z niego wyjeżdża. Zakładki z kropką, licznik `HMR-01 01 / 03`, strzałki, przeciąganie i swipe. Przewinięcie w dół: pierścień i napis odjeżdżają, wybrany panel przesuwa się w lewo, a z prawej wchodzą szczegóły (cena, przekreślona stara cena, opis, kolor, materiał, rozmiar, „Dodaj do koszyka”, „Kup teraz”). Wybór „Biała” zalewa scenę jasnym tłem od miejsca kliknięcia, „Czarna” wraca do ciemnego.
+Odwzorowanie filmu referencyjnego (0–10 s): ciemnoczerwony pokój z narożnikami, u góry chromowany pierścień z czerwonymi LED-ami i snopem światła, szklane panele z produktami w łuku, duży chromowany napis, który przy zmianie produktu zapada się w podest, a nowy z niego wyjeżdża. Zakładki z kropką, licznik `HMR-01 01 / 03`, strzałki, przeciąganie i swipe. Kliknięcie produktu (albo podpowiedzi pod spodem) go wybiera: panel jedzie w lewo pod światło, z prawej wchodzą szczegóły (cena, opis, kolor, materiał, rozmiar, „Dodaj do koszyka”, „Kup teraz”). Gdy produkt jest wybrany, strona się nie przewija; produkt zmieniają tylko strzałki, a „Wróć do showroomu” wraca. Wybór „Biała” zmienia światło pierścienia na białe, „Czarna” na czerwone; tło zostaje ciemne. Pod showroomem każdy produkt jest opisany hasłami (ustawienie „Hasła” w bloku produktu, oddzielone `|`); kliknięcie wiersza otwiera ten produkt w showroomie.
 
 ## Telefony
 

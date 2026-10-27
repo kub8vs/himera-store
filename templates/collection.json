@@ -7,7 +7,8 @@
           "type": "product",
           "settings": {
             "product": "kominiarka-himery",
-            "label": "Kominiarka"
+            "label": "Kominiarka",
+            "slogans": "Anonimowość|Znak Himery na twarzy|Lekka i oddychająca|Unisex"
           }
         },
         "p2": {
@@ -15,14 +16,16 @@
           "settings": {
             "product": "naklejka-logo-himery",
             "label": "Naklejki",
-            "heading": "Naklejki na auto"
+            "heading": "Naklejki na auto",
+            "slogans": "Twoje auto w Himerze|Na szybę lub karoserię|Folia samochodowa|Czarna lub biała"
           }
         },
         "p3": {
           "type": "product",
           "settings": {
             "product": "flaga-himery",
-            "label": "Flaga"
+            "label": "Flaga",
+            "slogans": "Pokaż, że jesteś w Himerze|60 × 50 cm|Na ścianę, do auta, na event|Czarna lub biała"
           }
         }
       },
