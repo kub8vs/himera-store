@@ -151,7 +151,9 @@ async function renderSection(name, ctx, json = {}) {
     const bdef = (schema.blocks || []).find((x) => x.type === b.type) || {};
     const bs = {};
     for (const st of bdef.settings || []) if (st.id && 'default' in st) bs[st.id] = st.default;
-    return { id: bid, type: b.type, settings: { ...bs, ...(b.settings || {}) }, shopify_attributes: '' };
+    const settings = { ...bs, ...(b.settings || {}) };
+    for (const st of bdef.settings || []) if (st.type === 'product' && typeof settings[st.id] === 'string') settings[st.id] = products.find((p) => p.handle === settings[st.id]) || null;
+    return { id: bid, type: b.type, settings, shopify_attributes: '' };
   });
   const section = { id, settings: { ...defs, ...(json.settings || {}) }, blocks };
   // resolve collection/product settings to objects like Shopify does

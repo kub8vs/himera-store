@@ -1,0 +1,48 @@
+{%- comment -%} "Znak rozpoznawczy": the gargoyle logo big, lit from behind, with where it shows up. {%- endcomment -%}
+<section class="mark" id="{{ section.settings.anchor | default: 'znak' }}" data-mark>
+  <div class="wrap mark__grid">
+    <figure class="mark__fig" aria-hidden="true">
+      <i class="mark__glow"></i>
+      <img class="mark__logo" src="{{ 'himera-logo.webp' | asset_url }}" alt="" width="1078" height="896" loading="lazy" data-stare>
+      <i class="mark__scan"></i>
+    </figure>
+    <div class="mark__copy">
+      <span class="mono mark__kicker" data-reveal>{{ section.settings.kicker }}</span>
+      <h2 class="mark__h" data-reveal>
+        {%- assign lines = section.settings.heading | split: '|' -%}
+        {%- for line in lines -%}<span class="mark__line">{{ line | strip }}</span>{%- endfor -%}
+      </h2>
+      <p class="mark__text" data-reveal>{{ section.settings.text }}</p>
+      <ul class="mark__where mono" data-reveal>
+        {%- for block in section.blocks -%}<li {{ block.shopify_attributes }}><i aria-hidden="true"></i>{{ block.settings.text }}</li>{%- endfor -%}
+      </ul>
+      {%- if section.settings.cta_label != blank -%}
+        <div class="btns" data-reveal><a class="btn btn--line" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}">{{ section.settings.cta_label }}{% render 'icon-arrow' %}</a></div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Znak rozpoznawczy",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Kotwica (#)", "default": "znak" },
+    { "type": "text", "id": "kicker", "label": "Nadtytuł", "default": "HMR · LOGO" },
+    { "type": "text", "id": "heading", "label": "Nagłówek", "info": "Znak | łamie linię.", "default": "Znak|rozpoznawczy" },
+    { "type": "textarea", "id": "text", "label": "Tekst", "default": "Gargulec z napisem HIMERA w skrzydłach. Widzisz go na szybie auta obok na światłach i od razu wiesz, kto jedzie." },
+    { "type": "text", "id": "cta_label", "label": "Przycisk", "default": "Naklejki z logo" },
+    { "type": "url", "id": "cta_url", "label": "Link przycisku" }
+  ],
+  "blocks": [
+    { "type": "place", "name": "Gdzie go widać", "settings": [
+      { "type": "text", "id": "text", "label": "Tekst", "default": "Na aucie" }
+    ] }
+  ],
+  "max_blocks": 4,
+  "presets": [{ "name": "Znak rozpoznawczy", "blocks": [
+    { "type": "place", "settings": { "text": "Na aucie" } },
+    { "type": "place", "settings": { "text": "Na fladze" } },
+    { "type": "place", "settings": { "text": "Na kominiarce" } }
+  ] }]
+}
+{% endschema %}

@@ -51,7 +51,7 @@
   {%- endif -%}
 
   <div class="ph__fog" aria-hidden="true"></div>
-  <a class="ph__cue mono" href="#ruch" aria-label="{{ section.settings.cue }}"><span>{{ section.settings.cue }}</span><i></i></a>
+  <a class="ph__cue mono" href="#{{ section.settings.cue_target | default: 'produkty' }}" aria-label="{{ section.settings.cue }}"><span>{{ section.settings.cue }}</span><i></i></a>
   <span class="ph__clock mono" aria-hidden="true" data-ph-clock></span>
 </section>
 {% schema %}
@@ -65,7 +65,8 @@
     { "type": "collection", "id": "collection", "label": "Które produkty latają", "info": "Najlepiej wyglądają zdjęcia z pola custom.showcase_image (przezroczyste tło)." },
     { "type": "range", "id": "limit", "label": "Ile produktów lata", "min": 2, "max": 6, "step": 1, "default": 5 },
     { "type": "text", "id": "line", "label": "Hasło (dla wyszukiwarek i czytników)", "default": "Jesteśmy ruchem, a ty jego częścią." },
-    { "type": "text", "id": "cue", "label": "Podpowiedź przewijania", "default": "Przewiń" }
+    { "type": "text", "id": "cue", "label": "Podpowiedź przewijania", "default": "Przewiń" },
+    { "type": "text", "id": "cue_target", "label": "Przewiń do (kotwica sekcji)", "default": "produkty" }
   ],
   "presets": [{ "name": "Intro HIMERA" }]
 }

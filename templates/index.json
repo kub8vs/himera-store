@@ -46,40 +46,95 @@
         "c2",
         "c3"
       ],
-      "settings": {}
-    },
-    "episode": {
-      "type": "episode",
       "settings": {
-        "video": "https://www.youtube.com/watch?v=BZEsjGBhaOE"
-      }
-    },
-    "ticker": {
-      "type": "ticker",
-      "settings": {}
-    },
-    "drop": {
-      "type": "featured-products",
-      "settings": {
-        "kicker": "NAJCZĘŚCIEJ WYBIERANE",
-        "heading": "Top drop",
-        "collection": "top-3",
-        "limit": 3
+        "kicker": "HMR · EKIPA",
+        "heading": "Jesteś|w|Himerze.",
+        "text": "Nocne spoty, auta i ludzie, którzy trzymają się razem. Masz coś z logo, to już jedziesz z nami."
       }
     },
     "join": {
       "type": "join-cta",
       "settings": {
-        "show_portrait": false
+        "show_portrait": true,
+        "kicker": "LISTA HIMERY",
+        "heading": "Dołącz|do|Himery."
       }
+    },
+    "produkty": {
+      "type": "product-spotlight",
+      "blocks": {
+        "p1": {
+          "type": "product",
+          "settings": {
+            "product": "kominiarka-himery",
+            "emoji": "🥷",
+            "label": "Kominiarka"
+          }
+        },
+        "p2": {
+          "type": "product",
+          "settings": {
+            "product": "flaga-himery",
+            "emoji": "🏴",
+            "label": "Flaga"
+          }
+        },
+        "p3": {
+          "type": "product",
+          "settings": {
+            "product": "naklejka-logo-czarna",
+            "emoji": "🦇",
+            "label": "Naklejka"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {}
+    },
+    "znak": {
+      "type": "emblem",
+      "blocks": {
+        "w1": {
+          "type": "place",
+          "settings": {
+            "text": "Na aucie"
+          }
+        },
+        "w2": {
+          "type": "place",
+          "settings": {
+            "text": "Na fladze"
+          }
+        },
+        "w3": {
+          "type": "place",
+          "settings": {
+            "text": "Na kominiarce"
+          }
+        }
+      },
+      "block_order": [
+        "w1",
+        "w2",
+        "w3"
+      ],
+      "settings": {}
+    },
+    "kolekcja": {
+      "type": "collection-band",
+      "settings": {}
     }
   },
   "order": [
     "intro",
-    "ticker",
+    "produkty",
+    "znak",
     "part",
-    "drop",
-    "episode",
+    "kolekcja",
     "join"
   ]
 }

@@ -341,6 +341,24 @@
     requestAnimationFrame(step);
   });
 
+  /* ---------- Produkty: emoji tabs switch the product below ---------- */
+  $$('[data-spot]').forEach((spot) => {
+    const tabs = $$('[data-spot-tab]', spot);
+    const panels = $$('[data-spot-panel]', spot);
+    const pick = (i, focus) => {
+      tabs.forEach((t, k) => { t.classList.toggle('is-on', k === i); t.setAttribute('aria-selected', k === i ? 'true' : 'false'); t.tabIndex = k === i ? 0 : -1; });
+      panels.forEach((p, k) => p.classList.toggle('is-on', k === i));
+      if (focus) tabs[i].focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => pick(i));
+      t.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); pick((i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length, true); }
+      });
+    });
+    if (tabs.length) pick(0);
+  });
+
   /* ---------- CTA cards tilt toward the pointer ---------- */
   if (!reduced && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
     $$('[data-tilt]').forEach((card) => {

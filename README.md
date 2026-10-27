@@ -42,16 +42,18 @@ Motyw najpierw wgrywamy jako nieopublikowany i sprawdzamy w „Podglądzie”. P
 3. **Nawigacja**: menu `main-menu` (Strona główna, Produkty), menu `main-menu-right` (O Himerze, FAQ) i `footer`. Logo w nagłówku jest pośrodku, lewe menu po lewej, prawe po prawej.
 4. **Ustawienia → Konta klientów**: włącz konta, żeby w prawym górnym rogu działało logowanie (ikonka obok koszyka).
 5. **Dostosuj motyw → Ustawienia motywu**: linki Instagram i YouTube, logo (opcjonalnie), kolory.
-6. Strona główna, sekcja „Ostatni odcinek”: podpięty jest film https://www.youtube.com/watch?v=BZEsjGBhaOE (miniaturka z YouTube ładuje się sama). Przy nowym odcinku wystarczy podmienić link. Teksty trzech kart CTA zmienia się w sekcji „Stań się częścią HIMERY”.
+6. Strona główna, sekcja „Produkty (emoji)”: wybierz trzy produkty (kominiarka, flaga, naklejka). Sekcja „Ostatni odcinek” (film https://www.youtube.com/watch?v=BZEsjGBhaOE) jest w motywie, ale nie ma jej teraz na głównej. Teksty trzech kart CTA zmienia się w sekcji „Stań się częścią HIMERY”.
 
 ## Strona główna
 
-1. Intro: wielki napis HIMERA na cały ekran, zdjęcie Himery w kominiarce, latające produkty (kolekcja do wyboru w sekcji) i delikatny dym unoszący się na całej szerokości. Napis podąża za kursorem, produkty i dym reagują na ruch myszki.
-2. Przewijany napis „Jesteśmy ruchem / A ty jego częścią” (przyspiesza przy scrollu).
-3. Po zjechaniu w dół wysuwa się menu (pływająca zaokrąglona belka), a obok napisu „Stań się częścią HIMERY” wjeżdża BMW. Pod spodem trzy karty CTA.
-4. Top drop: trzy produkty unoszą się nad czerwoną poświatą (kolekcja `top-3` albo dowolna).
-5. Ostatni odcinek z YouTube: film ładuje się dopiero po kliknięciu.
-6. Zapis na listę przed dropem, stopka.
+1. Intro: wielki napis HIMERA na cały ekran, zdjęcie Himery w kominiarce, latające produkty i dym. „Przewiń” prowadzi do produktów.
+2. Produkty: trzy przyciski 🥷 🏴 🦇 (kominiarka, flaga, naklejka), pod nimi wybrany produkt z opisem, ceną i przyciskiem „Dodaj do koszyka”. Produkty, emoji i krótkie nazwy zmienia się w sekcji „Produkty (emoji)”.
+3. Znak rozpoznawczy: duże logo z czerwoną poświatą i gdzie je widać (auto, flaga, kominiarka).
+4. Jesteś w Himerze: wjeżdżające BMW i trzy karty (O Himerze, Produkty, Instagram).
+5. Cała kolekcja: pasek ze wszystkimi produktami, przycisk do kolekcji i pasek „Darmowa dostawa od 70 zł”.
+6. Dołącz do Himery: zapis na listę, stopka.
+
+Sekcje „Przewijany napis”, „Ostatni odcinek” i „Top produkty” zostały w motywie i można je dodać z powrotem w „Dostosuj”.
 
 ## Telefony
 
