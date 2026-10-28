@@ -45,9 +45,24 @@
             "story_3_title": "Czarna albo biała.",
             "story_3_text": "Wybierz kolor, który pasuje do twojego miejsca."
           }
+        },
+        "p0": {
+          "type": "product",
+          "settings": {
+            "product": "koszulka-himery",
+            "label": "Koszulka",
+            "slogans": "Duża grafika Himery na plecach|Małe logo z przodu|Czarna",
+            "story_1_title": "Himera na plecach.",
+            "story_1_text": "Demon Himery i chromowany napis na całe plecy. Widać go z drugiego końca ulicy.",
+            "story_2_title": "Znak z przodu.",
+            "story_2_text": "Z przodu tylko małe czerwone logo Himery na piersi. Prosto, bez krzyku.",
+            "story_3_title": "Noś to, co nosi ruch.",
+            "story_3_text": "Koszulka do kominiarki i reszty Himery. Zakładasz ją i wiadomo, z kim trzymasz."
+          }
         }
       },
       "block_order": [
+        "p0",
         "p1",
         "p2",
         "p3"

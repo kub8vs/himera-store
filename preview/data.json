@@ -44,6 +44,51 @@
  },
  "products": [
   {
+   "id": 6,
+   "handle": "koszulka-himery",
+   "title": "Koszulka Himery",
+   "code": "HMR-04",
+   "type": "Odzież",
+   "price": 14999,
+   "compare_at_price": null,
+   "available": true,
+   "description": "<p>Czarna koszulka z dużą grafiką demona Himery i chromowanym napisem na plecach oraz małym czerwonym logo z przodu.</p>",
+   "images": [
+    {
+     "src": "/media/koszulka-tyl.webp",
+     "alt": "Koszulka Himery, tył",
+     "width": 751,
+     "height": 769
+    },
+    {
+     "src": "/media/koszulka-przod.webp",
+     "alt": "Koszulka Himery, przód",
+     "width": 752,
+     "height": 773
+    },
+    {
+     "src": "/media/koszulka.webp",
+     "alt": "Koszulka Himery, przód i tył",
+     "width": 1536,
+     "height": 1024
+    }
+   ],
+   "showcase": "/media/koszulka-tyl.webp",
+   "short": "Koszulka",
+   "variants": [
+    {
+     "title": "Czarna",
+     "available": true,
+     "showcase": "/media/koszulka-tyl.webp"
+    },
+    {
+     "title": "Biała",
+     "available": false,
+     "showcase": "/media/koszulka-tyl.webp"
+    }
+   ]
+  },
+  {
    "id": 1,
    "handle": "kominiarka-himery",
    "title": "Kominiarka Himery",
@@ -213,8 +258,8 @@
    "handle": "top-3",
    "title": "Top 3",
    "handles": [
+    "koszulka-himery",
     "kominiarka-himery",
-    "flaga-himery",
     "naklejka-logo-himery"
    ]
   },

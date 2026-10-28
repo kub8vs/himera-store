@@ -39,12 +39,12 @@ Motyw najpierw wgrywamy jako nieopublikowany i sprawdzamy w „Podglądzie”. P
    - `custom.code` (Tekst jednowierszowy): kod produktu, np. `HMR-01`.
    - `custom.short_title` (Tekst jednowierszowy): krótka nazwa do dużego napisu w showroomie, np. `Kominiarka`.
    - `custom.material` i `custom.size` (Tekst jednowierszowy): „Materiał” i „Rozmiar” w szczegółach produktu.
-   Każdy produkt (kominiarka, flaga, naklejka) ma opcję **Kolor** z wariantami **Czarna** i **Biała**, a każdy wariant własne zdjęcie (najlepiej na przezroczystym tle). Pierwszy wariant (Czarna) jest wybrany na start.
+   Każdy produkt (koszulka, kominiarka, naklejka, flaga) ma opcję **Kolor** z wariantami **Czarna** i **Biała**, a każdy wariant własne zdjęcie (najlepiej na przezroczystym tle). Pierwszy wariant (Czarna) jest wybrany na start.
 2. **Sklep online → Strony**: dodaj stronę „O Himerze” (szablon `page.o-himerze`, adres `o-himerze`) i „FAQ” (szablon `page.faq`, adres `faq`). Odpowiedzi w FAQ (dostawa, zwroty) potwierdza Bruno i edytuje w „Dostosuj”.
 3. **Nawigacja**: menu `main-menu` (Strona główna, Produkty), menu `main-menu-right` (O Himerze, FAQ) i `footer`. Logo w nagłówku jest pośrodku, lewe menu po lewej, prawe po prawej.
 4. **Ustawienia → Konta klientów**: włącz konta, żeby w prawym górnym rogu działało logowanie (ikonka obok koszyka).
 5. **Dostosuj motyw → Ustawienia motywu**: linki Instagram i YouTube, logo (opcjonalnie), kolory.
-6. Strona główna, sekcja „Wejście do sklepu”: wybierz trzy produkty, które wachlarzem stoją za przyciskiem. Strona „Produkty” (kolekcja): w sekcji showroomu wybierz kominiarkę, naklejkę i flagę oraz duże napisy (np. „Naklejki na auto”). Sekcja „Ostatni odcinek” (film https://www.youtube.com/watch?v=BZEsjGBhaOE) jest w motywie, ale nie ma jej teraz na głównej. Teksty trzech kart CTA zmienia się w sekcji „Stań się częścią HIMERY”.
+6. Strona główna, sekcja „Wejście do sklepu”: wybierz trzy produkty nad przyciskiem (kominiarka, koszulka na środku, naklejka). Strona „Produkty” (kolekcja): w sekcji showroomu wybierz koszulkę (pierwsza), kominiarkę, naklejkę i flagę oraz duże napisy (np. „Naklejki na auto”). Sekcja „Ostatni odcinek” (film https://www.youtube.com/watch?v=BZEsjGBhaOE) jest w motywie, ale nie ma jej teraz na głównej. Teksty trzech kart CTA zmienia się w sekcji „Stań się częścią HIMERY”.
 
 ## Strona główna
 

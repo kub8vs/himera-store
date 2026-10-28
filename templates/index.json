@@ -95,22 +95,22 @@
         "p1": {
           "type": "product",
           "settings": {
-            "product": "naklejka-logo-himery",
-            "label": "Naklejka"
+            "product": "kominiarka-himery",
+            "label": "Kominiarka"
           }
         },
         "p2": {
           "type": "product",
           "settings": {
-            "product": "kominiarka-himery",
-            "label": "Kominiarka"
+            "product": "koszulka-himery",
+            "label": "Koszulka"
           }
         },
         "p3": {
           "type": "product",
           "settings": {
-            "product": "flaga-himery",
-            "label": "Flaga"
+            "product": "naklejka-logo-himery",
+            "label": "Naklejka"
           }
         }
       },
