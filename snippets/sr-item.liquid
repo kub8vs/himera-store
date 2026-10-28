@@ -1,4 +1,4 @@
-{%- comment -%} One showroom product: its panel image, title, tab label and the detail panel with colour options. {%- endcomment -%}
+{%- comment -%} One showroom product: its panel image, title, tab label and the detail panel (three key points, colour options, buy). {%- endcomment -%}
 {%- liquid
   assign base = p.metafields.custom.showcase_image.value | default: p.featured_image
   assign code = p.metafields.custom.code.value | default: p.type
@@ -23,7 +23,7 @@
     </div>
     {%- assign pts = points | default: p.metafields.custom.points.value | split: '|' -%}
     {%- if pts.size > 0 -%}
-      <ul class="sr__points">{%- for t in pts -%}<li><i aria-hidden="true"></i>{{ t | strip }}</li>{%- endfor -%}</ul>
+      <ul class="sr__points">{%- for t in pts limit: 3 -%}<li><i aria-hidden="true"></i>{{ t | strip }}</li>{%- endfor -%}</ul>
     {%- else -%}
       <div class="sr__desc rte">{{ p.description }}</div>
     {%- endif -%}
@@ -65,17 +65,5 @@
       </div>
       <a class="sr__notify mono" href="{{ routes.root_url }}#dolacz"{% if variant.available %} hidden{% endif %} data-sr-notify>{{ 'products.notify' | t }} <span aria-hidden="true">↗</span></a>
     {%- endform -%}
-    {%- if p.images.size > 1 -%}
-      <div class="sr__gallery">
-        <span class="mono sr__optlab">Zdjęcia · {{ p.images.size }}</span>
-        <div class="sr__shots">
-          {%- for im in p.images -%}
-            <button type="button" class="sr__shot" data-sr-shot="{{ im | image_url: width: 1200 }}" aria-label="{{ im.alt | default: p.title | escape }}"{% if forloop.first %} aria-pressed="true"{% endif %}>
-              {{ im | image_url: width: 400 | image_tag: loading: 'lazy', alt: '' }}
-            </button>
-          {%- endfor -%}
-        </div>
-      </div>
-    {%- endif -%}
   </div>
 </article>

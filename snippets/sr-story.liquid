@@ -1,0 +1,38 @@
+{%- comment -%}
+  The story under a picked product: three rows, slogan + text on one side, photo on the other, alternating.
+  Text and photos come from the showroom block (story_N_*); a missing photo falls back to the product's photos.
+{%- endcomment -%}
+{%- liquid
+  assign base = p.metafields.custom.showcase_image.value | default: p.featured_image
+-%}
+<div class="sr__story" data-sr-story="{{ idx }}">
+  {%- for i in (1..3) -%}
+    {%- liquid
+      assign tk = 'story_' | append: i | append: '_title'
+      assign xk = 'story_' | append: i | append: '_text'
+      assign ik = 'story_' | append: i | append: '_image'
+      assign t = b.settings[tk]
+      assign x = b.settings[xk]
+      assign im = b.settings[ik]
+      if im == blank
+        assign n = p.images.size
+        if n > 0
+          assign j = i | minus: 1 | modulo: n
+          assign im = p.images[j]
+        else
+          assign im = base
+        endif
+      endif
+    -%}
+    {%- if t != blank or x != blank -%}
+      <section class="sr__row reveal{% if i == 2 %} sr__row--flip{% endif %}">
+        <div class="sr__rowtext">
+          <span class="mono sr__rownum">0{{ i }} / 03</span>
+          {%- if t != blank -%}<h3 class="sr__rowh">{{ t }}</h3>{%- endif -%}
+          {%- if x != blank -%}<p class="sr__rowp">{{ x }}</p>{%- endif -%}
+        </div>
+        <figure class="sr__rowimg">{{ im | image_url: width: 1400 | image_tag: loading: 'lazy', alt: t | default: p.title }}</figure>
+      </section>
+    {%- endif -%}
+  {%- endfor -%}
+</div>

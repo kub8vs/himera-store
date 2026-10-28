@@ -1,4 +1,4 @@
-{%- comment -%} Home "Produkty": a small preview of the showroom (ring of light, glass panels) with one pill button into it. {%- endcomment -%}
+{%- comment -%} Home "Produkty": a small preview of the showroom (ring of light, floating products) with one frosted-glass button into it. {%- endcomment -%}
 {%- liquid
   assign url = section.settings.link | default: routes.all_products_collection_url
 -%}
@@ -20,15 +20,14 @@
           {%- if p != blank -%}
             {%- assign img = p.metafields.custom.showcase_image.value | default: p.featured_image -%}
             <span class="gate__card" style="--n:{{ forloop.index0 }};--of:{{ forloop.length }}" {{ block.shopify_attributes }}>
-              <span class="gate__glass">{{ img | image_url: width: 700 | image_tag: loading: 'lazy', alt: '' }}</span>
-              <span class="mono gate__tag">{{ block.settings.label | default: p.title }}</span>
+              <span class="gate__float">{{ img | image_url: width: 700 | image_tag: loading: 'lazy', alt: '' }}</span>
             </span>
           {%- endif -%}
         {%- endfor -%}
       </span>
       <span class="gate__floor"></span>
     </span>
-    <span class="btn btn--bone gate__btn">{{ section.settings.button_label }} {% render 'icon-arrow' %}</span>
+    <span class="gate__btn mono">{{ section.settings.button_label }} {% render 'icon-arrow' %}</span>
   </a>
 
   {%- if section.settings.note != blank -%}
@@ -43,7 +42,7 @@
     { "type": "text", "id": "anchor", "label": "Kotwica", "default": "produkty" },
     { "type": "text", "id": "kicker", "label": "Nadtytuł", "default": "Produkty" },
     { "type": "text", "id": "heading", "label": "Nagłówek (| = nowa linia)", "default": "Wejdź|do showroomu." },
-    { "type": "text", "id": "text", "label": "Tekst", "default": "Kominiarka, flaga i naklejka. Wybierz swój kolor: czarny albo biały." },
+    { "type": "text", "id": "text", "label": "Tekst", "default": "" },
     { "type": "text", "id": "button_label", "label": "Przycisk", "default": "Wejdź do showroomu" },
     { "type": "url", "id": "link", "label": "Link (domyślnie wszystkie produkty)" },
     { "type": "text", "id": "note", "label": "Dopisek pod przyciskiem", "default": "Darmowa dostawa od 70 zł" }

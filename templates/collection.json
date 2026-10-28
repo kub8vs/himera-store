@@ -8,7 +8,13 @@
           "settings": {
             "product": "kominiarka-himery",
             "label": "Kominiarka",
-            "slogans": "Anonimowość w ruchu|Logo Himery wyhaftowane przy ustach|96% wiskoza, 4% elastan|Lekka i oddychająca|Trzyma kształt|Jeden rozmiar, unisex|Na auto, ulicę i nagrania|Czarna lub biała"
+            "slogans": "Logo Himery wyhaftowane przy ustach|Lekka i oddychająca|Jeden rozmiar, unisex",
+            "story_1_title": "Anonimowość w ruchu.",
+            "story_1_text": "Kominiarka, którą Himera nosi na nagraniach. Zakładasz ją i jesteś częścią ruchu, a nie tłumu.",
+            "story_2_title": "Znak przy ustach.",
+            "story_2_text": "Logo Himery wyhaftowane na wysokości ust. Widać je z daleka, na zdjęciach i na filmach.",
+            "story_3_title": "Lekka i oddychająca.",
+            "story_3_text": "96% wiskozy i 4% elastanu. Trzyma kształt, a jeden rozmiar pasuje każdemu."
           }
         },
         "p2": {
@@ -17,7 +23,13 @@
             "product": "naklejka-logo-himery",
             "label": "Naklejki",
             "heading": "Naklejki na auto",
-            "slogans": "Logo Himery na twoje auto|Folia samochodowa|Odporna na myjnię i słońce|Na szybę lub karoserię|Przyklejasz w kilka minut|Czarna na jasne auta, biała na ciemne"
+            "slogans": "Logo Himery na twoje auto|Odporna na myjnię i słońce|Na szybę lub karoserię",
+            "story_1_title": "Twoje auto w Himerze.",
+            "story_1_text": "Logo Himery na szybie albo karoserii. Każdy na światłach wie, z kim jedzie obok.",
+            "story_2_title": "Folia samochodowa.",
+            "story_2_text": "Odporna na myjnię i słońce, więc zostaje na aucie na długo.",
+            "story_3_title": "Czarna albo biała.",
+            "story_3_text": "Czarna na jasne auta, biała na ciemne. Przyklejasz ją w kilka minut."
           }
         },
         "p3": {
@@ -25,7 +37,13 @@
           "settings": {
             "product": "flaga-himery",
             "label": "Flaga",
-            "slogans": "Pokaż, że jesteś w Himerze|60 × 50 cm, bez kija|Trwały, lekki materiał|Na ścianę, do auta, na event|Duże logo Himery|Czarna lub biała"
+            "slogans": "Duże logo Himery|60 × 50 cm, bez kija|Na ścianę, do auta, na event",
+            "story_1_title": "Pokaż, że jesteś w Himerze.",
+            "story_1_text": "Duża flaga z logo Himery. Na ścianę w pokoju, do garażu albo na event.",
+            "story_2_title": "60 × 50 cm.",
+            "story_2_text": "Lekki, trwały materiał. Sprzedawana bez kija, więc powiesisz ją, jak chcesz.",
+            "story_3_title": "Czarna albo biała.",
+            "story_3_text": "Wybierz kolor, który pasuje do twojego miejsca."
           }
         }
       },

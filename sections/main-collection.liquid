@@ -3,7 +3,7 @@
   Switching (arrows, tabs, drag, swipe) slides the arc; the platform rises and swaps the title.
   Clicking the front panel (or the hint) picks the product: it slides left under the light and the details open on the right.
   While a product is picked the page scrolls only through its details (the rest of the page is hidden); only the arrows change it and "Wróć" goes back.
-  Picking white turns the ring light white. The details describe the product in short points and show every photo of it.
+  Picking white turns the ring light white. The details show three key points; scrolling on runs through three slogan + photo rows, then "Dołącz do Himery".
 {%- endcomment -%}
 {%- liquid
   assign picks = section.blocks | where: 'type', 'product'
@@ -71,6 +71,17 @@
       {%- endfor -%}
     {%- endif -%}
   </div>
+  {%- comment -%} the story under the picked product: slogan + photo rows {%- endcomment -%}
+  <div class="sr__stories">
+    {%- assign n = 0 -%}
+    {%- for block in picks -%}
+      {%- assign p = block.settings.product -%}
+      {%- if p != blank -%}
+        {% render 'sr-story', p: p, b: block, idx: n %}
+        {%- assign n = n | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
   <button class="sr__back mono" type="button" data-sr-back tabindex="-1">
     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
     <span>{{ section.settings.back }}</span>
@@ -90,7 +101,17 @@
       { "type": "product", "id": "product", "label": "Produkt" },
       { "type": "text", "id": "label", "label": "Nazwa w zakładce", "default": "Kominiarka" },
       { "type": "text", "id": "heading", "label": "Duży napis (puste: nazwa produktu)" },
-      { "type": "text", "id": "slogans", "label": "Opis w hasłach (oddziel |; puste: opis produktu)" }
+      { "type": "text", "id": "slogans", "label": "Trzy najważniejsze rzeczy (oddziel |; puste: opis produktu)" },
+      { "type": "header", "content": "Pod produktem: 3 sekcje hasło + zdjęcie" },
+      { "type": "text", "id": "story_1_title", "label": "1. Hasło" },
+      { "type": "textarea", "id": "story_1_text", "label": "1. Tekst" },
+      { "type": "image_picker", "id": "story_1_image", "label": "1. Zdjęcie (puste: zdjęcie produktu)" },
+      { "type": "text", "id": "story_2_title", "label": "2. Hasło" },
+      { "type": "textarea", "id": "story_2_text", "label": "2. Tekst" },
+      { "type": "image_picker", "id": "story_2_image", "label": "2. Zdjęcie (puste: zdjęcie produktu)" },
+      { "type": "text", "id": "story_3_title", "label": "3. Hasło" },
+      { "type": "textarea", "id": "story_3_text", "label": "3. Tekst" },
+      { "type": "image_picker", "id": "story_3_image", "label": "3. Zdjęcie (puste: zdjęcie produktu)" }
     ] }
   ],
   "max_blocks": 6

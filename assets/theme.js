@@ -426,7 +426,7 @@
       const card = document.createElement('div');
       card.className = 'sr__card';
       card.dataset.k = k;
-      card.innerHTML = `<div class="sr__glass"><span class="sr__float" style="--d:${(c * -1.1).toFixed(1)}s"><img src="${items[k].dataset.img}" alt="" draggable="false"></span><i class="sr__sheen"></i></div>`;
+      card.innerHTML = `<div class="sr__glass"><span class="sr__float" style="--d:${(c * -1.1).toFixed(1)}s"><img src="${items[k].dataset.img}" alt="" draggable="false"></span></div>`;
       ring.appendChild(card);
       cards.push(card);
     }
@@ -503,6 +503,7 @@
       const tb = tabEls[cur];
       dot.style.transform = `translateX(${(tb.offsetLeft + tb.offsetWidth / 2).toFixed(0)}px)`;
       items.forEach((it, i) => it.classList.toggle('is-on', i === cur));
+      $$('[data-sr-story]', sr).forEach((st) => st.classList.toggle('is-on', +st.dataset.srStory === cur));
       if (open) window.scrollTo({ top: sr.getBoundingClientRect().top + window.scrollY, behavior: 'auto' });
       setTone(toneOf(cur));
       if (prev === undefined || prev === cur) { titleEls.forEach((t, i) => t.classList.toggle('is-on', i === cur)); return; }
@@ -514,7 +515,7 @@
       swapT = setTimeout(() => sr.classList.remove('is-swap'), 1100);
     };
 
-    // picking a product: it slides under the light, details open; scrolling only runs through them until "Wróć"
+    // picking a product: it slides under the light, details open; scrolling runs through its story and "Dołącz", never to another product
     const backBtn = $('[data-sr-back]', sr);
     const setOpen = (o) => {
       if (o === open) return;
@@ -526,6 +527,8 @@
       if (o) setTimeout(() => backBtn.focus({ preventScroll: true }), 50);
     };
     const down = () => setOpen(true);
+    // past the first screen the back button drops to the bottom centre, clear of the story and "Dołącz"
+    window.addEventListener('scroll', () => { if (open) sr.classList.toggle('is-deep', window.scrollY > sr.offsetTop + window.innerHeight * 0.5); }, { passive: true });
     $('[data-sr-down]', sr).addEventListener('click', down);
     backBtn.addEventListener('click', () => setOpen(false));
     $('[data-sr-prev]', sr).addEventListener('click', () => go(cur - 1, -1));
@@ -592,7 +595,6 @@
     // colour options: swap the photo, price and stock; white turns the ring light white
     items.forEach((it, k) => {
       const sws = $$('[data-sr-var]', it);
-      const shots = $$('[data-sr-shot]', it);
       const idIn = $('[data-sr-id]', it);
       const add = $('[data-sr-add]', it);
       const addLab = $('[data-sr-addlab]', it);
@@ -608,13 +610,7 @@
         addLab.textContent = ok ? addLab.dataset.on : addLab.dataset.off;
         notify.hidden = ok;
         swapImg(k, sw.dataset.img);
-        shots.forEach((x, i) => x.setAttribute('aria-pressed', i === 0 ? 'true' : 'false'));
         setTone(sw.dataset.tone === 'light');
-      }));
-      // photos from every side: show the picked one on the panel
-      shots.forEach((b) => b.addEventListener('click', () => {
-        shots.forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
-        swapImg(k, b.dataset.srShot);
       }));
       // "Kup teraz": add, then straight to checkout
       buyNow.addEventListener('click', (e) => {
