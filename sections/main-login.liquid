@@ -1,0 +1,52 @@
+{%- comment -%}
+  Customer login for Shopify's classic customer accounts (templates/customers/login.json).
+  With the new customer accounts Shopify shows its own login page instead and this section is not used.
+{%- endcomment -%}
+<section class="acc wrap">
+  <div class="acc__glow" aria-hidden="true"></div>
+  <div class="acc__side">
+    <span class="mono acc__kicker">{{ section.settings.kicker }}</span>
+    <h1 class="acc__h">{{ section.settings.heading | replace: '|', '<br>' }}</h1>
+    <ul class="acc__perks mono">
+      {%- assign perks = section.settings.perks | split: '|' -%}
+      {%- for t in perks -%}<li><i aria-hidden="true"></i>{{ t | strip }}</li>{%- endfor -%}
+    </ul>
+  </div>
+
+  <div class="acc__card" data-acc>
+    <div class="acc__pane" data-acc-pane="login">
+      <h2 class="acc__title">Zaloguj się</h2>
+      {%- form 'customer_login', class: 'acc__form', data-type: 'account' -%}
+        {{ form.errors | default_errors }}
+        <label class="acc__field"><span class="mono">E-mail</span><input type="email" name="customer[email]" autocomplete="email" required placeholder="twoj@email.pl"></label>
+        <label class="acc__field"><span class="mono">Hasło</span><input type="password" name="customer[password]" autocomplete="current-password" required placeholder="••••••••"></label>
+        <button class="btn btn--bone acc__btn" type="submit">Zaloguj się {% render 'icon-arrow' %}</button>
+      {%- endform -%}
+      <button class="acc__link mono" type="button" data-acc-show="recover">Nie pamiętasz hasła?</button>
+    </div>
+
+    <div class="acc__pane" data-acc-pane="recover" hidden>
+      <h2 class="acc__title">Nowe hasło</h2>
+      <p class="acc__note">Podaj e-mail, a wyślemy link do ustawienia nowego hasła.</p>
+      {%- form 'recover_customer_password', class: 'acc__form', data-type: 'account' -%}
+        {%- if form.posted_successfully? -%}<p class="acc__ok mono">Sprawdź skrzynkę, link już leci.</p>{%- endif -%}
+        <label class="acc__field"><span class="mono">E-mail</span><input type="email" name="email" autocomplete="email" required placeholder="twoj@email.pl"></label>
+        <button class="btn btn--bone acc__btn" type="submit">Wyślij link {% render 'icon-arrow' %}</button>
+      {%- endform -%}
+      <button class="acc__link mono" type="button" data-acc-show="login">Wróć do logowania</button>
+    </div>
+
+    <div class="acc__or mono"><span>Nie masz konta?</span></div>
+    <a class="btn btn--line acc__btn" href="{{ routes.account_register_url }}">Załóż konto</a>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Logowanie",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Nadtytuł", "default": "Konto Himery" },
+    { "type": "text", "id": "heading", "label": "Nagłówek (| = nowa linia)", "default": "Wejdź|do ruchu." },
+    { "type": "text", "id": "perks", "label": "Korzyści (oddziel |)", "default": "Historia zamówień|Szybsze zakupy|Pierwszy o nowym dropie" }
+  ]
+}
+{% endschema %}

@@ -80,11 +80,6 @@
      "title": "Czarna",
      "available": true,
      "showcase": "/media/koszulka-tyl.webp"
-    },
-    {
-     "title": "Biała",
-     "available": false,
-     "showcase": "/media/koszulka-tyl.webp"
     }
    ]
   },
@@ -96,8 +91,8 @@
    "type": "Akcesoria",
    "price": 13999,
    "compare_at_price": 15999,
-   "available": false,
-   "description": "<p>Kominiarka z logo Himery, ta sama, którą widzisz na nagraniach. Lekki, oddychający materiał, haft na wysokości ust. Pierwsza seria zeszła, następna jest w drodze.</p>",
+   "available": true,
+   "description": "<p>Kominiarka z logo Himery, ta sama, którą widzisz na nagraniach. Lekki, oddychający materiał, haft na wysokości ust.</p>",
    "images": [
     {
      "src": "/media/kominiarka-czarna.webp",
@@ -117,7 +112,7 @@
    "variants": [
     {
      "title": "Czarna",
-     "available": false,
+     "available": true,
      "showcase": "/media/kominiarka-czarna.webp"
     },
     {
@@ -217,7 +212,7 @@
     },
     {
      "title": "Biała",
-     "available": false,
+     "available": true,
      "showcase": "/media/sticker-logo-biala.webp",
      "image": "/media/naklejka-logo.webp"
     }
@@ -285,13 +280,33 @@
    "template": "faq",
    "title": "FAQ",
    "content": ""
-  },
-  {
-   "handle": "login",
-   "template": null,
-   "title": "Zaloguj się",
-   "content": "<p>W sklepie Shopify w tym miejscu jest logowanie do konta klienta. W podglądzie konto nie działa.</p>",
-   "out": "account/login.html"
   }
- ]
+ ],
+ "sample_customer": {
+  "first_name": "Kuba",
+  "email": "kuba@przyklad.pl",
+  "orders": [
+   {
+    "name": "#1024",
+    "customer_url": "#",
+    "created_at": "2026-10-21",
+    "fulfillment_status_label": "Wysłane",
+    "total_price": 18998
+   },
+   {
+    "name": "#1011",
+    "customer_url": "#",
+    "created_at": "2026-10-03",
+    "fulfillment_status_label": "Dostarczone",
+    "total_price": 4999
+   }
+  ],
+  "default_address": {
+   "name": "Kuba Przykładowy",
+   "address1": "ul. Przykładowa 1",
+   "zip": "00-001",
+   "city": "Warszawa",
+   "country": "Polska"
+  }
+ }
 }

@@ -41,7 +41,8 @@ const products = data.products.map((p) => {
       metafields: { custom: { showcase_image: v.showcase || p.showcase ? { value: img(v.showcase || p.showcase, p.title) } : null } },
     }))
     : [{ id: p.id * 10, title: 'Default Title', option1: 'Default Title', available: p.available !== false, price: p.price, compare_at_price: p.compare_at_price || null, featured_image: p.images[0], metafields: { custom: {} } }];
-  const multi = vlist.length > 1;
+  // a real colour option (even with one colour, like the black-only shirt) vs Shopify's single default variant
+  const multi = vlist[0].title !== 'Default Title';
   const first = vlist.find((v) => v.available) || vlist[0];
   return {
     ...p,
@@ -77,7 +78,7 @@ for (const [handle, links] of Object.entries(data.menus)) linklists[handle] = { 
 const globals = {
   shop: { name: 'HIMERA', url: '/', currency: 'PLN', email: data.shop.email },
   settings,
-  routes: { root_url: '/', cart_url: '/cart', cart_add_url: '/cart/add', collections_url: '/collections', all_products_collection_url: '/collections/all', search_url: '/search', account_url: '/account/login', account_login_url: '/account/login' },
+  routes: { root_url: '/', cart_url: '/cart', cart_add_url: '/cart/add', collections_url: '/collections', all_products_collection_url: '/collections/all', search_url: '/search', account_url: '/account/login', account_login_url: '/account/login', account_register_url: '/account/register', account_logout_url: '/account/login', account_addresses_url: '/account' },
   cart: { item_count: 0, items: [], total_price: 0 },
   collections,
   all_products: Object.fromEntries(products.map((p) => [p.handle, p])),
@@ -125,7 +126,7 @@ engine.registerTag('form', class extends Tag {
   }
   * render(ctx, emitter) {
     const h = yield this.hash.render(ctx);
-    const action = { product: '/cart/add', customer: '/contact#newsletter', contact: '/contact' }[this.type] || '#';
+    const action = { product: '/cart/add', customer: '/contact#newsletter', contact: '/contact', customer_login: '/account/login', create_customer: '/account', recover_customer_password: '/account/recover' }[this.type] || '#';
     emitter.write(`<form method="post" action="${action}" accept-charset="UTF-8"${h.id ? ` id="${h.id}"` : ''}${h.class ? ` class="${h.class}"` : ''}${h['data-type'] ? ` data-type="${h['data-type']}"` : ''}>`);
     emitter.write(`<input type="hidden" name="form_type" value="${this.type}">`);
     yield this.liquid.renderer.renderTemplates(this.tpls, ctx, emitter);
@@ -231,6 +232,8 @@ engine.registerFilter('within', (u) => u);
 engine.registerFilter('preload_tag', () => '');
 engine.registerFilter('font_url', () => '');
 engine.registerFilter('payment_type_svg_tag', () => '');
+engine.registerFilter('default_errors', () => '');
+engine.registerFilter('format_address', (a) => (a ? [a.name, a.address1, `${a.zip} ${a.city}`, a.country].filter(Boolean).join('<br>') : ''));
 
 // ---------- pages ----------
 const layoutSrc = read('layout/theme.liquid');
@@ -262,5 +265,9 @@ for (const c of Object.values(collections)) await renderPage(`collections/${c.ha
 for (const p of products) await renderPage(`products/${p.handle}.html`, 'product', { product: p, page_title: p.title, path: p.url });
 for (const pg of data.pages || []) await renderPage(pg.out || `pages/${pg.handle}.html`, pg.template ? `page.${pg.template}` : 'page', { page: { ...pg, url: `/pages/${pg.handle}` }, page_title: pg.title, path: `/pages/${pg.handle}` });
 await renderPage('cart.html', 'cart', { page_title: 'Koszyk', path: '/cart' });
+// account pages (classic customer accounts); the account page uses a sample customer
+await renderPage('account/login.html', 'customers/login', { page_title: 'Zaloguj się', path: '/account/login' });
+await renderPage('account/register.html', 'customers/register', { page_title: 'Załóż konto', path: '/account/register' });
+await renderPage('account.html', 'customers/account', { page_title: 'Konto', path: '/account', customer: data.sample_customer });
 await renderPage('404.html', '404', { page_title: 'Nie znaleziono', path: '/404' });
 fs.writeFileSync(path.join(DIST, 'sklep.html'), '<!doctype html><meta http-equiv="refresh" content="0;url=/collections/all"><link rel="canonical" href="/collections/all">');

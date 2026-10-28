@@ -639,6 +639,12 @@
     });
   });
 
+  /* ---------- account: login / forgotten password panes; in the preview the forms only explain ---------- */
+  $$('[data-acc-show]').forEach((b) => b.addEventListener('click', () => {
+    $$('[data-acc-pane]').forEach((p) => { p.hidden = p.dataset.accPane !== b.dataset.accShow; });
+  }));
+  if (PREVIEW) $$('form[data-type="account"]').forEach((f) => f.addEventListener('submit', (e) => { e.preventDefault(); toast('To przykład. Konto zadziała po wgraniu do Shopify.'); }));
+
   /* ---------- quantity ---------- */
   $$('[data-qty]').forEach((q) => {
     const input = $('input', q);
@@ -665,7 +671,11 @@
         const id = String(fd.get('id'));
         const hit = items.find((i) => i.id === id);
         if (hit) hit.qty += qty;
-        else items.push({ id, qty, title: btn.dataset.title, price: +btn.dataset.price, url: btn.dataset.url, img: btn.dataset.img });
+        const sw = $('[data-sr-var][aria-checked="true"]', form);
+        const sel = $('select[name="id"]', form);
+        const variant = sw ? sw.dataset.name : sel ? sel.selectedOptions[0].textContent.split('·')[0].trim() : '';
+        const price = sw ? Math.round(parseFloat(sw.dataset.price.replace(/[^\d,]/g, '').replace(',', '.')) * 100) : +btn.dataset.price;
+        if (!hit) items.push({ id, qty, title: btn.dataset.title, variant, price, url: btn.dataset.url, img: (sw && sw.dataset.img) || btn.dataset.img });
         writePreview(items);
         setCount(items.reduce((s, i) => s + i.qty, 0));
         return toast(T.added);
@@ -698,7 +708,7 @@
       cartPreview.innerHTML = `<ul class="cartp__list">${items.map((i, k) => `
         <li class="cartp__item">
           <a class="cartp__img" href="${i.url}"><img src="${i.img}" alt="" width="96" height="96"></a>
-          <div class="cartp__meta"><a href="${i.url}">${i.title}</a><span class="mono">${money(i.price)} × ${i.qty}</span></div>
+          <div class="cartp__meta"><a href="${i.url}">${i.title}</a>${i.variant && i.variant !== 'Default Title' ? `<span class="mono">Kolor: ${i.variant}</span>` : ''}<span class="mono">${money(i.price)} × ${i.qty}</span></div>
           <span class="mono">${money(i.price * i.qty)}</span>
           <button class="cartp__rm mono" type="button" data-rm="${k}">${T.remove}</button>
         </li>`).join('')}</ul>

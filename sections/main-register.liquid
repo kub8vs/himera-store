@@ -1,0 +1,35 @@
+{%- comment -%} New account for Shopify's classic customer accounts (templates/customers/register.json). {%- endcomment -%}
+<section class="acc wrap">
+  <div class="acc__glow" aria-hidden="true"></div>
+  <div class="acc__side">
+    <span class="mono acc__kicker">{{ section.settings.kicker }}</span>
+    <h1 class="acc__h">{{ section.settings.heading | replace: '|', '<br>' }}</h1>
+    <p class="acc__note">{{ section.settings.text }}</p>
+  </div>
+  <div class="acc__card">
+    <h2 class="acc__title">Załóż konto</h2>
+    {%- form 'create_customer', class: 'acc__form', data-type: 'account' -%}
+      {{ form.errors | default_errors }}
+      <div class="acc__row">
+        <label class="acc__field"><span class="mono">Imię</span><input type="text" name="customer[first_name]" autocomplete="given-name" placeholder="Imię"></label>
+        <label class="acc__field"><span class="mono">Nazwisko</span><input type="text" name="customer[last_name]" autocomplete="family-name" placeholder="Nazwisko"></label>
+      </div>
+      <label class="acc__field"><span class="mono">E-mail</span><input type="email" name="customer[email]" autocomplete="email" required placeholder="twoj@email.pl"></label>
+      <label class="acc__field"><span class="mono">Hasło</span><input type="password" name="customer[password]" autocomplete="new-password" required placeholder="Minimum 5 znaków"></label>
+      <label class="acc__check"><input type="checkbox" name="customer[accepts_marketing]" value="true" checked><i aria-hidden="true"></i><span>Chcę wiedzieć pierwszy o nowym dropie</span></label>
+      <button class="btn btn--bone acc__btn" type="submit">Załóż konto {% render 'icon-arrow' %}</button>
+    {%- endform -%}
+    <div class="acc__or mono"><span>Masz już konto?</span></div>
+    <a class="btn btn--line acc__btn" href="{{ routes.account_login_url }}">Zaloguj się</a>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Rejestracja",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Nadtytuł", "default": "Konto Himery" },
+    { "type": "text", "id": "heading", "label": "Nagłówek (| = nowa linia)", "default": "Bądź|częścią." },
+    { "type": "textarea", "id": "text", "label": "Tekst", "default": "Jedno konto: historia zamówień, zapisane adresy i informacja o dropie, zanim zobaczy go reszta." }
+  ]
+}
+{% endschema %}

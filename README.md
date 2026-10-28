@@ -60,6 +60,14 @@ Sekcje „Przewijany napis”, „Ostatni odcinek” i „Top produkty” zosta�
 
 Odwzorowanie filmu referencyjnego (0–10 s): ciemnoczerwony pokój z narożnikami, u góry chromowany pierścień z czerwonymi LED-ami i snopem światła, szklane panele z produktami w łuku, duży chromowany napis, który przy zmianie produktu zapada się w podest, a nowy z niego wyjeżdża. Zakładki z kropką, licznik `HMR-01 01 / 03`, strzałki, przeciąganie i swipe. Kliknięcie produktu (albo podpowiedzi pod spodem) go wybiera: panel jedzie w lewo pod światło, z prawej wchodzą szczegóły (cena, opis, kolor, materiał, rozmiar, „Dodaj do koszyka”, „Kup teraz”). Gdy produkt jest wybrany, scroll przesuwa tylko jego opis (reszta strony jest wtedy ukryta, więc nie da się nim wyjść ani przejść do innego produktu); produkt zmieniają tylko strzałki, a przycisk „Wróć do showroomu”, zawsze widoczny, wraca. Wybór „Biała” zmienia światło pierścienia na białe, „Czarna” na czerwone; tło zostaje ciemne. W szczegółach są trzy najważniejsze rzeczy o produkcie (ustawienie „Trzy najważniejsze rzeczy” w bloku produktu, oddzielone `|`). Niżej, po przewinięciu, są trzy sekcje hasło + tekst + zdjęcie, na zmianę po lewej i prawej (ustawienia „1–3. Hasło / Tekst / Zdjęcie” w bloku produktu; bez zdjęcia brane są zdjęcia produktu), a na końcu „Dołącz do Himery”. Produkty w showroomie i na głównej to same zdjęcia bez paneli, więc zdjęcia do showroomu muszą mieć przezroczyste tło.
 
+## Konto i koszyk
+
+- **Koszyk** (`/cart`) jest częścią motywu i od razu działa w Shopify: produkty z kolorem, suma, „Przejdź do kasy”.
+- **Kasa** (płatność, dostawa) to zawsze strona Shopify. Wygląd ustawia się w **Ustawienia → Kasa → Dostosuj** (logo, kolory, czcionka).
+- **Konto klienta** ma dwa tryby (**Ustawienia → Konta klientów**):
+  - *Nowe konta klientów*: logowanie kodem z e-maila na stronie Shopify, bez haseł. Motyw tylko linkuje ikonką w nagłówku; wygląd tej strony ustawia się tak jak kasę.
+  - *Klasyczne konta*: używają stron z motywu, które są już gotowe w stylu Himery: `customers/login` (logowanie + przypomnienie hasła), `customers/register` (zakładanie konta, zgoda na info o dropie), `customers/account` (zamówienia i adres). Podgląd: `/account/login`, `/account/register`, `/account`.
+
 ## Telefony
 
 Intro zawsze zajmuje dokładnie wysokość i szerokość ekranu: napis HIMERA i zdjęcie układają się pod wysokość telefonu (od iPhone SE po Pro Max), w poziomie układ jak na komputerze. Showroom produktów wypełnia cały ekran. Zdjęcia produktów w kartach są dopasowane w całości, bez przycinania.

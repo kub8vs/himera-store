@@ -1,0 +1,40 @@
+{%- comment -%} Customer account: orders and address, for Shopify's classic customer accounts (templates/customers/account.json). {%- endcomment -%}
+<section class="acc acc--in wrap">
+  <div class="acc__glow" aria-hidden="true"></div>
+  <div class="acc__side">
+    <span class="mono acc__kicker">Twoje konto</span>
+    <h1 class="acc__h">Cześć,<br>{{ customer.first_name | default: 'Himera' }}.</h1>
+    <p class="acc__note">{{ customer.email }}</p>
+    <a class="acc__link mono" href="{{ routes.account_logout_url }}">Wyloguj się</a>
+  </div>
+  <div class="acc__main">
+    <div class="acc__card">
+      <h2 class="acc__title">Zamówienia</h2>
+      {%- if customer.orders.size > 0 -%}
+        <ul class="acc__orders">
+          {%- for order in customer.orders -%}
+            <li class="acc__order">
+              <a href="{{ order.customer_url }}" class="mono acc__ono">{{ order.name }}</a>
+              <span class="mono">{{ order.created_at | date: '%d.%m.%Y' }}</span>
+              <span class="acc__pill mono">{{ order.fulfillment_status_label }}</span>
+              <strong class="mono">{{ order.total_price | money }}</strong>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <p class="acc__note">Nie masz jeszcze zamówień.</p>
+        <a class="btn btn--bone acc__btn" href="{{ routes.all_products_collection_url }}">Wejdź do showroomu {% render 'icon-arrow' %}</a>
+      {%- endif -%}
+    </div>
+    <div class="acc__card">
+      <h2 class="acc__title">Adres dostawy</h2>
+      {%- if customer.default_address -%}
+        <p class="acc__addr">{{ customer.default_address | format_address }}</p>
+      {%- else -%}
+        <p class="acc__note">Brak zapisanego adresu. Zapiszesz go przy pierwszym zamówieniu.</p>
+      {%- endif -%}
+      <a class="acc__link mono" href="{{ routes.account_addresses_url }}">Zmień adres</a>
+    </div>
+  </div>
+</section>
+{% schema %}{ "name": "Konto klienta" }{% endschema %}
