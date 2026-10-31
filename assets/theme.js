@@ -480,9 +480,11 @@
         if (dd < bd) { bd = dd; best = c; }
       }
       pos = best;
+      sr.style.setProperty('--dir', dir || (k > cur ? 1 : -1));
       const prev = cur;
       cur = k;
       place();
+      if (open) cards.forEach((c) => c.classList.toggle('is-in', c.classList.contains('is-front')));
       sync(prev);
     };
     const sync = (prev) => {
@@ -503,9 +505,13 @@
 
     // picking a product: it slides under the light, details open; scrolling runs through its story and "Dołącz", never to another product
     const backBtn = $('[data-sr-back]', sr);
+    let settleT;
     const setOpen = (o) => {
       if (o === open) return;
       open = o;
+      clearTimeout(settleT);
+      if (!o) { sr.classList.remove('is-settled'); cards.forEach((c) => c.classList.remove('is-in')); }
+      else settleT = setTimeout(() => sr.classList.add('is-settled'), 1050);
       sr.classList.toggle('is-open', o);
       document.documentElement.classList.toggle('sr-on', o);
       backBtn.tabIndex = o ? 0 : -1;
