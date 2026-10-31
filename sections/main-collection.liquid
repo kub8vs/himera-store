@@ -1,6 +1,6 @@
 {%- comment -%}
   Showroom: products on glass panels in an arc, a metal ring of light above and a platform below.
-  Switching (arrows, tabs, drag, swipe) slides the arc; the platform rises and swaps the title.
+  Switching (arrows, drag, swipe) slides the arc; the platform rises and swaps the title.
   Clicking the front panel (or the hint) picks the product: it slides left under the light and the details open on the right.
   While a product is picked the page scrolls only through its details (the rest of the page is hidden); only the arrows change it and "Wróć" goes back.
   Picking white turns the ring light white. The details show three key points; scrolling on runs through three slogan + photo rows, then "Dołącz do Himery".
@@ -48,10 +48,7 @@
 
     <div class="sr__titles" aria-live="polite" data-sr-titles></div>
 
-    <div class="sr__tabs mono" role="tablist" data-sr-tabs>
-      <i class="sr__dot" aria-hidden="true" data-sr-dot></i>
-    </div>
-    <button class="sr__hint mono" type="button" data-sr-down><span>{{ section.settings.hint }}</span><i aria-hidden="true"></i></button>
+    <button class="sr__hint" type="button" data-sr-down><i aria-hidden="true"></i><span>{{ section.settings.hint }}</span></button>
 
   </div>
 

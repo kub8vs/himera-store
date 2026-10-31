@@ -413,12 +413,9 @@
     const ring = $('[data-sr-ring]', sr);
     const scene = $('[data-sr-scene]', sr);
     const titles = $('[data-sr-titles]', sr);
-    const tabsEl = $('[data-sr-tabs]', sr);
-    const dot = $('[data-sr-dot]', sr);
     const C = N < 3 ? N * 3 : N * Math.ceil(9 / N);
     const cards = [];
     const titleEls = [];
-    const tabEls = [];
     let cur = 0, pos = 0, open = false;
 
     for (let c = 0; c < C; c++) {
@@ -436,14 +433,6 @@
       t.innerHTML = `<span>${it.dataset.heading}</span>`;
       titles.appendChild(t);
       titleEls.push(t);
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'sr__tab';
-      b.setAttribute('role', 'tab');
-      b.textContent = it.dataset.short;
-      b.addEventListener('click', () => go(k));
-      tabsEl.appendChild(b);
-      tabEls.push(b);
       // split the detail title into letters for the reveal
       const h = $('[data-sr-split]', it);
       if (h) { let i = 0; h.innerHTML = h.textContent.trim().split(/\s+/).map((w) => `<span class="w">${[...w].map((ch) => `<span class="ch" style="--i:${i++}">${ch}</span>`).join('')}</span>`).join(' '); }
@@ -499,9 +488,6 @@
     const sync = (prev) => {
       $('[data-sr-now]', sr).textContent = String(cur + 1).padStart(2, '0');
       $('[data-sr-code]', sr).textContent = items[cur].dataset.code;
-      tabEls.forEach((b, i) => { b.setAttribute('aria-selected', i === cur ? 'true' : 'false'); });
-      const tb = tabEls[cur];
-      dot.style.transform = `translateX(${(tb.offsetLeft + tb.offsetWidth / 2).toFixed(0)}px)`;
       items.forEach((it, i) => it.classList.toggle('is-on', i === cur));
       $$('[data-sr-story]', sr).forEach((st) => st.classList.toggle('is-on', +st.dataset.srStory === cur));
       if (open) window.scrollTo({ top: sr.getBoundingClientRect().top + window.scrollY, behavior: 'auto' });
