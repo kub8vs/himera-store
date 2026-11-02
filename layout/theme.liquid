@@ -4,6 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="{{ settings.color_ink }}">
+  {%- if template.name == 'product' and request.design_mode != true -%}
+  {%- comment -%} every product opens in the showroom, picked; ?classic=1 shows the plain product page {%- endcomment -%}
+  <script>if (!/[?&]classic=/.test(location.search)) { var v = location.search.match(/[?&]variant=(\d+)/); location.replace('{{ routes.all_products_collection_url }}?p={{ product.handle }}' + (v ? '&variant=' + v[1] : '')); }</script>
+  {%- endif -%}
   <title>{% if page_title and page_title != shop.name %}{{ page_title }} · {% endif %}{{ shop.name }}</title>
   <meta name="description" content="{{ page_description | default: 'HIMERA. Jesteśmy ruchem, a ty jego częścią. Kominiarki, flagi i naklejki Himery.' | escape }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">

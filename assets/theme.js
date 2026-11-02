@@ -484,6 +484,7 @@
       const prev = cur;
       cur = k;
       place();
+      if (open) setUrl();
       if (open) cards.forEach((c) => c.classList.toggle('is-in', c.classList.contains('is-front')));
       sync(prev);
     };
@@ -506,6 +507,7 @@
     // picking a product: it slides under the light, details open; scrolling runs through its story and "Dołącz", never to another product
     const backBtn = $('[data-sr-back]', sr);
     let settleT;
+    const setUrl = () => { try { const u = new URL(location.href); u.searchParams.delete('variant'); if (open) u.searchParams.set('p', items[cur].dataset.handle); else u.searchParams.delete('p'); history.replaceState(history.state, '', u); } catch (e) {} };
     const setOpen = (o) => {
       if (o === open) return;
       open = o;
@@ -513,6 +515,7 @@
       if (!o) { sr.classList.remove('is-settled'); cards.forEach((c) => c.classList.remove('is-in')); }
       else settleT = setTimeout(() => sr.classList.add('is-settled'), 1050);
       sr.classList.toggle('is-open', o);
+      setUrl();
       document.documentElement.classList.toggle('sr-on', o);
       backBtn.tabIndex = o ? 0 : -1;
       window.scrollTo({ top: sr.getBoundingClientRect().top + window.scrollY, behavior: 'auto' });
@@ -613,8 +616,22 @@
       });
     });
 
+    // /collections/all?p=handle opens that product picked (every product page lands here); unknown handle falls back to the plain product page
+    const qs = new URLSearchParams(location.search);
+    const want = qs.get('p');
+    let startK = -1;
+    if (want) {
+      startK = items.findIndex((it) => it.dataset.handle === want);
+      if (startK < 0) { location.replace(`/products/${encodeURIComponent(want)}?classic=1`); }
+      else {
+        cur = startK; pos = startK;
+        const sw = qs.get('variant') && $(`[data-sr-var="${qs.get('variant')}"]`, items[startK]);
+        if (sw) sw.click();
+      }
+    }
     size();
     sync();
+    if (startK >= 0) { sr.classList.add('is-instant'); setOpen(true); requestAnimationFrame(() => requestAnimationFrame(() => sr.classList.remove('is-instant'))); }
     window.addEventListener('resize', () => { size(); sync(); });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => sync());
   }

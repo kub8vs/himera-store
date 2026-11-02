@@ -8,9 +8,8 @@
   assign size = p.metafields.custom.size.value
   assign num = idx | plus: 1 | prepend: '0' | slice: -2, 2
   assign tot = total | prepend: '0' | slice: -2, 2
-  assign title = p.title | upcase
 -%}
-<article class="sr__item" data-sr-item="{{ idx }}" data-code="{{ code | escape }}" data-title="{{ p.title | escape }}" data-short="{{ short | escape }}" data-heading="{{ heading | default: p.title | escape }}" data-img="{{ base | image_url: width: 1200 }}">
+<article class="sr__item" data-sr-item="{{ idx }}" data-handle="{{ p.handle }}" data-code="{{ code | escape }}" data-title="{{ p.title | escape }}" data-short="{{ short | escape }}" data-heading="{{ heading | default: p.title | escape }}" data-img="{{ base | image_url: width: 1200 }}">
   <div class="sr__info">
     <span class="mono sr__meta">{{ num }} / {{ tot }}{% if mat != blank %} — {{ mat }}{% endif %}{% if size != blank %} · {{ size }}{% endif %}</span>
     <h2 class="sr__name" data-sr-split>{{ p.title }}</h2>

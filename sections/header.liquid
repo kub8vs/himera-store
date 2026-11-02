@@ -1,10 +1,6 @@
 {%- liquid
   assign left = linklists[section.settings.menu_left]
   assign right = linklists[section.settings.menu_right]
-  assign intro = false
-  if template.name == 'index'
-    assign intro = true
-  endif
 -%}
 <header class="hdr" data-header>
   <div class="hdr__corner">
