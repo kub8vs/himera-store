@@ -704,9 +704,23 @@
     });
   });
 
-  // preview only: cart page drawn from localStorage
+  // cart: − / + saves straight away (Shopify updates the cart and reloads the page)
+  const cartForm = $('[data-cart-form]');
+  if (cartForm) {
+    cartForm.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-step]');
+      if (!b) return;
+      const input = $('input', b.closest('[data-step-wrap]'));
+      input.value = Math.max(0, (+input.value || 0) + +b.dataset.step);
+      cartForm.requestSubmit($('[data-cart-update]', cartForm));
+    });
+    cartForm.addEventListener('change', (e) => { if (e.target.matches('.cartp__qty')) cartForm.requestSubmit($('[data-cart-update]', cartForm)); });
+  }
+
+  // preview only: cart page drawn from localStorage, same look as the real one
   const cartPreview = $('[data-cart-preview]');
   if (PREVIEW && cartPreview) {
+    const freeFrom = +($('[data-cart-page]') || {}).dataset?.freeFrom || 0;
     const draw = () => {
       const items = readPreview();
       const empty = $('[data-cart-empty]');
@@ -714,21 +728,28 @@
       if (empty) empty.hidden = !!items.length;
       if (!items.length) return;
       const total = items.reduce((s, i) => s + i.price * i.qty, 0);
-      cartPreview.innerHTML = `<ul class="cartp__list">${items.map((i, k) => `
+      const left = freeFrom - total;
+      cartPreview.innerHTML = `${freeFrom ? `<div class="cartp__free${left <= 0 ? ' is-done' : ''}" style="--p:${Math.min(100, Math.round(total / freeFrom * 100))}%"><span class="mono">${left > 0 ? `Do darmowej dostawy brakuje ${money(left)}` : 'Masz darmową dostawę'}</span><i aria-hidden="true"></i></div>` : ''}
+        <ul class="cartp__list">${items.map((i, k) => `
         <li class="cartp__item">
           <a class="cartp__img" href="${i.url}"><img src="${i.img}" alt="" width="96" height="96"></a>
-          <div class="cartp__meta"><a href="${i.url}">${i.title}</a>${i.variant && i.variant !== 'Default Title' ? `<span class="mono">Kolor: ${i.variant}</span>` : ''}<span class="mono">${money(i.price)} × ${i.qty}</span></div>
-          <span class="mono">${money(i.price * i.qty)}</span>
-          <button class="cartp__rm mono" type="button" data-rm="${k}">${T.remove}</button>
+          <div class="cartp__meta"><a href="${i.url}">${i.title}</a>${i.variant && i.variant !== 'Default Title' ? `<span class="mono">Kolor: ${i.variant}</span>` : ''}<span class="mono">${money(i.price)}</span></div>
+          <div class="cartp__step"><button type="button" data-pstep="-1" data-k="${k}" aria-label="Mniej">−</button><input class="cartp__qty" type="number" value="${i.qty}" min="0" readonly aria-label="Ilość"><button type="button" data-pstep="1" data-k="${k}" aria-label="Więcej">+</button></div>
+          <span class="cartp__line mono">${money(i.price * i.qty)}</span>
+          <button class="cartp__rm" type="button" data-rm="${k}" aria-label="${T.remove}"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg></button>
         </li>`).join('')}</ul>
         <div class="cartp__sum"><div><span class="mono">${T.subtotal}</span><strong>${money(total)}</strong></div>
+        <p class="mono">Podatki i dostawa liczone przy kasie.</p>
         <button class="btn btn--bone" type="button" data-fake-checkout>${T.checkout}</button></div>`;
     };
     cartPreview.addEventListener('click', (e) => {
       const rm = e.target.closest('[data-rm]');
-      if (rm) {
+      const st = e.target.closest('[data-pstep]');
+      if (rm || st) {
         const items = readPreview();
-        items.splice(+rm.dataset.rm, 1);
+        const k = +(rm || st).dataset[rm ? 'rm' : 'k'];
+        if (rm) items.splice(k, 1);
+        else { items[k].qty += +st.dataset.pstep; if (items[k].qty < 1) items.splice(k, 1); }
         writePreview(items);
         setCount(items.reduce((s, i) => s + i.qty, 0));
         draw();

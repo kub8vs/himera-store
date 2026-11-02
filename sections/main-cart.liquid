@@ -1,21 +1,43 @@
-<section class="cartp wrap" data-cart-page>
+{%- comment -%} Cart: photo, name, colour, a − 1 + stepper (saves on tap), line total, remove; free-delivery bar; checkout is Shopify's. {%- endcomment -%}
+{%- liquid
+  assign free_from = section.settings.free_from | times: 100
+  assign left = free_from | minus: cart.total_price
+-%}
+<section class="cartp wrap" data-cart-page data-free-from="{{ free_from }}">
   <h1 class="page-h">{{ 'cart.title' | t }}</h1>
   {%- if cart.item_count > 0 -%}
-    <form action="{{ routes.cart_url }}" method="post" class="cartp__form">
+    <form action="{{ routes.cart_url }}" method="post" class="cartp__form" data-cart-form>
+      {%- if free_from > 0 -%}
+        <div class="cartp__free{% if left <= 0 %} is-done{% endif %}" style="--p: {{ cart.total_price | times: 100 | divided_by: free_from | at_most: 100 }}%">
+          <span class="mono">{%- if left > 0 -%}Do darmowej dostawy brakuje {{ left | money }}{%- else -%}Masz darmową dostawę{%- endif -%}</span>
+          <i aria-hidden="true"></i>
+        </div>
+      {%- endif -%}
       <ul class="cartp__list">
         {%- for item in cart.items -%}
           <li class="cartp__item">
-            <a class="cartp__img" href="{{ item.url }}">{{ item.image | image_url: width: 240 | image_tag: alt: item.title, width: 120, height: 120 }}</a>
-            <div class="cartp__meta"><a href="{{ item.url }}">{{ item.product.title }}</a>{%- unless item.product.has_only_default_variant -%}<span class="mono">{{ item.variant.title }}</span>{%- endunless -%}<span class="mono">{{ item.final_price | money }}</span></div>
-            <input class="cartp__qty" type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="Ilość">
-            <a class="cartp__rm mono" href="{{ item.url_to_remove }}">{{ 'cart.remove' | t }}</a>
+            <a class="cartp__img" href="{{ item.url }}">{{ item.image | image_url: width: 240 | image_tag: alt: item.product.title, width: 96, height: 96, loading: 'lazy' }}</a>
+            <div class="cartp__meta">
+              <a href="{{ item.url }}">{{ item.product.title }}</a>
+              {%- unless item.product.has_only_default_variant -%}
+                {%- for o in item.options_with_values -%}<span class="mono">{{ o.name }}: {{ o.value }}</span>{%- endfor -%}
+              {%- endunless -%}
+              <span class="mono">{{ item.final_price | money }}</span>
+            </div>
+            <div class="cartp__step" data-step-wrap>
+              <button type="button" data-step="-1" aria-label="Mniej">−</button>
+              <input class="cartp__qty" type="number" inputmode="numeric" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="Ilość: {{ item.product.title | escape }}">
+              <button type="button" data-step="1" aria-label="Więcej">+</button>
+            </div>
+            <span class="cartp__line mono">{{ item.final_line_price | money }}</span>
+            <a class="cartp__rm" href="{{ item.url_to_remove }}" aria-label="{{ 'cart.remove' | t }}: {{ item.product.title | escape }}"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg></a>
           </li>
         {%- endfor -%}
       </ul>
       <div class="cartp__sum">
         <div><span class="mono">{{ 'cart.subtotal' | t }}</span><strong>{{ cart.total_price | money }}</strong></div>
         <p class="mono">{{ 'cart.taxes' | t }}</p>
-        <button class="btn btn--line" type="submit" name="update">{{ 'cart.update' | t }}</button>
+        <button class="cartp__upd" type="submit" name="update" data-cart-update>{{ 'cart.update' | t }}</button>
         <button class="btn btn--bone" type="submit" name="checkout">{{ 'cart.checkout' | t }}{% render 'icon-arrow' %}</button>
       </div>
     </form>
@@ -27,4 +49,12 @@
     <div data-cart-preview hidden></div>
   {%- endif -%}
 </section>
-{% schema %}{ "name": "Koszyk" }{% endschema %}
+
+{% schema %}
+{
+  "name": "Koszyk",
+  "settings": [
+    { "type": "number", "id": "free_from", "label": "Darmowa dostawa od (zł, 0 = ukryj pasek)", "default": 70 }
+  ]
+}
+{% endschema %}

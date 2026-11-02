@@ -46,17 +46,26 @@
 
 <div class="drawer" id="menu-drawer" hidden data-menu>
   <div class="drawer__inner">
-    <button class="drawer__close" type="button" data-menu-close>{{ 'general.close' | t }}</button>
-    <nav aria-label="Menu główne">
+    <div class="drawer__top">
+      <img class="drawer__logo" src="{% if settings.logo %}{{ settings.logo | image_url: width: 160 }}{% else %}{{ 'himera-logo.webp' | asset_url }}{% endif %}" alt="" width="54" height="45">
+      <button class="drawer__close" type="button" data-menu-close aria-label="{{ 'general.close' | t }}"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg></button>
+    </div>
+    <nav class="drawer__nav" aria-label="Menu główne">
       <ol class="drawer__list">
         {%- assign n = 0 -%}
-        {%- for link in left.links -%}{%- assign n = n | plus: 1 -%}<li><a href="{{ link.url }}"><span class="mono">0{{ n }}</span>{{ link.title }}</a></li>{%- endfor -%}
-        {%- for link in right.links -%}{%- assign n = n | plus: 1 -%}<li><a href="{{ link.url }}"><span class="mono">0{{ n }}</span>{{ link.title }}</a></li>{%- endfor -%}
+        {%- for link in left.links -%}{%- assign n = n | plus: 1 -%}<li style="--i: {{ n }}"><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}><span class="mono">0{{ n }}</span>{{ link.title }}</a></li>{%- endfor -%}
+        {%- for link in right.links -%}{%- assign n = n | plus: 1 -%}<li style="--i: {{ n }}"><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}><span class="mono">0{{ n }}</span>{{ link.title }}</a></li>{%- endfor -%}
       </ol>
     </nav>
-    <div class="drawer__foot mono">
-      <a href="{{ routes.account_login_url }}">{{ 'general.login' | t }}</a>
-      <span>{%- if settings.instagram_url != blank -%}<a href="{{ settings.instagram_url }}" target="_blank" rel="noopener">Instagram</a>{%- endif %} · {% if settings.youtube_url != blank -%}<a href="{{ settings.youtube_url }}" target="_blank" rel="noopener">YouTube</a>{%- endif -%}</span>
+    <div class="drawer__foot">
+      <div class="drawer__pills">
+        <a class="drawer__pill mono" href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}">{% render 'icon', name: 'user' %}{% if customer %}Konto{% else %}{{ 'general.login' | t }}{% endif %}</a>
+        <a class="drawer__pill drawer__pill--cart mono" href="{{ routes.cart_url }}">{% render 'icon', name: 'bag' %}{{ 'general.cart' | t }}<b data-cart-count>{% if cart.item_count > 0 %}{{ cart.item_count }}{% endif %}</b></a>
+      </div>
+      <div class="drawer__meta mono">
+        {%- if settings.announcement != blank -%}<span><i></i>{{ settings.announcement }}</span>{%- endif -%}
+        <span>{%- if settings.instagram_url != blank -%}<a href="{{ settings.instagram_url }}" target="_blank" rel="noopener">Instagram</a>{%- endif -%}{%- if settings.instagram_url != blank and settings.youtube_url != blank %} · {% endif -%}{%- if settings.youtube_url != blank -%}<a href="{{ settings.youtube_url }}" target="_blank" rel="noopener">YouTube</a>{%- endif -%}</span>
+      </div>
     </div>
   </div>
 </div>
