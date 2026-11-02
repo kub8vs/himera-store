@@ -25,13 +25,14 @@
       endif
     -%}
     {%- if t != blank or x != blank -%}
-      <section class="sr__row reveal{% if i == 2 %} sr__row--flip{% endif %}">
+      <section class="sr__row{% if i == 2 %} sr__row--flip{% endif %}" data-sr-row>
+        <span class="sr__ghost" aria-hidden="true">0{{ i }}</span>
         <div class="sr__rowtext">
           <span class="mono sr__rownum">0{{ i }} / 03</span>
           {%- if t != blank -%}<h3 class="sr__rowh">{{ t }}</h3>{%- endif -%}
           {%- if x != blank -%}<p class="sr__rowp">{{ x }}</p>{%- endif -%}
         </div>
-        <figure class="sr__rowimg">{{ im | image_url: width: 1400 | image_tag: loading: 'lazy', alt: t | default: p.title }}</figure>
+        <figure class="sr__rowimg" data-sr-tilt><span class="sr__rowin">{{ im | image_url: width: 1400 | image_tag: loading: 'lazy', alt: t | default: p.title }}</span><i class="sr__spot" aria-hidden="true"></i></figure>
       </section>
     {%- endif -%}
   {%- endfor -%}

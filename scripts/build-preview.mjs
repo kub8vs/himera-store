@@ -68,7 +68,7 @@ const products = data.products.map((p) => {
 });
 const collections = {};
 for (const c of data.collections) {
-  const items = c.handles === '*' ? products : products.filter((p) => c.handles.includes(p.handle));
+  const items = c.handles === '*' ? products : c.handles.map((h) => products.find((p) => p.handle === h)).filter(Boolean);
   collections[c.handle] = { ...c, url: `/collections/${c.handle}`, products: items, products_count: items.length, all_products_count: items.length };
 }
 

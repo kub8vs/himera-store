@@ -1,0 +1,47 @@
+{%- comment -%} "O Himerze" first screen: title and page text on the left, the car rolling in on the right, the moving slogan along the bottom edge of the screen. {%- endcomment -%}
+<section class="part ab" data-hero>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><filter id="hmr-blur" x="-10%" y="0" width="120%" height="100%"><feGaussianBlur data-blur stdDeviation="0 0"/></filter></svg>
+  <div class="ab__top">
+    <div class="ab__copy wrap">
+      {%- if section.settings.kicker != blank -%}<span class="mono part__kicker">{{ section.settings.kicker }}</span>{%- endif -%}
+      <h1 class="ab__h">{{ page.title | default: section.settings.title }}</h1>
+      <div class="ab__text rte">{{ page.content }}</div>
+    </div>
+    <div class="part__stage">
+      <div class="hero__floor" aria-hidden="true"></div>
+      <div class="hero__car" data-car>
+        <div class="hero__drive" data-drive>
+          <div class="hero__shadow"></div>
+          <img class="hero__refl" src="{{ 'himera-car.webp' | asset_url }}" alt="" width="1968" height="633">
+          <div class="hero__body" data-body>
+            <img class="hero__img" src="{{ 'himera-car.webp' | asset_url }}" alt="{{ section.settings.car_alt | escape }}" width="1968" height="633">
+            <img class="hero__wheel hero__wheel--f" src="{{ 'himera-wheel-f.webp' | asset_url }}" alt="" width="240" height="240" data-wheel>
+            <img class="hero__wheel hero__wheel--r" src="{{ 'himera-wheel-r.webp' | asset_url }}" alt="" width="240" height="240" data-wheel>
+            <div class="hero__sheen" style="--mask: url('{{ 'himera-car.webp' | asset_url }}')"></div>
+            <i class="hero__tail" data-tail></i>
+            <i class="hero__head"></i>
+          </div>
+        </div>
+        <i class="hero__beam" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+  <div class="mani__marquee ab__marquee" aria-hidden="true">
+    <div class="mani__track">
+      {%- for i in (1..4) -%}<span>{{ section.settings.marquee }}</span><i></i>{%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "O Himerze z autem",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Nadtytuł", "default": "Himera" },
+    { "type": "text", "id": "title", "label": "Tytuł (gdy strona go nie ma)", "default": "O Himerze" },
+    { "type": "text", "id": "marquee", "label": "Pasek przewijany na dole ekranu", "default": "JESTEŚMY RUCHEM · A TY JEGO CZĘŚCIĄ" },
+    { "type": "text", "id": "car_alt", "label": "Opis auta", "default": "Czarne BMW M3 z okleiną Himery" }
+  ],
+  "presets": [{ "name": "O Himerze z autem" }]
+}
+{% endschema %}

@@ -37,6 +37,7 @@
       <div class="cartp__sum">
         <div><span class="mono">{{ 'cart.subtotal' | t }}</span><strong>{{ cart.total_price | money }}</strong></div>
         <p class="mono">{{ 'cart.taxes' | t }}</p>
+        <label class="cartp__code"><span class="mono">{{ 'cart.discount' | t }}</span><input type="text" name="discount" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="KOD"></label>
         <button class="cartp__upd" type="submit" name="update" data-cart-update>{{ 'cart.update' | t }}</button>
         <button class="btn btn--bone" type="submit" name="checkout">{{ 'cart.checkout' | t }}{% render 'icon-arrow' %}</button>
       </div>

@@ -24,7 +24,7 @@
   {{ 'theme.css' | asset_url | stylesheet_tag }}
   <script>document.documentElement.classList.add('js');</script>
   <script src="{{ 'theme.js' | asset_url }}" defer></script>
-  <script>window.HIMERA_T = { added: {{ 'products.added' | t | json }}, success: {{ 'newsletter.success' | t | json }}, remove: {{ 'cart.remove' | t | json }}, subtotal: {{ 'cart.subtotal' | t | json }}, checkout: {{ 'cart.checkout' | t | json }} };</script>
+  <script>window.HIMERA_T = { added: {{ 'products.added' | t | json }}, success: {{ 'newsletter.success' | t | json }}, remove: {{ 'cart.remove' | t | json }}, subtotal: {{ 'cart.subtotal' | t | json }}, checkout: {{ 'cart.checkout' | t | json }}, view_cart: {{ 'cart.view' | t | json }} };</script>
   {%- if preview -%}<script>window.HIMERA_PREVIEW = true;</script>{%- endif -%}
   {{ content_for_header }}
 </head>

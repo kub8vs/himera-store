@@ -1,7 +1,7 @@
 {
   "sections": {
     "main": {
-      "type": "main-page",
+      "type": "about-hero",
       "settings": {}
     },
     "about": {
@@ -34,7 +34,9 @@
         "p2",
         "p3"
       ],
-      "settings": {}
+      "settings": {
+        "marquee": ""
+      }
     },
     "join": {
       "type": "join-cta",

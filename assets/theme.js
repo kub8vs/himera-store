@@ -11,14 +11,26 @@
 
   /* ---------- toast ---------- */
   let toastTimer;
-  const toast = (msg) => {
+  const toast = (msg, link) => {
     const el = $('[data-toast]');
     if (!el) return;
-    el.textContent = msg;
+    el.textContent = '';
+    const t = document.createElement('span');
+    t.textContent = msg;
+    el.appendChild(t);
+    if (link) {
+      const a = document.createElement('a');
+      a.className = 'toast__go';
+      a.href = link.href;
+      a.innerHTML = `${link.label} <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>`;
+      el.appendChild(a);
+    }
+    el.classList.toggle('has-link', !!link);
     el.classList.add('is-on');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => el.classList.remove('is-on'), 2600);
+    toastTimer = setTimeout(() => el.classList.remove('is-on'), link ? 4500 : 2600);
   };
+  const cartLink = () => ({ href: (window.Shopify && window.Shopify.routes ? window.Shopify.routes.root : '/') + 'cart', label: T.view_cart || 'Zobacz koszyk' });
 
   /* ---------- header ---------- */
   const hdr = $('[data-header]');
@@ -616,6 +628,71 @@
       });
     });
 
+    // story rows: slide in once, image tilts toward the cursor with a red spotlight, gentle parallax while scrolling
+    const rows = $$('[data-sr-row]', sr);
+    const rio = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); rio.unobserve(e.target); } }), { threshold: 0.18 });
+    rows.forEach((r) => rio.observe(r));
+    let pyRaf = 0;
+    window.addEventListener('scroll', () => {
+      if (!open || pyRaf) return;
+      pyRaf = requestAnimationFrame(() => {
+        pyRaf = 0;
+        rows.forEach((r) => { const b = r.getBoundingClientRect(); if (b.bottom < 0 || b.top > window.innerHeight) return; r.style.setProperty('--py', (((b.top + b.height / 2) / window.innerHeight) - 0.5).toFixed(3)); });
+      });
+    }, { passive: true });
+    $$('[data-sr-tilt]', sr).forEach((f) => {
+      f.addEventListener('pointermove', (e) => {
+        if (e.pointerType !== 'mouse') return;
+        const b = f.getBoundingClientRect(), x = (e.clientX - b.left) / b.width, y = (e.clientY - b.top) / b.height;
+        f.style.setProperty('--ry', ((x - 0.5) * 10).toFixed(2) + 'deg');
+        f.style.setProperty('--rx', ((0.5 - y) * 8).toFixed(2) + 'deg');
+        f.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
+        f.style.setProperty('--my', (y * 100).toFixed(1) + '%');
+      });
+      f.addEventListener('pointerleave', () => { f.style.setProperty('--rx', '0deg'); f.style.setProperty('--ry', '0deg'); });
+    });
+
+    // picked product turns a little toward the cursor
+    const pinBox = $('.sr__pin', sr);
+    pinBox.addEventListener('pointermove', (e) => {
+      if (!open || e.pointerType !== 'mouse') return;
+      const x = e.clientX / window.innerWidth - 0.5, y = e.clientY / window.innerHeight - 0.5;
+      sr.style.setProperty('--pry', (x * 16).toFixed(2) + 'deg');
+      sr.style.setProperty('--prx', (-y * 10).toFixed(2) + 'deg');
+      sr.style.setProperty('--ps', '1.03');
+    });
+    pinBox.addEventListener('pointerleave', () => { ['--pry', '--prx', '--ps'].forEach((k) => sr.style.removeProperty(k)); });
+
+    // background: a few faint embers drifting up, only while the showroom is on screen
+    const emb = $('[data-sr-embers]', sr);
+    if (emb && !reduced) {
+      const cx = emb.getContext('2d');
+      let EW = 0, EH = 0, on = true;
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const fit = () => { EW = emb.clientWidth; EH = emb.clientHeight; emb.width = EW * dpr; emb.height = EH * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0); };
+      fit(); window.addEventListener('resize', fit);
+      const mk = (y) => ({ x: Math.random() * EW, y: y ?? EH + Math.random() * 40, r: .6 + Math.random() * 1.6, v: .15 + Math.random() * .45, w: Math.random() * 6.28, a: .25 + Math.random() * .55 });
+      const ps = Array.from({ length: window.innerWidth < 760 ? 26 : 46 }, () => mk(Math.random() * EH));
+      new IntersectionObserver(([e]) => { on = e.isIntersecting; if (on) requestAnimationFrame(tick); }).observe(sr);
+      function tick(t) {
+        if (!on || document.hidden) { if (!document.hidden) return; setTimeout(() => requestAnimationFrame(tick), 500); return; }
+        cx.clearRect(0, 0, EW, EH);
+        const white = sr.classList.contains('is-white');
+        for (const p of ps) {
+          p.y -= p.v; p.w += .01; p.x += Math.sin(p.w) * .25;
+          if (p.y < -10) Object.assign(p, mk());
+          const fade = Math.min(1, p.y / (EH * .35));
+          cx.globalAlpha = p.a * fade * (.6 + .4 * Math.sin(t / 600 + p.w * 3));
+          cx.fillStyle = white ? '#f3eeea' : '#ff4a3a';
+          cx.shadowColor = white ? 'rgba(255,255,255,.8)' : 'rgba(255,40,30,.9)';
+          cx.shadowBlur = 8;
+          cx.beginPath(); cx.arc(p.x, p.y, p.r, 0, 6.28); cx.fill();
+        }
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
     // /collections/all?p=handle opens that product picked (every product page lands here); unknown handle falls back to the plain product page
     const qs = new URLSearchParams(location.search);
     const want = qs.get('p');
@@ -687,7 +764,7 @@
         if (!hit) items.push({ id, qty, title: btn.dataset.title, variant, price, url: btn.dataset.url, img: (sw && sw.dataset.img) || btn.dataset.img });
         writePreview(items);
         setCount(items.reduce((s, i) => s + i.qty, 0));
-        return toast(T.added);
+        return toast(T.added, cartLink());
       }
       btn.disabled = true;
       try {
@@ -695,7 +772,7 @@
         if (!res.ok) throw new Error((await res.json()).description || T.error);
         const cart = await (await fetch('/cart.js')).json();
         setCount(cart.item_count);
-        toast(T.added);
+        toast(T.added, cartLink());
       } catch (err) {
         toast(err.message || T.error);
       } finally {
@@ -714,6 +791,7 @@
       input.value = Math.max(0, (+input.value || 0) + +b.dataset.step);
       cartForm.requestSubmit($('[data-cart-update]', cartForm));
     });
+    cartForm.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.closest('.cartp__code')) e.preventDefault(); });
     cartForm.addEventListener('change', (e) => { if (e.target.matches('.cartp__qty')) cartForm.requestSubmit($('[data-cart-update]', cartForm)); });
   }
 
@@ -740,6 +818,7 @@
         </li>`).join('')}</ul>
         <div class="cartp__sum"><div><span class="mono">${T.subtotal}</span><strong>${money(total)}</strong></div>
         <p class="mono">Podatki i dostawa liczone przy kasie.</p>
+        <label class="cartp__code"><span class="mono">Masz kod rabatowy?</span><input type="text" autocomplete="off" placeholder="KOD"></label>
         <button class="btn btn--bone" type="button" data-fake-checkout>${T.checkout}</button></div>`;
     };
     cartPreview.addEventListener('click', (e) => {
@@ -770,6 +849,30 @@
       });
     });
   }
+
+  /* ---------- FAQ: answers slide open and closed ---------- */
+  $$('.faq__item').forEach((d) => {
+    const sum = $('summary', d), ans = $('.faq__a', d);
+    if (!sum || !ans || reduced) return;
+    let anim;
+    sum.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (anim) anim.cancel();
+      if (!d.open) {
+        d.open = true;
+        const h = ans.offsetHeight;
+        const pb = getComputedStyle(ans).paddingBottom;
+        anim = ans.animate([{ height: '0px', paddingBottom: '0px', opacity: 0, transform: 'translateY(-10px)' }, { height: h + 'px', paddingBottom: pb, opacity: 1, transform: 'none' }], { duration: 520, easing: 'cubic-bezier(.2,.8,.2,1)' });
+        d.classList.add('is-opening');
+        anim.onfinish = () => { anim = null; d.classList.remove('is-opening'); };
+      } else {
+        const h = ans.offsetHeight;
+        d.classList.add('is-closing');
+        anim = ans.animate([{ height: h + 'px', opacity: 1 }, { height: '0px', paddingBottom: '0px', opacity: 0 }], { duration: 380, easing: 'cubic-bezier(.4,0,.2,1)' });
+        anim.onfinish = () => { d.open = false; d.classList.remove('is-closing'); anim = null; };
+      }
+    });
+  });
 
   /* ---------- hidden details ---------- */
   if (document.body.dataset.eggs !== 'false') {

@@ -19,7 +19,7 @@
 -%}
 <section class="sr" data-sr aria-label="{{ collection.title | escape }}">
   <div class="sr__pin">
-    <div class="sr__bg" aria-hidden="true"></div>
+    <div class="sr__bg" aria-hidden="true"><i class="sr__haze"></i><i class="sr__haze sr__haze--2"></i><i class="sr__sweep"></i><canvas class="sr__embers" data-sr-embers></canvas></div>
     <div class="sr__corners" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 
     <div class="sr__hud sr__hud--l mono" aria-hidden="true">
@@ -43,8 +43,6 @@
     <div class="sr__scene" data-sr-scene>
       <div class="sr__ring" data-sr-ring></div>
     </div>
-
-    <div class="sr__plat sr__plat--bot" aria-hidden="true" data-sr-bot><i class="sr__leds"></i><i class="sr__rim"></i></div>
 
     <div class="sr__titles" aria-live="polite" data-sr-titles></div>
 

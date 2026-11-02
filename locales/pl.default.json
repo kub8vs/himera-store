@@ -33,6 +33,9 @@
     "subtotal": "Suma",
     "checkout": "Przejdź do kasy",
     "remove": "Usuń",
+    "view": "Zobacz koszyk",
+    "discount": "Masz kod rabatowy?",
+    "discount_note": "Kod wpiszesz albo wkleisz tutaj, zadziała przy kasie.",
     "update": "Aktualizuj",
     "taxes": "Podatki i dostawa liczone przy kasie."
   },

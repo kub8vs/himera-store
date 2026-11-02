@@ -44,7 +44,9 @@ Motyw najpierw wgrywamy jako nieopublikowany i sprawdzamy w „Podglądzie”. P
 3. **Nawigacja**: menu `main-menu` (Strona główna, Produkty), menu `main-menu-right` (O Himerze, FAQ) i `footer`. Logo w nagłówku jest pośrodku, lewe menu po lewej, prawe po prawej.
 4. **Ustawienia → Konta klientów**: włącz konta, żeby w prawym górnym rogu działało logowanie (ikonka obok koszyka).
 5. **Dostosuj motyw → Ustawienia motywu**: linki Instagram i YouTube, logo (opcjonalnie), kolory.
-6. Strona główna, sekcja „Wejście do sklepu”: wybierz trzy produkty nad przyciskiem (kominiarka, koszulka na środku, naklejka). Strona „Produkty” (kolekcja): w sekcji showroomu wybierz koszulkę (pierwsza), kominiarkę, naklejkę i flagę oraz duże napisy (np. „Naklejki na auto”). Sekcja „Ostatni odcinek” (film https://www.youtube.com/watch?v=BZEsjGBhaOE) jest w motywie, ale nie ma jej teraz na głównej. Teksty trzech kart CTA zmienia się w sekcji „Stań się częścią HIMERY”.
+6. **Produkty → Kolekcje**: kolekcja „Latające na wejściu” (uchwyt `latajace`, sortowanie ręczne): flaga, naklejka z logo, naklejka z napisem, koszulka. To produkty latające wokół Himery na wejściu; koszulka jest po prawej. Bez tej kolekcji lecą wszystkie produkty.
+7. **Rabaty**: kody rabatowe robi się w panelu Shopify (**Rabaty → Utwórz rabat**). Motyw ma w koszyku pole „Masz kod rabatowy?”, kod przechodzi do kasy Shopify i tam się nalicza; w kasie też jest pole na kod.
+8. Strona główna, sekcja „Wejście do sklepu”: wybierz trzy produkty nad przyciskiem (kominiarka, koszulka na środku, naklejka). Strona „Produkty” (kolekcja): w sekcji showroomu wybierz koszulkę (pierwsza), kominiarkę, naklejkę i flagę oraz duże napisy (np. „Naklejki na auto”). Sekcja „Ostatni odcinek” (film https://www.youtube.com/watch?v=BZEsjGBhaOE) jest w motywie, ale nie ma jej teraz na głównej. Teksty trzech kart CTA zmienia się w sekcji „Stań się częścią HIMERY”.
 
 ## Strona główna
 
@@ -55,6 +57,10 @@ Motyw najpierw wgrywamy jako nieopublikowany i sprawdzamy w „Podglądzie”. P
 5. Dołącz do Himery: zapis na listę, stopka.
 
 Sekcje „Przewijany napis”, „Ostatni odcinek” i „Top produkty” zostały w motywie i można je dodać z powrotem w „Dostosuj”.
+
+## Strona O Himerze
+
+Pierwszy ekran: tytuł i tekst strony (z **Sklep online → Strony → O Himerze**) po lewej, wjeżdżające BMW po prawej, przewijany napis „Jesteśmy ruchem · a ty jego częścią” na dole ekranu. Niżej trzy punkty i „Dołącz do Himery”.
 
 ## Strona Produkty (showroom)
 
