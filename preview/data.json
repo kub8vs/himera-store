@@ -101,8 +101,14 @@
      "height": 1272
     },
     {
+     "src": "/media/kominiarka-1-przod.webp",
+     "alt": "Kominiarka Himery na Himerze",
+     "width": 1400,
+     "height": 1400
+    },
+    {
      "src": "/media/kominiarka-showcase.webp",
-     "alt": "Kominiarka Himery, bok",
+     "alt": "Kominiarka Himery, z bliska",
      "width": 950,
      "height": 1290
     }
@@ -137,16 +143,22 @@
    "description": "<p>Tworzona po to, by się z nią obnosić. Sama flaga 60×50 cm, bez kija, tunel z lewej strony 22 mm. Trwały i lekki materiał.</p>",
    "images": [
     {
-     "src": "/media/flaga.webp",
-     "alt": "Flaga Himery",
-     "width": 1694,
-     "height": 954
+     "src": "/media/flaga-1-przod.webp",
+     "alt": "Flaga Himery, przód",
+     "width": 1400,
+     "height": 1400
     },
     {
-     "src": "/media/flaga-showcase.webp",
-     "alt": "Flaga Himery, rozłożona",
-     "width": 1500,
-     "height": 1101
+     "src": "/media/flaga-2-kadr.webp",
+     "alt": "Flaga Himery na wietrze",
+     "width": 1400,
+     "height": 1400
+    },
+    {
+     "src": "/media/flaga.webp",
+     "alt": "Flaga Himery w akcji",
+     "width": 1694,
+     "height": 954
     }
    ],
    "showcase": "/media/flaga-showcase.webp",
@@ -177,28 +189,40 @@
    "description": "<p>Stań się częścią Himery. Logo na auto, do przyklejenia w kilka minut. Folia odporna na myjnię i słońce. Czarna na jasne auta, biała na ciemne.</p>",
    "images": [
     {
-     "src": "/media/naklejka-czarna.webp",
+     "src": "/media/naklejka-czarna-1-przod.webp",
+     "alt": "Czarna naklejka, przód",
+     "width": 1400,
+     "height": 1400
+    },
+    {
+     "src": "/media/naklejka-biala-3-na-aucie.webp",
+     "alt": "Biała naklejka na aucie",
+     "width": 1400,
+     "height": 1400
+    },
+    {
+     "src": "/media/naklejka-biala-1-przod.webp",
+     "alt": "Biała naklejka, przód",
+     "width": 1400,
+     "height": 1400
+    },
+    {
+     "src": "/media/naklejka-czarna-3-na-aucie.webp",
      "alt": "Czarna naklejka na aucie",
-     "width": 1694,
-     "height": 954
+     "width": 1400,
+     "height": 1400
     },
     {
-     "src": "/media/sticker-logo-czarna.webp",
-     "alt": "Czarna naklejka",
-     "width": 900,
-     "height": 763
+     "src": "/media/naklejka-czarna-2-kadr.webp",
+     "alt": "Czarna naklejka, pod kątem",
+     "width": 1400,
+     "height": 1400
     },
     {
-     "src": "/media/naklejka-logo.webp",
-     "alt": "Biała naklejka",
-     "width": 1078,
-     "height": 896
-    },
-    {
-     "src": "/media/sticker-logo-biala.webp",
-     "alt": "Biała naklejka, z bliska",
-     "width": 900,
-     "height": 763
+     "src": "/media/naklejka-biala-2-kadr.webp",
+     "alt": "Biała naklejka, pod kątem",
+     "width": 1400,
+     "height": 1400
     }
    ],
    "showcase": "/media/sticker-logo-czarna.webp",
@@ -208,13 +232,13 @@
      "title": "Czarna",
      "available": true,
      "showcase": "/media/sticker-logo-czarna.webp",
-     "image": "/media/naklejka-czarna.webp"
+     "image": "/media/naklejka-czarna-1-przod.webp"
     },
     {
      "title": "Biała",
      "available": true,
      "showcase": "/media/sticker-logo-biala.webp",
-     "image": "/media/naklejka-logo.webp"
+     "image": "/media/naklejka-biala-1-przod.webp"
     }
    ],
    "material": "Folia samochodowa",
@@ -233,14 +257,29 @@
    "description": "<p>Napis HIMERA w ostrym kroju, na szybę albo karoserię.</p>",
    "images": [
     {
-     "src": "/media/naklejka-napis.webp",
-     "alt": "Biała naklejka z napisem Himera",
-     "width": 1200,
-     "height": 600
+     "src": "/media/naklejka-napis-1-przod.webp",
+     "alt": "Naklejka z napisem Himera, przód",
+     "width": 1400,
+     "height": 1400
+    },
+    {
+     "src": "/media/naklejka-napis-3-na-aucie.webp",
+     "alt": "Naklejka z napisem Himera na aucie",
+     "width": 1400,
+     "height": 1400
+    },
+    {
+     "src": "/media/naklejka-napis-2-kadr.webp",
+     "alt": "Naklejka z napisem Himera, pod kątem",
+     "width": 1400,
+     "height": 1400
     }
    ],
    "showcase": "/media/sticker-napis.webp",
-   "short": "Napis · biały"
+   "short": "Napis · biały",
+   "material": "Folia samochodowa",
+   "size": "Na szybę lub karoserię",
+   "meta": "Folia · odporna na myjnię i słońce"
   }
  ],
  "collections": [

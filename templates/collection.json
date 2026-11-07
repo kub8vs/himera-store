@@ -59,12 +59,27 @@
             "story_3_title": "Noś to, co nosi ruch.",
             "story_3_text": "Koszulka do kominiarki i reszty Himery. Zakładasz ją i wiadomo, z kim trzymasz."
           }
+        },
+        "p4": {
+          "type": "product",
+          "settings": {
+            "product": "naklejka-napis-biala",
+            "label": "Napis",
+            "slogans": "Napis HIMERA w ostrym kroju|Biała folia samochodowa|Na szybę lub karoserię",
+            "story_1_title": "Napis, który widać.",
+            "story_1_text": "HIMERA w ostrym, ręcznie rysowanym kroju. Biała folia mocno odcina się od ciemnego lakieru i szyby.",
+            "story_2_title": "Na aucie.",
+            "story_2_text": "Na klapkę wlewu, tylną szybę albo próg. Przyklejasz ją w kilka minut, bez bąbli.",
+            "story_3_title": "Do kompletu z logo.",
+            "story_3_text": "Połącz ją z naklejką z demonem Himery i całe auto mówi, z kim trzymasz."
+          }
         }
       },
       "block_order": [
         "p0",
         "p1",
         "p2",
+        "p4",
         "p3"
       ],
       "settings": {}
