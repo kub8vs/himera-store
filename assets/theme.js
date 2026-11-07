@@ -897,20 +897,39 @@
     });
   });
 
-  /* ---------- Znak rozpoznawczy: chrome mark: rises in when its section shows, then tilts toward the cursor ---------- */
+  /* ---------- Znak rozpoznawczy: the chrome mark rises in, then follows the cursor like the HIMERA word in the intro ---------- */
   $$('[data-mark]').forEach((sec) => {
     if (!('IntersectionObserver' in window)) { sec.classList.add('is-in'); return; }
-    const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) { sec.classList.add('is-in'); io.disconnect(); } }, { threshold: 0.35 });
-    io.observe(sec);
-    const fig = $('[data-mark-fig]', sec), tilt = $('[data-mark-tilt]', sec);
-    if (!fig || !tilt || reduced || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-    fig.addEventListener('pointermove', (e) => {
-      const r = fig.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
-      tilt.style.setProperty('--ry', (x * 22).toFixed(2) + 'deg');
-      tilt.style.setProperty('--rx', (-y * 16).toFixed(2) + 'deg');
-    });
-    fig.addEventListener('pointerleave', () => { tilt.style.setProperty('--ry', '0deg'); tilt.style.setProperty('--rx', '0deg'); });
+    let visible = false;
+    new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible) sec.classList.add('is-in'); }, { threshold: 0.2 }).observe(sec);
+    const tilt = $('[data-mark-tilt]', sec);
+    if (!tilt || reduced) return;
+    const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    let tx = 0.5, ty = 0.5, x = 0.5, y = 0.5, touched = 0;
+    const aim = (cx, cy) => {
+      const r = sec.getBoundingClientRect();
+      tx = Math.min(Math.max((cx - r.left) / r.width, 0), 1);
+      ty = Math.min(Math.max((cy - r.top) / r.height, 0), 1);
+    };
+    sec.addEventListener('pointermove', (e) => { aim(e.clientX, e.clientY); if (e.pointerType !== 'mouse') touched = performance.now(); }, { passive: true });
+    sec.addEventListener('touchmove', (e) => { const t = e.touches[0]; if (t) { aim(t.clientX, t.clientY); touched = performance.now(); } }, { passive: true });
+    sec.addEventListener('pointerleave', () => { if (fine) { tx = 0.5; ty = 0.5; } });
+    const t0 = performance.now();
+    const loop = (t) => {
+      if (visible) {
+        // phones: a slow drift unless the finger is moving
+        if (!fine && t - touched > 2500) { const s = (t - t0) / 1000; tx = 0.5 + Math.sin(s * 0.42) * 0.5; ty = 0.5 + Math.cos(s * 0.33) * 0.3; }
+        x += (tx - x) * 0.075; y += (ty - y) * 0.075;
+        const dx = x - 0.5, dy = y - 0.5, w = tilt.offsetWidth;
+        tilt.style.setProperty('--tx', (dx * w * (fine ? 0.22 : 0.08)).toFixed(1) + 'px');
+        tilt.style.setProperty('--ty', (dy * w * (fine ? 0.14 : 0.06)).toFixed(1) + 'px');
+        tilt.style.setProperty('--ry', (dx * (fine ? 30 : 14)).toFixed(2) + 'deg');
+        tilt.style.setProperty('--rx', (-dy * 20).toFixed(2) + 'deg');
+        tilt.style.setProperty('--lx', (x * 100).toFixed(1) + '%');
+      }
+      requestAnimationFrame(loop);
+    };
+    requestAnimationFrame(loop);
   });
 
   /* ---------- hidden details ---------- */
