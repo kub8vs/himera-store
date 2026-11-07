@@ -32,8 +32,14 @@
   <a class="skip-link" href="#main">{{ 'general.skip_to_content' | t }}</a>
   <div class="grain" aria-hidden="true"></div>
   <div class="top{% if template.name == 'index' %} top--intro{% endif %}" data-top>
-    {% section 'announcement' %}
-    {% section 'header' %}
+    {%- comment -%} products page: the delivery line sits under the menu {%- endcomment -%}
+    {%- if template.name == 'collection' -%}
+      {% section 'header' %}
+      {% section 'announcement' %}
+    {%- else -%}
+      {% section 'announcement' %}
+      {% section 'header' %}
+    {%- endif -%}
   </div>
   <main id="main" tabindex="-1">
     {{ content_for_layout }}

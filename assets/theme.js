@@ -225,8 +225,10 @@
           ph.style.setProperty('--cy', (y * 100).toFixed(1) + '%');
           if (heroImg) heroImg.style.setProperty('--hx', (-dx * w * 0.025).toFixed(1) + 'px');
           for (const f of floats) {
-            f.el.style.setProperty('--px', (-dx * f.d * 70).toFixed(1) + 'px');
-            f.el.style.setProperty('--py', (-dy * f.d * 50).toFixed(1) + 'px');
+            // phones: small drift only, so the products never leave the screen
+            const kx = w < 700 ? 12 : 70, ky = w < 700 ? 16 : 50;
+            f.el.style.setProperty('--px', (-dx * f.d * kx).toFixed(1) + 'px');
+            f.el.style.setProperty('--py', (-dy * f.d * ky).toFixed(1) + 'px');
           }
           smokePush.x = x; smokePush.y = y;
           // leave the mouse still for 6 s and the neon flickers once
