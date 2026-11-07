@@ -1,10 +1,13 @@
-{%- comment -%} "Znak rozpoznawczy": the gargoyle logo big, lit from behind, with where it shows up. {%- endcomment -%}
+{%- comment -%} "Znak rozpoznawczy": the gargoyle logo in chrome: it rises in, tilts toward the cursor and a light sweeps across it, with where it shows up. {%- endcomment -%}
 <section class="mark" id="{{ section.settings.anchor | default: 'znak' }}" data-mark>
   <div class="wrap mark__grid">
-    <figure class="mark__fig" aria-hidden="true">
+    <figure class="mark__fig" aria-hidden="true" data-mark-fig>
       <i class="mark__glow"></i>
-      <img class="mark__logo" src="{{ 'himera-logo.webp' | asset_url }}" alt="" width="1078" height="896" loading="lazy" data-stare>
-      <i class="mark__scan"></i>
+      <div class="mark__tilt" data-mark-tilt>
+        <img class="mark__logo" src="{{ 'himera-logo-chrome.webp' | asset_url }}" alt="" width="1158" height="976" loading="lazy" data-stare>
+        <i class="mark__sheen" style="--mask: url('{{ 'himera-logo-chrome.webp' | asset_url }}')"></i>
+      </div>
+      <img class="mark__refl" src="{{ 'himera-logo-chrome.webp' | asset_url }}" alt="" width="1158" height="976" loading="lazy">
     </figure>
     <div class="mark__copy">
       <span class="mono mark__kicker" data-reveal>{{ section.settings.kicker }}</span>

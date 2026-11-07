@@ -96,7 +96,13 @@
    "images": [
     {
      "src": "/media/kominiarka-czarna.webp",
-     "alt": "Kominiarka Himery, przód",
+     "alt": "Kominiarka Himery, czarna",
+     "width": 1024,
+     "height": 1272
+    },
+    {
+     "src": "/media/kominiarka-biala.webp",
+     "alt": "Kominiarka Himery, biała",
      "width": 1024,
      "height": 1272
     },
@@ -105,12 +111,6 @@
      "alt": "Kominiarka Himery na Himerze",
      "width": 1400,
      "height": 1400
-    },
-    {
-     "src": "/media/kominiarka-showcase.webp",
-     "alt": "Kominiarka Himery, z bliska",
-     "width": 950,
-     "height": 1290
     }
    ],
    "showcase": "/media/kominiarka-czarna.webp",
@@ -124,7 +124,7 @@
     {
      "title": "Biała",
      "available": true,
-     "showcase": "/media/kominiarka-czarna.webp"
+     "showcase": "/media/kominiarka-biala.webp"
     }
    ],
    "material": "96% wiskoza, 4% elastan",

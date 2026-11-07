@@ -897,6 +897,22 @@
     });
   });
 
+  /* ---------- Znak rozpoznawczy: chrome mark: rises in when its section shows, then tilts toward the cursor ---------- */
+  $$('[data-mark]').forEach((sec) => {
+    if (!('IntersectionObserver' in window)) { sec.classList.add('is-in'); return; }
+    const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) { sec.classList.add('is-in'); io.disconnect(); } }, { threshold: 0.35 });
+    io.observe(sec);
+    const fig = $('[data-mark-fig]', sec), tilt = $('[data-mark-tilt]', sec);
+    if (!fig || !tilt || reduced || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    fig.addEventListener('pointermove', (e) => {
+      const r = fig.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+      tilt.style.setProperty('--ry', (x * 22).toFixed(2) + 'deg');
+      tilt.style.setProperty('--rx', (-y * 16).toFixed(2) + 'deg');
+    });
+    fig.addEventListener('pointerleave', () => { tilt.style.setProperty('--ry', '0deg'); tilt.style.setProperty('--rx', '0deg'); });
+  });
+
   /* ---------- hidden details ---------- */
   if (document.body.dataset.eggs !== 'false') {
     // 1. type "himera" anywhere: the whole screen says RUCH
