@@ -505,7 +505,8 @@
       $('[data-sr-code]', sr).textContent = items[cur].dataset.code;
       items.forEach((it, i) => it.classList.toggle('is-on', i === cur));
       $$('[data-sr-story]', sr).forEach((st) => st.classList.toggle('is-on', +st.dataset.srStory === cur));
-      if (open) window.scrollTo({ top: sr.getBoundingClientRect().top + window.scrollY, behavior: 'auto' });
+      // only when the product actually changes: phones fire resize while scrolling (address bar), which must not jump to the top
+      if (open && prev !== undefined && prev !== cur) window.scrollTo({ top: sr.getBoundingClientRect().top + window.scrollY, behavior: 'auto' });
       setTone(toneOf(cur));
       if (prev === undefined || prev === cur) { titleEls.forEach((t, i) => t.classList.toggle('is-on', i === cur)); return; }
       // the platform rises, the old title sinks into it, the new one climbs out
