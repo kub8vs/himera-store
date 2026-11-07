@@ -306,10 +306,9 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .hero__floor { position: absolute; left: -20%; right: -10%; top: 80%; height: 60%; z-index: -1; background: radial-gradient(45% 60% at 55% 0%, rgba(236, 230, 224, .07), transparent 70%), linear-gradient(#0c0a0a, transparent 80%); border-top: 1px solid rgba(236, 230, 224, .05); }
 .hero__car { position: relative; width: 112%; z-index: 1; pointer-events: none; }
 .hero__drive { position: relative; transform: translate3d(var(--x, 0px), 0, 0); }
-.part.is-waiting .hero__drive { --x: 110vw; }
+.hero__car.is-wait .hero__drive { --x: 110vw; }
 .hero__body { position: relative; aspect-ratio: 1968 / 633; transform-origin: 50% 92%; transform: rotate(var(--pitch, 0deg)); }
 .hero__img { width: 100%; height: auto; filter: contrast(1.05); }
-.part.is-driving .hero__img, .part.is-driving .hero__refl { filter: url(#hmr-blur); }
 .hero__wheel { position: absolute; width: 12.2%; aspect-ratio: 1; height: auto; transform: rotate(var(--spin, 0deg)); }
 .hero__wheel--f { left: 9.96%; top: 56.19%; }
 .hero__wheel--r { left: 70.24%; top: 58.08%; }
@@ -1326,6 +1325,39 @@ html.sr-on .ftr { display: none; }
   .show { min-height: 520px !important; }
 }
 .ep__player img { color: transparent; }
+
+/* ---------- home: three BMWs meet in the middle ---------- */
+.part--convoy .part__top { grid-template-columns: minmax(0, 1fr); gap: clamp(8px, 2vw, 24px); }
+.part--convoy .part__copy { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; column-gap: clamp(24px, 4vw, 64px); }
+.part--convoy .part__copy .part__kicker { grid-column: 1 / -1; }
+.part--convoy .part__title { grid-row: 2 / span 2; }
+.part--convoy .part__copy > .part__text { grid-column: 2; grid-row: 2; align-self: end; }
+.part--convoy .part__copy > .btns { grid-column: 2; grid-row: 3; align-self: start; }
+.part--convoy .part__text { margin: 0 0 22px; }
+.part--convoy .part__copy { padding-right: var(--gutter); }
+.part--convoy .part__stage { margin: clamp(-60px, -3.5vw, 0px) 0 0; padding: 0 0 36px; }
+.convoy { position: relative; aspect-ratio: 100 / 31; }
+.convoy .hero__floor { left: -5%; right: -5%; top: 62%; height: 70%; background: radial-gradient(42% 46% at 50% 0%, rgba(236, 230, 224, .08), transparent 72%), radial-gradient(30% 30% at 50% 4%, rgba(196, 22, 28, .10), transparent 70%), linear-gradient(#0c0a0a, transparent 80%); }
+.convoy .hero__car { position: absolute; width: 58%; left: 21%; bottom: 3%; z-index: 3; margin: 0; }
+.convoy .hero__car--back { width: 44%; bottom: 24%; z-index: 1; }
+.convoy .hero__car--back--l { left: -1%; }
+.convoy .hero__car--back--r { left: auto; right: -1%; }
+.convoy .hero__car--back .hero__body, .convoy .hero__car--back .hero__refl { filter: brightness(.62) saturate(.9); }
+.convoy .hero__car--back .hero__img { filter: contrast(1.05) blur(.4px); }
+.convoy .hero__car--back--l .hero__body, .convoy .hero__car--back--l .hero__refl, .convoy .hero__car--back--l .hero__shadow { scale: -1 1; }
+.convoy .hero__car--back .hero__head { opacity: 1; box-shadow: 0 0 18px 6px rgba(236, 230, 224, .18); }
+.convoy .hero__car--back .hero__beam { display: none; }
+.hero__car.is-wait .hero__drive { --x: 115vw; }
+.hero__car.is-wait[data-from="left"] .hero__drive { --x: -115vw; }
+.part.is-static .hero__car .hero__drive { --x: 0px; }
+@media (max-width: 899px) {
+  .part--convoy .part__copy { display: block; }
+  .convoy { aspect-ratio: 100 / 50; }
+  .part--convoy .hero__car { width: 98%; left: 1%; margin: 0; }
+  .part--convoy .hero__car--back { width: 72%; bottom: 30%; }
+  .part--convoy .hero__car--back--l { left: -24%; }
+  .part--convoy .hero__car--back--r { left: auto; right: -24%; }
+}
 
 /* ---------- small touches ---------- */
 .cursor-glow {

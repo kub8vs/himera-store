@@ -252,60 +252,80 @@
     window.addEventListener('resize', onScroll);
   }
 
-  /* ---------- the car rolls in when its section comes into view ---------- */
+  /* ---------- the cars roll in when their section comes into view (home: three BMWs meet in the middle) ---------- */
   const hero = $('[data-hero]');
   if (hero) {
-    const tail = $('[data-tail]', hero);
-    const drive = $('[data-drive]', hero);
-    const body = $('[data-body]', hero);
-    const wheels = $$('[data-wheel]', hero);
-    const blur = $('[data-blur]', hero);
+    const tail = $('[data-tail]', hero) || $('.hero__tail', hero);
+    const filters = $$('[data-blur]', hero);
+    const cars = $$('[data-car]', hero).map((el, i) => {
+      const f = filters[i] || filters[0];
+      return {
+        el, drive: $('[data-drive]', el), body: $('[data-body]', el), wheels: $$('[data-wheel]', el),
+        imgs: $$('.hero__img, .hero__refl', el), blur: f, fid: f && f.parentNode.id,
+        dir: el.dataset.from === 'left' ? -1 : 1, delay: +(el.dataset.delay || 0)
+      };
+    });
     if (reduced || !('IntersectionObserver' in window)) {
       hero.classList.add('is-static', 'is-parked');
     } else {
       hero.classList.add('is-waiting');
-      const run = () => {
-        const carW = drive.offsetWidth;
+      cars.forEach((c) => c.el.classList.add('is-wait'));
+      const ease = (p) => 1 - Math.pow(1 - p, 3.4);
+      const roll = (c, done) => {
+        const carW = c.drive.offsetWidth;
         const r = (carW * 0.122) / 2;
-        const X0 = window.innerWidth * 1.15;
-        const D = 2700;
-        const ease = (p) => 1 - Math.pow(1 - p, 3.4);
-        hero.classList.remove('is-waiting');
-        hero.classList.add('is-driving');
+        const box = c.el.getBoundingClientRect();
+        // start just off screen on its side
+        const X0 = c.dir > 0 ? (window.innerWidth - box.left) + 40 : (box.right + 40);
+        const D = c.el.classList.contains('hero__car--back') ? 2300 : 2700;
+        c.el.classList.remove('is-wait'); c.el.classList.add('is-driving');
+        c.imgs.forEach((im) => { if (c.fid) im.style.filter = `url(#${c.fid})`; });
         let start = null, lastX = X0, lastV = 0;
         const step = (t) => {
           if (start == null) start = t;
           const p = Math.min(1, (t - start) / D);
           const x = X0 * (1 - ease(p));
-          const v = lastX - x;                 // px per frame, leftwards
-          const a = v - lastV;                 // negative while braking
+          const v = lastX - x, a = v - lastV;
           lastX = x; lastV = v;
-          drive.style.setProperty('--x', x.toFixed(1) + 'px');
+          c.drive.style.setProperty('--x', (x * c.dir).toFixed(1) + 'px');
           const spin = -((X0 - x) / r) * (180 / Math.PI);
-          wheels.forEach((w) => w.style.setProperty('--spin', spin.toFixed(1) + 'deg'));
-          if (blur) blur.setAttribute('stdDeviation', `${Math.min(16, v * 0.55).toFixed(1)} 0`);
-          body.style.setProperty('--pitch', Math.max(-0.9, Math.min(0, a * 0.35)).toFixed(3) + 'deg');
-          if (tail) tail.classList.toggle('is-on', p > 0.35);
+          c.wheels.forEach((w) => w.style.setProperty('--spin', spin.toFixed(1) + 'deg'));
+          if (c.blur) c.blur.setAttribute('stdDeviation', `${Math.min(16, v * 0.55).toFixed(1)} 0`);
+          c.body.style.setProperty('--pitch', Math.max(-0.9, Math.min(0, a * 0.35)).toFixed(3) + 'deg');
           if (p < 1) return requestAnimationFrame(step);
-          // stopped: the body settles on its springs
-          hero.classList.remove('is-driving');
-          if (blur) blur.setAttribute('stdDeviation', '0 0');
+          c.el.classList.remove('is-driving'); c.el.classList.add('is-parked');
+          if (c.blur) c.blur.setAttribute('stdDeviation', '0 0');
+          c.imgs.forEach((im) => { im.style.filter = ''; });
           const s0 = performance.now();
           const settle = (tt) => {
             const k = tt - s0;
-            body.style.setProperty('--pitch', (-0.7 * Math.exp(-k / 170) * Math.cos(k / 70)).toFixed(3) + 'deg');
+            c.body.style.setProperty('--pitch', (-0.7 * Math.exp(-k / 170) * Math.cos(k / 70)).toFixed(3) + 'deg');
             if (k < 900) return requestAnimationFrame(settle);
-            body.style.setProperty('--pitch', '0deg');
+            c.body.style.setProperty('--pitch', '0deg');
           };
           requestAnimationFrame(settle);
-          hero.classList.add('is-parked');
-          setTimeout(() => tail && tail.classList.remove('is-on'), 700);
+          done && done();
         };
         requestAnimationFrame(step);
       };
+      const run = () => {
+        hero.classList.remove('is-waiting');
+        hero.classList.add('is-driving');
+        let left = cars.length;
+        const front = cars[cars.length - 1];
+        cars.forEach((c) => setTimeout(() => {
+          if (c === front && tail) setTimeout(() => tail.classList.add('is-on'), 900);
+          roll(c, () => {
+            if (--left) return;
+            hero.classList.remove('is-driving');
+            hero.classList.add('is-parked');
+            setTimeout(() => tail && tail.classList.remove('is-on'), 700);
+          });
+        }, c.delay));
+      };
       const io = new IntersectionObserver(([en]) => {
         if (en.isIntersecting) { io.disconnect(); run(); }
-      }, { threshold: 0.35 });
+      }, { threshold: 0.3 });
       io.observe($('.part__stage', hero) || hero);
     }
     // tail light blinks "HMR" in Morse every ~25 s: .... -- .-.

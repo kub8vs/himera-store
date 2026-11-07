@@ -1,6 +1,6 @@
-{%- comment -%} "Stań się częścią HIMERY": heading on one side, the car rolling in on the other, three CTA cards below. {%- endcomment -%}
-<section class="part" id="{{ section.settings.anchor | default: 'ruch' }}" data-hero>
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><filter id="hmr-blur" x="-10%" y="0" width="120%" height="100%"><feGaussianBlur data-blur stdDeviation="0 0"/></filter></svg>
+{%- comment -%} "Stań się częścią HIMERY": heading on top, three BMWs rolling in and meeting in the middle, three CTA cards below. {%- endcomment -%}
+<section class="part part--convoy" id="{{ section.settings.anchor | default: 'ruch' }}" data-hero>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">{%- for n in (0..2) -%}<filter id="hmr-blur-{{ n }}" x="-10%" y="0" width="120%" height="100%"><feGaussianBlur data-blur stdDeviation="0 0"/></filter>{%- endfor -%}</svg>
   <div class="part__wallword" aria-hidden="true">{{ section.settings.wall_text }}</div>
 
   <div class="part__top">
@@ -17,21 +17,33 @@
     </div>
 
     <div class="part__stage">
-      <div class="hero__floor" aria-hidden="true"></div>
-      <div class="hero__car" data-car>
-        <div class="hero__drive" data-drive>
-          <div class="hero__shadow"></div>
-          <img class="hero__refl" src="{{ 'himera-car-noc.webp' | asset_url }}" alt="" width="1968" height="633" loading="lazy">
-          <div class="hero__body" data-body>
-            <img class="hero__img" src="{{ 'himera-car-noc.webp' | asset_url }}" alt="{{ section.settings.car_alt | escape }}" width="1968" height="633" loading="lazy">
-            <img class="hero__wheel hero__wheel--f" src="{{ 'himera-wheel-f.webp' | asset_url }}" alt="" width="240" height="240" data-wheel>
-            <img class="hero__wheel hero__wheel--r" src="{{ 'himera-wheel-r.webp' | asset_url }}" alt="" width="240" height="240" data-wheel>
-            <div class="hero__sheen" style="--mask: url('{{ 'himera-car-noc.webp' | asset_url }}')"></div>
-            <i class="hero__tail" data-tail></i>
-            <i class="hero__head"></i>
+      <div class="convoy" data-convoy>
+        <div class="hero__floor" aria-hidden="true"></div>
+        {%- comment -%} two cars further back meet nose to nose, Himera's own car rolls in front of them {%- endcomment -%}
+        {%- liquid
+          assign cars = 'himera-car-blue.webp,himera-car-grey.webp,himera-car.webp' | split: ','
+          assign sides = 'left,right,right' | split: ','
+          assign kinds = 'back back--l,back back--r,front' | split: ','
+          assign delays = '0,160,700' | split: ','
+        -%}
+        {%- for car in cars -%}
+          {%- assign i = forloop.index0 -%}
+          <div class="hero__car hero__car--{{ kinds[i] | split: ' ' | last }}{% if kinds[i] contains 'back' %} hero__car--back{% endif %}" data-car data-from="{{ sides[i] }}" data-delay="{{ delays[i] }}">
+            <div class="hero__drive" data-drive>
+              <div class="hero__shadow"></div>
+              <img class="hero__refl" src="{{ car | asset_url }}" alt="" width="1968" height="633" loading="lazy">
+              <div class="hero__body" data-body>
+                <img class="hero__img" src="{{ car | asset_url }}" alt="{% if forloop.last %}{{ section.settings.car_alt | escape }}{% endif %}" width="1968" height="633" loading="lazy">
+                <img class="hero__wheel hero__wheel--f" src="{{ 'himera-wheel-f.webp' | asset_url }}" alt="" width="240" height="240" data-wheel>
+                <img class="hero__wheel hero__wheel--r" src="{{ 'himera-wheel-r.webp' | asset_url }}" alt="" width="240" height="240" data-wheel>
+                <div class="hero__sheen" style="--mask: url('{{ car | asset_url }}')"></div>
+                <i class="hero__tail"{% if forloop.last %} data-tail{% endif %}></i>
+                <i class="hero__head"></i>
+              </div>
+            </div>
+            <i class="hero__beam" aria-hidden="true"></i>
           </div>
-        </div>
-        <i class="hero__beam" aria-hidden="true"></i>
+        {%- endfor -%}
       </div>
       <span class="mono part__plate" aria-hidden="true">{{ section.settings.car_label }}</span>
     </div>
@@ -66,8 +78,8 @@
     { "type": "textarea", "id": "text", "label": "Tekst", "default": "Nocne spoty, auta i ludzie, którzy trzymają się razem. Każdy drop to krótka seria. Kiedy się kończy, nie wraca w tej samej formie." },
     { "type": "text", "id": "cta_label", "label": "Przycisk", "default": "Zobacz produkty" },
     { "type": "url", "id": "cta_url", "label": "Link przycisku" },
-    { "type": "text", "id": "car_alt", "label": "Opis auta", "default": "Czarne BMW M3 z okleiną Himery" },
-    { "type": "text", "id": "car_label", "label": "Podpis przy aucie", "default": "BMW M3 · NOCNY SPOT" },
+    { "type": "text", "id": "car_alt", "label": "Opis auta", "default": "Trzy BMW, z przodu czarne M3 Himery" },
+    { "type": "text", "id": "car_label", "label": "Podpis przy aucie", "default": "3 × BMW · NOCNY SPOT" },
     { "type": "text", "id": "wall_text", "label": "Ukryty napis w tle", "default": "JESTEŚMY RUCHEM A TY JEGO CZĘŚCIĄ" }
   ],
   "blocks": [
