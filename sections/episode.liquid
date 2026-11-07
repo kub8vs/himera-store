@@ -21,7 +21,7 @@
           {%- elsif vid != blank and vid.type == 'youtube' -%}
             <img src="https://i.ytimg.com/vi/{{ vid.id }}/maxresdefault.jpg" alt="{{ section.settings.title | escape }}" width="1280" height="720" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/{{ vid.id }}/hqdefault.jpg'">
           {%- else -%}
-            <img src="{{ 'himera-car.webp' | asset_url }}" alt="" width="1968" height="633" loading="lazy" class="ep__fallback">
+            <img src="{{ 'himera-car-noc.webp' | asset_url }}" alt="" width="1968" height="633" loading="lazy" class="ep__fallback">
           {%- endif -%}
         </div>
         <div class="ep__hud mono" aria-hidden="true">

@@ -61,7 +61,7 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
   min-height: 48px; padding: 0 22px;
   font: 500 12px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase;
-  border: 1px solid transparent; transition: background .3s, color .3s, border-color .3s, transform .3s var(--ease);
+  border: 1px solid transparent; transition: background .3s, color .3s, border-color .3s, transform .3s var(--ease), translate .45s var(--ease);
   white-space: nowrap;
 }
 .btn .icon-arrow { transition: transform .3s var(--ease); }
@@ -1326,3 +1326,24 @@ html.sr-on .ftr { display: none; }
   .show { min-height: 520px !important; }
 }
 .ep__player img { color: transparent; }
+
+/* ---------- small touches ---------- */
+.cursor-glow {
+  position: fixed; left: 0; top: 0; z-index: 90; pointer-events: none;
+  width: 560px; height: 560px; margin: -280px 0 0 -280px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(214, 30, 36, .16) 0%, rgba(196, 22, 28, .07) 35%, transparent 68%);
+  mix-blend-mode: screen; opacity: 0; transition: opacity .6s;
+}
+.cursor-glow.is-on { opacity: 1; }
+.gate__btn { transition: translate .45s var(--ease); }
+.page-veil {
+  position: fixed; inset: 0; z-index: 1000; pointer-events: none;
+  background: linear-gradient(180deg, #070505 0%, #070505 86%, #c4161c 97%, #ff3a30 100%);
+  transform: translateY(-101%);
+}
+.page-veil.is-in { transform: translateY(0); transition: transform .34s cubic-bezier(.7, 0, .3, 1); }
+.page-veil.is-cover { transform: translateY(0); }
+.page-veil.is-out {
+  transform: translateY(101%); transition: transform .6s cubic-bezier(.7, 0, .3, 1);
+  background: linear-gradient(180deg, #ff3a30 0%, #c4161c 3%, #070505 14%, #070505 100%);
+}

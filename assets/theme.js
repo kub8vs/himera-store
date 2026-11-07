@@ -928,4 +928,61 @@
     );
     console.log('%cSkoro tu zajrzałeś, jesteś jednym z nas. Napisz na IG słowo „RUCH”.', 'color: #ece6e0; background: #070606; padding: 6px 10px; font-family: monospace');
   }
+
+  /* ---------- small touches: red light under the cursor, magnetic buttons, red flash between pages ---------- */
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (fine && !reduced) {
+    const glow = document.createElement('div');
+    glow.className = 'cursor-glow'; glow.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(glow);
+    let gx = innerWidth / 2, gy = innerHeight / 2, tx = gx, ty = gy, run = false;
+    const step = () => {
+      gx += (tx - gx) * 0.14; gy += (ty - gy) * 0.14;
+      glow.style.transform = 'translate3d(' + gx + 'px,' + gy + 'px,0)';
+      if (Math.abs(tx - gx) + Math.abs(ty - gy) > 0.5) requestAnimationFrame(step); else run = false;
+    };
+    window.addEventListener('pointermove', (e) => {
+      tx = e.clientX; ty = e.clientY; glow.classList.add('is-on');
+      if (!run) { run = true; requestAnimationFrame(step); }
+    }, { passive: true });
+    document.addEventListener('pointerleave', () => glow.classList.remove('is-on'));
+
+    // buttons lean towards the cursor a little
+    const mag = (el) => {
+      el.addEventListener('pointermove', (e) => {
+        const r = el.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) / r.width, dy = (e.clientY - (r.top + r.height / 2)) / r.height;
+        el.style.translate = (dx * 10).toFixed(1) + 'px ' + (dy * 8).toFixed(1) + 'px';
+      });
+      el.addEventListener('pointerleave', () => { el.style.translate = ''; });
+    };
+    $$('.btn, .gate__btn').forEach(mag);
+  }
+
+  if (!reduced) {
+    const veil = document.createElement('div');
+    veil.className = 'page-veil'; veil.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(veil);
+    let came = false;
+    try { came = sessionStorage.getItem('hm-veil') === '1'; sessionStorage.removeItem('hm-veil'); } catch (e) {}
+    if (came) {
+      veil.classList.add('is-cover');
+      requestAnimationFrame(() => requestAnimationFrame(() => { veil.classList.remove('is-cover'); veil.classList.add('is-out'); }));
+      setTimeout(() => veil.classList.remove('is-out'), 900);
+    }
+    document.addEventListener('click', (e) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const a = e.target.closest('a[href]');
+      if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
+      const u = new URL(a.href, location.href);
+      if (u.origin !== location.origin || !/^https?:$/.test(u.protocol)) return;
+      if (u.pathname === location.pathname && u.search === location.search) return;
+      e.preventDefault();
+      try { sessionStorage.setItem('hm-veil', '1'); } catch (err) {}
+      veil.classList.remove('is-out'); veil.classList.add('is-in');
+      setTimeout(() => { location.href = u.href; }, 340);
+    });
+    // back/forward from the cache: never leave the page covered
+    window.addEventListener('pageshow', (e) => { if (e.persisted) veil.classList.remove('is-in', 'is-cover', 'is-out'); });
+  }
 })();
