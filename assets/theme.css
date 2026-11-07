@@ -1327,15 +1327,16 @@ html.sr-on .ftr { display: none; }
 .ep__player img { color: transparent; }
 
 /* ---------- home: three BMWs meet in the middle ---------- */
-.part--convoy .part__top { grid-template-columns: minmax(0, 1fr); gap: clamp(8px, 2vw, 24px); }
-.part--convoy .part__copy { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; column-gap: clamp(24px, 4vw, 64px); }
-.part--convoy .part__copy .part__kicker { grid-column: 1 / -1; }
-.part--convoy .part__title { grid-row: 2 / span 2; }
-.part--convoy .part__copy > .part__text { grid-column: 2; grid-row: 2; align-self: end; }
-.part--convoy .part__copy > .btns { grid-column: 2; grid-row: 3; align-self: start; }
-.part--convoy .part__text { margin: 0 0 22px; }
-.part--convoy .part__copy { padding-right: var(--gutter); }
-.part--convoy .part__stage { margin: clamp(-60px, -3.5vw, 0px) 0 0; padding: 0 0 36px; }
+.part--convoy { padding-top: 0; }
+.part--convoy .part__top { display: flex; flex-direction: column; justify-content: center; gap: clamp(4px, 1.4vh, 18px); min-height: 100svh; padding: calc(var(--hdr, 72px) + 8px) 0 clamp(8px, 2vh, 24px); }
+.part--convoy .part__copy { text-align: center; padding: 0 var(--gutter); }
+.part--convoy .part__kicker { margin-bottom: clamp(8px, 1.4vh, 16px); }
+.part--convoy .part__title { font-size: clamp(38px, min(6vw, 9vh), 112px); line-height: 1; }
+.part--convoy .part__tl { display: inline-block; margin: 0 .12em; }
+.part--convoy .part__text { margin: clamp(10px, 1.8vh, 20px) auto clamp(14px, 2.2vh, 24px); }
+.part--convoy .btns { justify-content: center; }
+.part--convoy .part__stage { margin: 0 auto; padding: 0 0 clamp(18px, 3vh, 36px); width: min(100%, max(320px, calc((100svh - 330px) * 3.2))); }
+.part--convoy .part__plate { right: 0; left: 0; text-align: center; }
 .convoy { position: relative; aspect-ratio: 100 / 31; }
 .convoy .hero__floor { left: -5%; right: -5%; top: 62%; height: 70%; background: radial-gradient(42% 46% at 50% 0%, rgba(236, 230, 224, .08), transparent 72%), radial-gradient(30% 30% at 50% 4%, rgba(196, 22, 28, .10), transparent 70%), linear-gradient(#0c0a0a, transparent 80%); }
 .convoy .hero__car { position: absolute; width: 58%; left: 21%; bottom: 3%; z-index: 3; margin: 0; }
@@ -1351,7 +1352,8 @@ html.sr-on .ftr { display: none; }
 .hero__car.is-wait[data-from="left"] .hero__drive { --x: -115vw; }
 .part.is-static .hero__car .hero__drive { --x: 0px; }
 @media (max-width: 899px) {
-  .part--convoy .part__copy { display: block; }
+  .part--convoy .part__stage { width: 100%; }
+  .part--convoy .part__title { font-size: clamp(38px, 11vw, 60px); }
   .convoy { aspect-ratio: 100 / 50; }
   .part--convoy .hero__car { width: 98%; left: 1%; margin: 0; }
   .part--convoy .hero__car--back { width: 72%; bottom: 30%; }

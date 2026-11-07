@@ -325,7 +325,7 @@
       };
       const io = new IntersectionObserver(([en]) => {
         if (en.isIntersecting) { io.disconnect(); run(); }
-      }, { threshold: 0.3 });
+      }, { threshold: 0.6 });
       io.observe($('.part__stage', hero) || hero);
     }
     // tail light blinks "HMR" in Morse every ~25 s: .... -- .-.
