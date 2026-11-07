@@ -1345,6 +1345,13 @@ html.sr-on .ftr { display: none; }
 .convoy .hero__car--back--l .hero__body, .convoy .hero__car--back--l .hero__refl, .convoy .hero__car--back--l .hero__shadow { scale: -1 1; }
 .convoy .hero__car--back .hero__head { opacity: 1; box-shadow: 0 0 18px 6px rgba(236, 230, 224, .18); }
 .convoy .hero__car--back .hero__beam { display: none; }
+/* back cars are real photos with their own wheels: no spinning overlays, lights placed per car */
+.convoy .hero__car--back .hero__wheel { display: none; }
+.convoy .hero__car--back--l .hero__head { left: 6.8%; top: 52.3%; }
+.convoy .hero__car--back--l .hero__tail { left: 90.7%; top: 45.5%; }
+.convoy .hero__car--back--r .hero__head { left: 5.4%; top: 52.4%; }
+.convoy .hero__car--back--r .hero__tail { left: 93.6%; top: 47%; }
+.convoy .hero__car--back--l .hero__body, .convoy .hero__car--back--l .hero__refl { filter: brightness(.5) saturate(.9); }
 .hero__car.is-wait .hero__drive { --x: 115vw; }
 .hero__car.is-wait[data-from="left"] .hero__drive { --x: -115vw; }
 .part.is-static .hero__car .hero__drive { --x: 0px; }

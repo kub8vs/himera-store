@@ -1,4 +1,4 @@
-{%- comment -%} "Stań się częścią HIMERY": heading on top, three BMWs rolling in and meeting in the middle, three CTA cards below. {%- endcomment -%}
+{%- comment -%} "Stań się częścią HIMERY": heading on top, a C63 AMG, an RS7 and Himera's M3 rolling in and meeting in the middle, three CTA cards below. {%- endcomment -%}
 <section class="part part--convoy" id="{{ section.settings.anchor | default: 'ruch' }}" data-hero>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">{%- for n in (0..2) -%}<filter id="hmr-blur-{{ n }}" x="-10%" y="0" width="120%" height="100%"><feGaussianBlur data-blur stdDeviation="0 0"/></filter>{%- endfor -%}</svg>
   <div class="part__wallword" aria-hidden="true">{{ section.settings.wall_text }}</div>
@@ -19,9 +19,9 @@
     <div class="part__stage">
       <div class="convoy" data-convoy>
         <div class="hero__floor" aria-hidden="true"></div>
-        {%- comment -%} two cars further back meet nose to nose, Himera's own car rolls in front of them {%- endcomment -%}
+        {%- comment -%} a Mercedes (left) and an Audi (right) further back meet nose to nose, Himera's own car rolls in front of them {%- endcomment -%}
         {%- liquid
-          assign cars = 'himera-car-blue.webp,himera-car-grey.webp,himera-car.webp' | split: ','
+          assign cars = 'himera-car-merc.webp,himera-car-audi.webp,himera-car.webp' | split: ','
           assign sides = 'left,right,right' | split: ','
           assign kinds = 'back back--l,back back--r,front' | split: ','
           assign delays = '0,160,700' | split: ','
@@ -77,7 +77,7 @@
     { "type": "textarea", "id": "text", "label": "Tekst", "default": "Nocne spoty, auta i ludzie, którzy trzymają się razem. Każdy drop to krótka seria. Kiedy się kończy, nie wraca w tej samej formie." },
     { "type": "text", "id": "cta_label", "label": "Przycisk", "default": "Zobacz produkty" },
     { "type": "url", "id": "cta_url", "label": "Link przycisku" },
-    { "type": "text", "id": "car_alt", "label": "Opis auta", "default": "Trzy BMW, z przodu czarne M3 Himery" },
+    { "type": "text", "id": "car_alt", "label": "Opis auta", "default": "Mercedes-AMG C63, Audi RS7 i z przodu czarne M3 Himery" },
     { "type": "text", "id": "wall_text", "label": "Ukryty napis w tle", "default": "JESTEŚMY RUCHEM A TY JEGO CZĘŚCIĄ" }
   ],
   "blocks": [
