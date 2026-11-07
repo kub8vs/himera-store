@@ -959,7 +959,9 @@
     $$('.btn, .gate__btn').forEach(mag);
   }
 
-  if (!reduced) {
+  // between pages: browsers with cross-page view transitions crossfade natively (CSS @view-transition);
+  // the rest get a soft fade through black
+  if (!reduced && !('CSSViewTransitionRule' in window)) {
     const veil = document.createElement('div');
     veil.className = 'page-veil'; veil.setAttribute('aria-hidden', 'true');
     document.body.appendChild(veil);
@@ -967,8 +969,7 @@
     try { came = sessionStorage.getItem('hm-veil') === '1'; sessionStorage.removeItem('hm-veil'); } catch (e) {}
     if (came) {
       veil.classList.add('is-cover');
-      requestAnimationFrame(() => requestAnimationFrame(() => { veil.classList.remove('is-cover'); veil.classList.add('is-out'); }));
-      setTimeout(() => veil.classList.remove('is-out'), 900);
+      requestAnimationFrame(() => requestAnimationFrame(() => veil.classList.remove('is-cover')));
     }
     document.addEventListener('click', (e) => {
       if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -979,10 +980,9 @@
       if (u.pathname === location.pathname && u.search === location.search) return;
       e.preventDefault();
       try { sessionStorage.setItem('hm-veil', '1'); } catch (err) {}
-      veil.classList.remove('is-out'); veil.classList.add('is-in');
-      setTimeout(() => { location.href = u.href; }, 340);
+      veil.classList.add('is-in');
+      setTimeout(() => { location.href = u.href; }, 260);
     });
-    // back/forward from the cache: never leave the page covered
-    window.addEventListener('pageshow', (e) => { if (e.persisted) veil.classList.remove('is-in', 'is-cover', 'is-out'); });
+    window.addEventListener('pageshow', (e) => { if (e.persisted) veil.classList.remove('is-in', 'is-cover'); });
   }
 })();
