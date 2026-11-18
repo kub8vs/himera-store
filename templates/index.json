@@ -14,8 +14,8 @@
           "type": "cta",
           "settings": {
             "kicker": "CZYM JEST HIMERA",
-            "title": "Ekipa, nie logo",
-            "text": "Auta, noc i ludzie, którzy trzymają się razem. Poznaj historię za kominiarką.",
+            "title": "Ekipa? Logo? Społeczność?",
+            "text": "Nikt nie wie, ale każdy ją usłyszy...",
             "label": "O Himerze",
             "url": "/pages/o-himerze"
           }
@@ -48,13 +48,14 @@
       ],
       "settings": {
         "kicker": "HMR · EKIPA",
-        "heading": "Jesteś|w|Himerze.",
+        "heading": "Czym|jest|Himera?",
         "text": "Nocne spoty, auta i ludzie, którzy trzymają się razem. Masz coś z logo, to już jedziesz z nami."
       }
     },
     "join": {
       "type": "join-cta",
       "settings": {
+        "show_figure": false,
         "show_portrait": true,
         "kicker": "LISTA HIMERY",
         "heading": "Dołącz|do|Himery."

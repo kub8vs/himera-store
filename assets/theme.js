@@ -210,7 +210,9 @@
         if (visible) {
           // phones: a slow drift unless the finger is moving
           if (!fine && t - touched > 2500) { const s = (t - t0) / 1000; tx = 0.5 + Math.sin(s * 0.42) * 0.5; ty = 0.5 + Math.cos(s * 0.33) * 0.25; }
+          const still = Math.abs(tx - x) + Math.abs(ty - y) < 0.0006;
           x += (tx - x) * 0.075; y += (ty - y) * 0.075;
+          if (still && fine && t - idle > 6200) { requestAnimationFrame(loop); return; }
           const dx = x - 0.5, dy = y - 0.5;
           const w = ph.clientWidth, h = ph.clientHeight;
           // the word is wider than the screen: following the cursor reveals its ends
@@ -292,7 +294,7 @@
           c.drive.style.setProperty('--x', (x * c.dir).toFixed(1) + 'px');
           const spin = -((X0 - x) / r) * (180 / Math.PI);
           c.wheels.forEach((w) => w.style.setProperty('--spin', spin.toFixed(1) + 'deg'));
-          if (c.blur) c.blur.setAttribute('stdDeviation', `${Math.min(16, v * 0.55).toFixed(1)} 0`);
+          if (c.blur) { const sd = Math.round(Math.min(16, v * 0.55) * 2) / 2; if (sd !== c.sd) { c.sd = sd; c.blur.setAttribute('stdDeviation', sd + ' 0'); } }
           c.body.style.setProperty('--pitch', Math.max(-0.9, Math.min(0, a * 0.35)).toFixed(3) + 'deg');
           if (p < 1) return requestAnimationFrame(step);
           c.el.classList.remove('is-driving'); c.el.classList.add('is-parked');
@@ -362,7 +364,7 @@
       if (seen) {
         boost *= 0.92;
         for (const r of rows) {
-          const half = r.track.scrollWidth / 2;
+          const half = r.half || (r.half = r.track.scrollWidth / 2);
           r.x += r.dir * (0.6 + Math.min(boost, phone() ? 2.4 : 14)) * dt;
           if (r.x <= -half) r.x += half;
           if (r.x > 0) r.x -= half;
@@ -372,6 +374,7 @@
       requestAnimationFrame(step);
     };
     rows.forEach((r) => { if (r.dir > 0) r.x = -r.track.scrollWidth / 4; });
+    window.addEventListener('resize', () => rows.forEach((r) => { r.half = 0; }));
     requestAnimationFrame(step);
   });
 
@@ -396,8 +399,11 @@
     if (tc && !reduced) {
       const t0 = performance.now();
       const pad = (n) => String(n).padStart(2, '0');
+      let tcSeen = false;
+      if ('IntersectionObserver' in window) new IntersectionObserver(([e]) => { tcSeen = e.isIntersecting; }).observe(player); else tcSeen = true;
       const tickTc = () => {
         if (!player.isConnected || player.classList.contains('is-playing')) return;
+        if (!tcSeen) { setTimeout(() => requestAnimationFrame(tickTc), 400); return; }
         const ms = performance.now() - t0, s = Math.floor(ms / 1000);
         tc.textContent = `${pad(Math.floor(s / 3600))}:${pad(Math.floor(s / 60) % 60)}:${pad(s % 60)}:${pad(Math.floor((ms % 1000) / 40))}`;
         requestAnimationFrame(tickTc);
@@ -695,6 +701,8 @@
       const fit = () => { EW = emb.clientWidth; EH = emb.clientHeight; emb.width = EW * dpr; emb.height = EH * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0); };
       fit(); window.addEventListener('resize', fit);
       const mk = (y) => ({ x: Math.random() * EW, y: y ?? EH + Math.random() * 40, r: .6 + Math.random() * 1.6, v: .15 + Math.random() * .45, w: Math.random() * 6.28, a: .25 + Math.random() * .55 });
+      const dot = (col, glow) => { const s = document.createElement('canvas'); s.width = s.height = 32; const g = s.getContext('2d'); g.shadowColor = glow; g.shadowBlur = 8; g.fillStyle = col; g.beginPath(); g.arc(16, 16, 4, 0, 6.28); g.fill(); return s; };
+      const dotR = dot('#ff4a3a', 'rgba(255,40,30,.9)'), dotW = dot('#f3eeea', 'rgba(255,255,255,.8)');
       const ps = Array.from({ length: window.innerWidth < 760 ? 26 : 46 }, () => mk(Math.random() * EH));
       new IntersectionObserver(([e]) => { on = e.isIntersecting; if (on) requestAnimationFrame(tick); }).observe(sr);
       function tick(t) {
@@ -706,10 +714,7 @@
           if (p.y < -10) Object.assign(p, mk());
           const fade = Math.min(1, p.y / (EH * .35));
           cx.globalAlpha = p.a * fade * (.6 + .4 * Math.sin(t / 600 + p.w * 3));
-          cx.fillStyle = white ? '#f3eeea' : '#ff4a3a';
-          cx.shadowColor = white ? 'rgba(255,255,255,.8)' : 'rgba(255,40,30,.9)';
-          cx.shadowBlur = 8;
-          cx.beginPath(); cx.arc(p.x, p.y, p.r, 0, 6.28); cx.fill();
+          const k = p.r / 4; cx.drawImage(white ? dotW : dotR, p.x - 16 * k, p.y - 16 * k, 32 * k, 32 * k);
         }
         requestAnimationFrame(tick);
       }
@@ -919,7 +924,9 @@
       if (visible) {
         // phones: a slow drift unless the finger is moving
         if (!fine && t - touched > 2500) { const s = (t - t0) / 1000; tx = 0.5 + Math.sin(s * 0.42) * 0.5; ty = 0.5 + Math.cos(s * 0.33) * 0.3; }
+        const still = fine && Math.abs(tx - x) + Math.abs(ty - y) < 0.0006;
         x += (tx - x) * 0.075; y += (ty - y) * 0.075;
+        if (still) { requestAnimationFrame(loop); return; }
         const dx = x - 0.5, dy = y - 0.5, w = tilt.offsetWidth;
         tilt.style.setProperty('--tx', (dx * w * (fine ? 0.22 : 0.08)).toFixed(1) + 'px');
         tilt.style.setProperty('--ty', (dy * w * (fine ? 0.14 : 0.06)).toFixed(1) + 'px');

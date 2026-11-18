@@ -5,7 +5,7 @@
     assign portrait = 'himera-portret.webp' | asset_url
   endif
 -%}
-<section class="join" id="{{ section.settings.anchor | default: 'dolacz' }}" data-join>
+<section class="join{% if section.settings.show_figure == false %} join--plain{% endif %}" id="{{ section.settings.anchor | default: 'dolacz' }}" data-join>
   <div class="join__glow" aria-hidden="true"></div>
   <div class="wrap join__grid">
     <div class="join__copy">
@@ -36,6 +36,7 @@
       {%- endif -%}
     </div>
 
+    {%- unless section.settings.show_figure == false -%}
     <figure class="join__fig{% unless section.settings.show_portrait %} join__fig--logo{% endunless %}" aria-hidden="true">
       <div class="join__ring"></div>
       {%- if section.settings.show_portrait -%}
@@ -46,6 +47,7 @@
       {%- endif -%}
       <figcaption class="mono join__cap">HMR · {{ 'now' | date: '%Y' }}</figcaption>
     </figure>
+    {%- endunless -%}
   </div>
 </section>
 {% schema %}
@@ -58,6 +60,7 @@
     { "type": "textarea", "id": "text", "label": "Tekst", "default": "Zapisz się, a dowiesz się o dropie jako pierwszy. Bez spamu, tylko nowe serie, spoty i rzeczy, których nie wrzucamy nigdzie indziej." },
     { "type": "text", "id": "note", "label": "Dopisek pod polem", "default": "Zero spamu. Wypisujesz się jednym kliknięciem." },
     { "type": "text", "id": "ig_label", "label": "Link do Instagrama", "default": "Albo napisz do nas na Instagramie" },
+    { "type": "checkbox", "id": "show_figure", "label": "Pokaż zdjęcie lub logo obok", "default": true },
     { "type": "checkbox", "id": "show_portrait", "label": "Pokaż zdjęcie (wyłączone: duże logo)", "default": false },
     { "type": "image_picker", "id": "image", "label": "Zdjęcie (wycięte, przezroczyste tło)" }
   ],
