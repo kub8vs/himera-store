@@ -970,6 +970,11 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .show__panel { gap: 14px; }
 .join--plain .join__grid { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; }
 .join--plain .join__copy { display: grid; justify-items: center; }
+/* heading on one continuous line */
+.join--plain .join__h { font-size: clamp(38px, 10.5vw, 168px); line-height: 1.05; white-space: nowrap; }
+.join--plain .join__line { display: inline-block; }
+.join--plain .join__line + .join__line { margin-left: .22em; }
+.join--plain .join__text { margin-top: clamp(28px, 3.4vw, 52px); }
 .join--plain .join__text, .join--plain .join__form { margin-left: auto; margin-right: auto; }
 .join__fig--logo { aspect-ratio: 1; display: grid; place-items: center; }
 .join__fig--logo .join__ring { left: 6%; right: 6%; top: 6%; }
