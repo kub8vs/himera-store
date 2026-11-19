@@ -7,7 +7,10 @@
   </div>
   {%- endif -%}
   <div class="wrap mani__grid">
-    <h2 class="mani__h" data-reveal>{{ section.settings.heading }}</h2>
+    <div class="mani__lead">
+      <h2 class="mani__h" data-reveal>{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p class="mani__text" data-reveal>{{ section.settings.text }}</p>{%- endif -%}
+    </div>
     <ol class="mani__list">
       {%- for block in section.blocks -%}
         <li class="mani__item" data-reveal {{ block.shopify_attributes }}>
@@ -25,7 +28,8 @@
   "settings": [
     { "type": "text", "id": "anchor", "label": "Kotwica (#)", "default": "o-himerze" },
     { "type": "text", "id": "marquee", "label": "Pasek przewijany (puste = bez paska)", "default": "JESTEŚMY RUCHEM · A TY JEGO CZĘŚCIĄ" },
-    { "type": "textarea", "id": "heading", "label": "Nagłówek", "default": "Himera to nie logo na kominiarce. To ludzie, którzy wyjeżdżają w nocy i wracają razem." }
+    { "type": "textarea", "id": "heading", "label": "Nagłówek", "default": "Himera to nie logo na kominiarce. To ludzie, którzy wyjeżdżają w nocy i wracają razem." },
+    { "type": "textarea", "id": "text", "label": "Tekst pod nagłówkiem" }
   ],
   "blocks": [
     { "type": "point", "name": "Punkt", "settings": [

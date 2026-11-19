@@ -242,13 +242,13 @@
     }
    ],
    "material": "Folia samochodowa",
-   "size": "Na szybę lub karoserię",
+   "size": "10 × 12 cm",
    "meta": "Folia · odporna na myjnię i słońce"
   },
   {
    "id": 5,
    "handle": "naklejka-napis-biala",
-   "title": "Naklejka na samochód — biała",
+   "title": "Naklejka na samochód — napis",
    "code": "HMR-05",
    "type": "Naklejki",
    "price": 2999,

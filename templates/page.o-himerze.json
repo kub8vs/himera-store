@@ -10,8 +10,8 @@
         "p1": {
           "type": "point",
           "settings": {
-            "title": "Ekipa",
-            "text": "Spoty, przejazdy i nagrania robimy razem. Każdy, kto nosi Himerę, jest jej częścią."
+            "title": "Społeczność",
+            "text": "Każdy, kto nosi Himerę, jest jej częścią."
           }
         },
         "p2": {
@@ -24,8 +24,8 @@
         "p3": {
           "type": "point",
           "settings": {
-            "title": "Noc",
-            "text": "Najlepsze rzeczy dzieją się po zmroku. Stąd czerń, światło i auta."
+            "title": "Własna droga",
+            "text": "Nie podążamy za tym, co robią wszyscy. HIMERA powstała dla tych, którzy szukają własnej drogi i nie boją się wyróżniać."
           }
         }
       },
@@ -35,7 +35,9 @@
         "p3"
       ],
       "settings": {
-        "marquee": ""
+        "marquee": "",
+        "heading": "HIMERA to nie logo na kominiarce. To coś znacznie więcej.",
+        "text": "To ludzie, którzy nie zadowalają się przeciętnością. Nie podążają ślepo za tym, co narzuca świat. Szukają własnej drogi, przekraczają granice i pragną czegoś więcej."
       }
     },
     "join": {

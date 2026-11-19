@@ -88,7 +88,9 @@
         "w2",
         "w3"
       ],
-      "settings": {}
+      "settings": {
+        "text": "Logo i napis. Widać je z daleka, na zdjęciach i filmach."
+      }
     },
     "produkty": {
       "type": "shop-gate",
